@@ -30,6 +30,12 @@ yarn test-local
 It should be running at http://localhost:3000/
 
 
+To run against a PR instance:
+```
+PR=xxxx yarn test-pr
+```
+
+
 More testing environments can be check at [utils/config.js](https://github.com/gnosis/safe-react-e2e-tests/blob/develop/utils/config.js)
 
 ### Environment variables
