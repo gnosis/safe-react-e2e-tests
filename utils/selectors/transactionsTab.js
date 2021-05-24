@@ -12,15 +12,16 @@ export const transactionsTab = {
   tx_type: { selector: 'div.tx-type', type: 'css' },
   tx_info: 'div.tx-info',
   tx_votes: 'div.tx-votes',
-  tx_status: 'div.tx-status'
+  tx_status: 'div.tx-status',
+  on_chain_rejection_type: { selector: 'div.tx-type.on-chain-rejection', type: 'css' }
 }
 
 export const statusLabel = {
   success: 'Success',
   cancelled: 'Cancelled',
   failed: 'Failed',
-  awaiting_your_confirmation: 'Awaiting your confirmation',
-  awaiting_confirmations: 'Awaiting confirmations',
+  awaiting_your_confirmation: 'Needs your confirmation',
+  needs_confirmations: 'Needs confirmations',
   awaiting_execution: 'Awaiting execution',
   pending: 'Pending',
 }

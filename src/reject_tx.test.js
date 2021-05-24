@@ -1,6 +1,7 @@
 import * as gFunc from '../utils/selectorsHelpers'
 import {
   assertElementPresent,
+  assertTextPresent,
   clickAndType,
   clickByText,
   clickElement,
@@ -28,14 +29,14 @@ afterAll(async () => {
   await browser.close()
 })
 
-describe('Reject Tx flow', () => {
+describe('Reject transaction flow', () => {
   let startBalance = 0.0
 
   const assetTab = sels.testIdSelectors.asset_tab
 
-  test('Open the Send Funds Form', async (done) => {
+  test('Open the Send Funds modal', async (done) => {
     try {
-      console.log('Open the Send Funds Form')
+      console.log('Open the Send Funds modal')
       await assertElementPresent(assetTab.balance_value('eth'), gnosisPage, 'css')
       startBalance = await gFunc.getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')
       await clickByText('button', 'New Transaction', gnosisPage)
@@ -65,9 +66,9 @@ describe('Reject Tx flow', () => {
     }
   }, 15000)
 
-  test('Approving the Tx with the owner 1', async (done) => {
+  test('Approving the transaction with the owner 1', async (done) => {
     try {
-      console.log('Approving the Tx with the owner 1')
+      console.log('Approving the transaction with the owner 1')
       await assertElementPresent(sendFundsForm.submit_btn.selector, gnosisPage, 'css')
       await clickElement(sendFundsForm.submit_btn, gnosisPage)
 
@@ -80,19 +81,19 @@ describe('Reject Tx flow', () => {
     }
   }, 60000)
 
-  test('Rejecting with the 1st owner', async (done) => {
+  test('Rejecting transaction with the 1st owner', async (done) => {
     try {
-      console.log('Rejecting with the 1st owner')
+      console.log('Rejecting transaction with the 1st owner')
       await gnosisPage.bringToFront()
-      await gFunc.assertTextPresent(transactionsTab.tx_status, statusLabel.awaiting_confirmations, gnosisPage, 'css')
-      await gFunc.assertTextPresent('div > p', 'NEXT TRANSACTION', gnosisPage, 'css')
+      await assertTextPresent(transactionsTab.tx_status, statusLabel.needs_confirmations, gnosisPage, 'css')
+      await assertTextPresent('#infinite-scroll-container > div > p', 'NEXT TRANSACTION', gnosisPage, 'css')
       await clickElement(transactionsTab.tx_type, gnosisPage)
       await gnosisPage.waitForTimeout(3000)
-      await clickByText('button > span', 'Cancel', gnosisPage)
+      await clickByText('button > span', 'Reject', gnosisPage)
 
       // making sure that a "Reject Transaction" text exist in the page first
       await gnosisPage.waitForFunction(() =>
-        document.querySelector('body').innerText.includes('Reject Transaction')
+        document.querySelector('body').innerText.includes('Reject transaction')
       )
 
       await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
@@ -109,17 +110,18 @@ describe('Reject Tx flow', () => {
     }
   }, 60000)
 
-  test('Rejecting the Tx with the owner 2', async (done) => {
-    console.log('Rejecting the Tx with the owner 2')
+  test('Rejecting transaction with 2nd owner', async (done) => {
+    console.log('Rejecting transaction with 2nd owner')
     try {
       await gnosisPage.bringToFront()
-      await gnosisPage.waitForFunction(() =>
-        document.querySelector('body').innerText.includes('Cancelling transaction'))
+      await assertElementPresent(transactionsTab.on_chain_rejection_type.selector, gnosisPage, 'css')
+
       await metamask.switchAccount(1) // changing to account 1
       await gnosisPage.bringToFront()
       // await gFunc.assertElementPresent(transactionsTab.reject_tx_btn, gnosisPage, 'css')
       await gnosisPage.waitForTimeout(3000)
-      await clickByText(transactionsTab.tx_type.selector, 'Cancelling transaction', gnosisPage)
+      await clickElement(transactionsTab.on_chain_rejection_type, gnosisPage)
+      // await clickByText(transactionsTab.tx_type.selector, 'On-chain rejection', gnosisPage)
       await gnosisPage.waitForTimeout(1000)
       await clickByText('button > span', 'Confirm', gnosisPage)
       await gnosisPage.waitForFunction(() =>
@@ -140,18 +142,18 @@ describe('Reject Tx flow', () => {
     }
   }, 60000)
 
-  test('Verifying Execution of the Tx', async (done) => {
-    console.log('Verifying Execution of the Tx')
+  test('Verifying reject transaction execution', async (done) => {
+    console.log('Verifying reject transaction execution')
     try {
       await gnosisPage.bringToFront()
       await gnosisPage.waitForTimeout(2000)
-      // await gFunc.assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
+      // await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
       // waiting for the queue list to be empty and the executed tx to be on the history tab
       await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
       await clickByText('button > span > p', 'History', gnosisPage)
       await gnosisPage.waitForTimeout(2000)
       const executedTxType = await getInnerText(transactionsTab.tx_type.selector, gnosisPage, 'css')
-      expect(executedTxType).toBe('Cancelling transaction')
+      expect(executedTxType).toBe('On-chain rejection')
       const executedTxStatus = await getInnerText(transactionsTab.tx_status, gnosisPage, 'css')
       expect(executedTxStatus).toBe('Success')
       await clickByText('span', 'ASSETS', gnosisPage)

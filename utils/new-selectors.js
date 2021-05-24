@@ -26,8 +26,8 @@ export const sels = {
       safe_address: '//div[1]/div[2]/div[2]/p',
       confirm_btn: "//span[contains(text(),'Confirm')]/parent::button",
       latest_tx: '//tbody/tr[1]',
-      awaiting_your_confirmation: "//p[contains(text(),'Awaiting your confirmation')]/parent::div",
-      awaiting_confirmations: "//p[contains(text(),'Awaiting confirmations')]/parent::div",
+      awaiting_your_confirmation: "//p[contains(text(),'Needs your confirmation')]/parent::div",
+      needs_confirmations: "//p[contains(text(),'Needs confirmations')]/parent::div",
       approve_tx_btn: "//span[contains(text(),'Approve Transaction')]/parent::button",
       execute_btn: "//span[contains(text(),'Execute')]/ancestor::button", // button in the Tx expanded
       execute_tx_btn: "//span[contains(text(),'Execute Transaction')]/ancestor::button", // button in the modal for execution

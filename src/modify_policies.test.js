@@ -75,7 +75,7 @@ describe('Change Policies', () => {
     console.log('Approve and execute with owner 2')
     try {
       await gnosisPage.bringToFront()
-      await assertTextPresent(transactionsTab.tx_status, 'Awaiting confirmations', gnosisPage, 'css')
+      await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
       transactionNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
       console.log('CurrentNonce = ', transactionNonce)
       // We approve and execute with account 1

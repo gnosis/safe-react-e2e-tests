@@ -44,7 +44,7 @@ describe('Send funds and sign with two owners', () => {
   let currentNonce = ''
 
   test('Open the send funds form', async (done) => {
-    console.log('Open the Send Funds Form\n')
+    console.log('Open the send funds form\n')
     try {
       currentEthFundsOnText = await getInnerText(assetTab.balance_value('eth'), gnosisPage, 'css')
       currentEthFunds = parseFloat((await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')).toFixed(3))
@@ -59,7 +59,7 @@ describe('Send funds and sign with two owners', () => {
     }
   }, 50000)
 
-  test('Fill the form and check error messages when inpus are wrong', async (done) => {
+  test('Fill the form and check error messages when inputs are wrong', async (done) => {
     console.log('Filling the Form\n')
     try {
       await clickAndType(sendFundsForm.recipient_input, gnosisPage, accountsSelectors.testAccountsHash.acc1)
@@ -129,7 +129,7 @@ describe('Send funds and sign with two owners', () => {
     console.log('Approving the Tx with the owner 2')
     try {
       await gnosisPage.bringToFront()
-      await assertTextPresent(transactionsTab.tx_status, 'Awaiting confirmations', gnosisPage, 'css')
+      await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
       currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
       console.log('CurrentNonce = ', currentNonce)
       // We approve and execute with account 1

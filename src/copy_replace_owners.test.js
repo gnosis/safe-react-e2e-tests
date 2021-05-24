@@ -108,7 +108,7 @@ describe.skip('Adding and removing owners', () => {
     try {
       await MMpage.waitFor(5000)
       await gnosisPage.bringToFront()
-      await gFunc.clickSomething(safe_hub.awaiting_confirmations, gnosisPage)
+      await gFunc.clickSomething(safe_hub.needs_confirmations, gnosisPage)
       await gFunc.assertElementPresent(safe_hub.confirmed_counter(1), gnosisPage)
       await metamask.switchAccount(1) // currently in account4, changing to account 1
       await gnosisPage.waitFor(2000)

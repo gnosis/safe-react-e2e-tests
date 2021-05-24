@@ -22,7 +22,7 @@ export const approveAndExecuteWithOwner = async (owner, gnosisPage, metamask) =>
   await metamask.switchAccount(owner)
   await gnosisPage.bringToFront()
   await gnosisPage.waitForTimeout(3000)
-  await assertTextPresent(transactionsTab.tx_status, 'Awaiting your confirmation', gnosisPage, 'css')
+  await assertTextPresent(transactionsTab.tx_status, 'Needs your confirmation', gnosisPage, 'css')
   await assertTextPresent('div.tx-votes > div > p', '1 out of 2', gnosisPage, 'css')
   await clickElement(transactionsTab.tx_type, gnosisPage)
   await gnosisPage.waitForTimeout(3000)
