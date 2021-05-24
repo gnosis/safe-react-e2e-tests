@@ -1,7 +1,7 @@
 export const sels = {
   xpSelectors: {
     load_safe: {
-      form_title: "//h2[contains(text(),'Load existing Safe')]", // done, load-safe-form
+      form_title: "//h2[contains(text(),'Add existing Safe')]", // done, load-safe-form
       name_input: "//input[@name='name']", // done
       address_input: "//input[@name='address']", // done
       valid_safe_name: "//p[contains(text(),'Safe name')]", // can't name errors
@@ -125,7 +125,7 @@ export const sels = {
   },
   assertions: {
     wallet_connection: 'RINKEBY',
-    load_safe_title: 'Load existing Safe',
+    load_safe_title: 'Add existing Safe',
     valid_safe_name_field: 'Safe name',
     second_step_load_safe: 'This Safe has'
   },

@@ -9,6 +9,6 @@ export const homePage = {
 export const welcomePage = {
   connect_btn: { selector: "button[data-testid='connect-btn']", type: 'css' },
   create_safe_btn: { selector: "a[data-testid='create-new-safe-btn']", type: 'css' },
-  load_safe_btn: { selector: "//p[contains(text(),'Load existing Safe')]", type: 'Xpath' },
+  load_safe_btn: { selector: "//p[contains(text(),'Add existing Safe')]", type: 'Xpath' },
   accept_preferences: { selector: "span[data-testid='accept-preferences']", type: 'css' },
 }

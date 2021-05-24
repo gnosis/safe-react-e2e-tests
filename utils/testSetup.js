@@ -11,6 +11,8 @@ import * as gFunc from './selectorsHelpers'
 import { assertElementPresent, clearInput, clickAndType, clickByText, clickElement } from './selectorsHelpers'
 
 const TESTING_ENV = process.env.TESTING_ENV || 'dev'
+const MNEMONIC = process.env.MNEMONIC || accountsSelectors.wallet.seed
+const PASSWORD = process.env.PASSWORD || accountsSelectors.wallet.password
 
 const { SLOWMO, ENVIRONMENT } = config
 
@@ -33,8 +35,8 @@ export const init = async () => {
   })
 
   const metamask = await dappeteer.getMetamask(browser, {
-    seed: accountsSelectors.wallet.seed,
-    password: accountsSelectors.wallet.password
+    seed: MNEMONIC,
+    password: PASSWORD
   })
 
   await metamask.switchNetwork('rinkeby')
@@ -102,7 +104,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
   const [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected(importMultipleAccounts)
 
   // Open load safe form
-  await clickByText('p', 'Load existing Safe', gnosisPage)
+  await clickByText('p', 'Add existing Safe', gnosisPage)
   await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
   await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
   await clickAndType(loadSafeForm.safe_address_field, gnosisPage, accountsSelectors.testAccountsHash.safe1)
@@ -112,7 +114,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
   await assertElementPresent(loadSafeForm.step_two.selector, gnosisPage, 'css')
   const keys = Object.keys(accountsSelectors.accountNames)
   for (let i = 0; i < 2/* keys.length */; i++) { // only names on the first 2 owners
-    const selector = loadSafeForm.owner_name(i)
+    const selector = loadSafeForm.owner_name(i).selector
     const name = accountsSelectors.accountNames[keys[i]]
     await clearInput(selector, gnosisPage, 'css')
     await clickAndType({ selector: selector, type: 'css' }, gnosisPage, name)

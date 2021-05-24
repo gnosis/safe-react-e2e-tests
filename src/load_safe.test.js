@@ -27,10 +27,10 @@ afterAll(async () => {
   await browser.close()
 })
 
-describe('Loading an Existing safe', () => {
-  test('Open Load Safe Form', async () => {
-    console.log('Open Load Safe Form\n')
-    await clickByText('p', 'Load existing Safe', gnosisPage)
+describe('Add an existing safe', () => {
+  test('Open add Safe form', async () => {
+    console.log('Open add Safe form\n')
+    await clickByText('p', 'Add existing Safe', gnosisPage)
     await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
     await assertTextPresent(loadSafeForm.valid_safe_name.selector, sels.assertions.valid_safe_name_field, gnosisPage)
@@ -39,19 +39,19 @@ describe('Loading an Existing safe', () => {
     await clickElement(generalInterface.submit_btn, gnosisPage)
   }, 60000)
 
-  test('Load Safe Owner edition', async () => {
-    console.log('Load Safe Owner edition\n')
+  test('Add Safe owner step edition', async () => {
+    console.log('Add Safe owner step edition\n')
     await assertElementPresent(loadSafeForm.step_two.selector, gnosisPage, 'css')
-    await clearInput(loadSafeForm.owner_name(), gnosisPage, 'css')
-    await clickAndType({ selector: loadSafeForm.owner_name(), type: 'css' }, gnosisPage, accountsSelectors.accountNames.owner_name)
+    await clearInput(loadSafeForm.owner_name().selector, gnosisPage, 'css')
+    await clickAndType(loadSafeForm.owner_name(), gnosisPage, accountsSelectors.accountNames.owner_name)
     await clickElement(generalInterface.submit_btn, gnosisPage)
   }, 60000)
 
-  test('Load safe Review Details', async () => {
-    console.log('Load safe Review Details\n')
+  test('Add Safe review details', async () => {
+    console.log('Add Safe review details\n')
     await assertElementPresent(loadSafeForm.step_three.selector, gnosisPage, 'css')
     await assertTextPresent(loadSafeForm.review_safe_name.selector, accountsSelectors.safeNames.load_safe_name, gnosisPage, 'css')
-    await assertTextPresent(loadSafeForm.review_owner_name.selector, accountsSelectors.accountNames.owner_name, gnosisPage, 'css')
+    await assertTextPresent(loadSafeForm.review_owner_name().selector, accountsSelectors.accountNames.owner_name, gnosisPage, 'css')
     await gnosisPage.waitForTimeout(2000)
     await clickElement(generalInterface.submit_btn, gnosisPage)
     await assertElementPresent(generalInterface.show_qr_btn.selector, gnosisPage, 'css')

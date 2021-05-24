@@ -5,9 +5,9 @@ export const loadSafeForm = {
   valid_address: { selector: "svg[data-testid='valid-address']", type: 'css' },
   step_two: { selector: "p[data-testid='load-safe-step-two']", type: 'css' },
   owner_row: { selector: "div[data-testid='owner-row']", type: 'css' }, // all the rows, to count
-  owner_name: (index = 0) => `input[data-testid='load-safe-owner-name-${index}']`,
+  owner_name: (index = 0) => ({ selector: `input[data-testid='load-safe-owner-name-${index}']`, type: 'css' }),
   step_three: { selector: "p[data-testid='load-safe-step-three']", type: 'css' },
   review_safe_name: { selector: "p[data-testid='load-form-review-safe-name']", type: 'css' },
-  review_owner_name: { selector: "p[data-testid='load-safe-review-owner-name']", type: 'css' },
+  review_owner_name: (index = 0) => ({ selector: `[data-testid='load-safe-review-owner-name-${index}'] p`, type: 'css' }),
   valid_safe_name: { selector: "//p[contains(text(),'Safe name')]", type: 'Xpath' }
 }
