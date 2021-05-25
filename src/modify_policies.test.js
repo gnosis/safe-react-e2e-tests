@@ -62,7 +62,11 @@ describe('Change Policies', () => {
       await clickElement({ selector: '[data-value="1"]' }, gnosisPage)
       await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
       await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
-      await gnosisPage.waitForFunction(selector => !document.querySelector(selector), {}, generalInterface.submit_tx_btn_disabled)
+      await gnosisPage.waitForFunction(
+        selector => !document.querySelector(selector),
+        {},
+        generalInterface.submit_tx_btn_disabled
+      )
       await clickElement(generalInterface.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(2000)
       await metamask.sign()

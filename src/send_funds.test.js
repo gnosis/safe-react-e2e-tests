@@ -72,23 +72,23 @@ describe('Send funds and sign with two owners', () => {
       // Checking that 0 amount triggers an error
       await clickAndType(sendFundsForm.amount_input, gnosisPage, '0')
       await assertElementPresent(errorMsg.error(errorMsg.greater_than_0), gnosisPage)
-      await clearInput(sendFundsForm.amount_input.selector, gnosisPage, 'css')
+      await clearInput(sendFundsForm.amount_input, gnosisPage)
 
       // Checking that any string returns an error
       await clickAndType(sendFundsForm.amount_input, gnosisPage, 'abc')
       await assertElementPresent(errorMsg.error(errorMsg.not_a_number), gnosisPage)
-      await clearInput(sendFundsForm.amount_input.selector, gnosisPage, 'css')
+      await clearInput(sendFundsForm.amount_input, gnosisPage)
 
       // Checking that an amount over balance triggers an error
       await clickAndType(sendFundsForm.amount_input, gnosisPage, '99999')
       await assertElementPresent(errorMsg.error(errorMsg.max_amount_tokens(currentEthFunds)), gnosisPage)
-      await clearInput(sendFundsForm.amount_input.selector, gnosisPage, 'css')
+      await clearInput(sendFundsForm.amount_input, gnosisPage)
 
       // Checking that the value set by the "Send max" button is the same as the current balance
       await clickElement(sendFundsForm.send_max_btn, gnosisPage)
       const maxInputValue = await getNumberInString(sendFundsForm.amount_input.selector, gnosisPage, 'css')
       expect(parseFloat(maxInputValue)).toBe(currentEthFunds)
-      await clearInput(sendFundsForm.amount_input.selector, gnosisPage, 'css')
+      await clearInput(sendFundsForm.amount_input, gnosisPage)
 
       await clickAndType(sendFundsForm.amount_input, gnosisPage, TOKEN_AMOUNT.toString())
       await assertElementPresent(sendFundsForm.valid_amount_msg.selector, gnosisPage)

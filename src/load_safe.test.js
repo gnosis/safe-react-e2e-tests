@@ -42,7 +42,7 @@ describe('Add an existing safe', () => {
   test('Add Safe owner step edition', async () => {
     console.log('Add Safe owner step edition\n')
     await assertElementPresent(loadSafeForm.step_two.selector, gnosisPage, 'css')
-    await clearInput(loadSafeForm.owner_name().selector, gnosisPage, 'css')
+    await clearInput(loadSafeForm.owner_name(), gnosisPage)
     await clickAndType(loadSafeForm.owner_name(), gnosisPage, accountsSelectors.accountNames.owner_name)
     await clickElement(generalInterface.submit_btn, gnosisPage)
   }, 60000)

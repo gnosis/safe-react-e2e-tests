@@ -90,7 +90,7 @@ export const clickAndType = async function ({ selector, type = 'Xpath' }, page, 
   }
 }
 
-export const clearInput = async function (selector, page, type = 'Xpath') {
+export const clearInput = async function ({ selector, type = 'Xpath' }, page) {
   const field = await elementSelector(selector, page, type, 20000)
   await field.click({ clickCount: 3 })
   page.keyboard.press('Backspace')
