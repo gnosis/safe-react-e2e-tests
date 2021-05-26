@@ -1,8 +1,3 @@
-const wallet = {
-  seed: 'range smoke crisp install cross shine hold grief ripple cabin sudden special', // it imports the wallet with "acc1" as owner
-  password: 'password'
-}
-
 const privateKeys = {
   acc2: 'E0334B3F5CA1C4FBB26B3845F295DF12FE65EA052F31A5F800194958DCBDCB04',
   acc3: '3F23488883EE1A6346641D77ABF6ECDC78B03A0A9233EC6FAD1AB02FFC093CC5',
@@ -38,7 +33,6 @@ const otherAccountNames = { // Other names beyond the purpose of loading or crea
 }
 
 export const accountsSelectors = {
-  wallet,
   privateKeys,
   testAccountsHash,
   safeNames,

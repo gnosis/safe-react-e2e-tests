@@ -10,11 +10,7 @@ import { loadSafeForm } from './selectors/loadSafeForm'
 import * as gFunc from './selectorsHelpers'
 import { assertElementPresent, clearInput, clickAndType, clickByText, clickElement } from './selectorsHelpers'
 
-const TESTING_ENV = process.env.TESTING_ENV || 'dev'
-const MNEMONIC = process.env.MNEMONIC || accountsSelectors.wallet.seed
-const PASSWORD = process.env.PASSWORD || accountsSelectors.wallet.password
-
-const { SLOWMO, ENVIRONMENT } = config
+const { SLOWMO, ENVIRONMENT, MNEMONIC, PASSWORD, TESTING_ENV, TESTING_SAFE_ADDRESS } = config
 
 let envUrl
 if (TESTING_ENV === 'PR') {
@@ -107,7 +103,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
   await clickByText('p', 'Add existing Safe', gnosisPage)
   await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
   await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
-  await clickAndType(loadSafeForm.safe_address_field, gnosisPage, accountsSelectors.testAccountsHash.safe1)
+  await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
   // Second step, review owners
@@ -143,7 +139,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
  */
 export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts = false) => {
   const [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected(importMultipleAccounts)
-  await gnosisPage.goto(envUrl + '#/safes/' + accountsSelectors.testAccountsHash.safe1)
+  await gnosisPage.goto(envUrl + '#/safes/' + TESTING_SAFE_ADDRESS)
   await gnosisPage.waitForTimeout(2000)
 
   return [

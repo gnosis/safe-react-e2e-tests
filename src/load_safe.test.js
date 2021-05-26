@@ -12,6 +12,7 @@ import { accountsSelectors } from '../utils/selectors/accounts'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { loadSafeForm } from '../utils/selectors/loadSafeForm'
 import { initWithWalletConnected } from '../utils/testSetup'
+import { TESTING_SAFE_ADDRESS } from '../utils/config'
 
 let browser
 let metamask
@@ -34,7 +35,7 @@ describe('Add an existing safe', () => {
     await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
     await assertTextPresent(loadSafeForm.valid_safe_name.selector, sels.assertions.valid_safe_name_field, gnosisPage)
-    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, accountsSelectors.testAccountsHash.safe1)
+    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
     await assertElementPresent(loadSafeForm.valid_address.selector, gnosisPage, 'css')
     await clickElement(generalInterface.submit_btn, gnosisPage)
   }, 60000)
@@ -64,6 +65,6 @@ describe('Add an existing safe', () => {
     // const safeName = await gFunc.getInnerText(generalInterface.receiver_modal_safe_name, gnosisPage, "css")
     // const safeAddress = await gFunc.getInnerText(generalInterface.receiver_modal_safe_address, gnosisPage, "css")
     // expect(safeName).toBe(accountsSelectors.safeNames.load_safe_name)
-    // expect(safeAddress).toBe(accountsSelectors.testAccountsHash.safe1)
+    // expect(safeAddress).toBe(TESTING_SAFE_ADDRESS)
   }, 60000)
 })

@@ -10,7 +10,7 @@ export const transactionsTab = {
   no_tx_in_queue: '[alt=\'No Transactions yet\']',
   tx_nonce: 'div.tx-nonce',
   tx_type: { selector: 'div.tx-type', type: 'css' },
-  tx_info: 'div.tx-info',
+  tx_info: 'div.tx-info p',
   tx_votes: 'div.tx-votes',
   tx_status: 'div.tx-status',
   on_chain_rejection_type: { selector: 'div.tx-type.on-chain-rejection', type: 'css' }
