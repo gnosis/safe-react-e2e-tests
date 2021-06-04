@@ -1,4 +1,21 @@
 {
+  "name": "safe-react-e2e-tests",
+  "description": "End to end integration tests for safe-react",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gnosis/safe-reacte2e-tests.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Gnosis Team",
+    "email": "safe@gnosis.io"
+  },
+  "scripts": {
+    "lint:check": "eslint './src/**/*.{js,jsx,ts,tsx}'",
+    "test": "jest --detectOpenHandles",
+    "test-local": "cross-env TESTING_ENV=local yarn test",
+    "test-pr": "cross-env TESTING_ENV=PR yarn test"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
@@ -15,12 +32,6 @@
     "jest-puppeteer": "^4.4.0",
     "pptr-testing-library": "^0.6.4",
     "puppeteer": "^5.5.0"
-  },
-  "scripts": {
-    "lint:check": "eslint './src/**/*.{js,jsx,ts,tsx}'",
-    "test": "jest --detectOpenHandles",
-    "test-local": "cross-env TESTING_ENV=local yarn test",
-    "test-pr": "cross-env TESTING_ENV=PR yarn test"
   },
   "dependencies": {
     "@dasanra/dappeteer": "^2.0.1",
