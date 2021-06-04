@@ -210,14 +210,6 @@ export const closeIntercom = async function (selector, page) {
   }
 }
 
-export const importAccounts = async function (metamask) {
-  console.log('<<Importing accounts>>')
-  const keys = Object.keys(accountsSelectors.privateKeys)
-  for (let i = 0; i < 1; i++) { // forEach doesnt work with async functions, you have to use a regular for()
-    await metamask.importPK(accountsSelectors.privateKeys[keys[i]])
-  }
-}
-
 export const amountOfElements = async (selector, page, type = 'Xpath') => {
   const elements = await elementsSelector(selector, page, type, 20000)
   return elements.length

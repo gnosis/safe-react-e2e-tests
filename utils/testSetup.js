@@ -7,10 +7,16 @@ import { topBar } from './selectors/topBar'
 import { homePage } from './selectors/welcomePage'
 import { generalInterface } from './selectors/generalInterface'
 import { loadSafeForm } from './selectors/loadSafeForm'
-import * as gFunc from './selectorsHelpers'
 import { assertElementPresent, clearInput, clickAndType, clickByText, clickElement } from './selectorsHelpers'
 
-const { SLOWMO, ENVIRONMENT, MNEMONIC, PASSWORD, TESTING_ENV, TESTING_SAFE_ADDRESS } = config
+const importAccounts = async (metamask, privateKeys) => {
+  console.log('<<Importing accounts>>')
+  for (let i = 0; i < 1; i++) { // forEach doesn't work with async functions, you have to use a regular for()
+    await metamask.importPK(privateKeys[i])
+  }
+}
+
+const { SLOWMO, ENVIRONMENT, MNEMONIC, PRIVATE_KEY_GROUP, PASSWORD, TESTING_ENV, TESTING_SAFE_ADDRESS } = config
 
 let envUrl
 if (TESTING_ENV === 'PR') {
@@ -61,7 +67,7 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
   const [browser, metamask, gnosisPage, MMpage] = await init()
 
   if (importMultipleAccounts) {
-    await gFunc.importAccounts(metamask)
+    await importAccounts(metamask, PRIVATE_KEY_GROUP)
     await MMpage.waitForTimeout(1000)
   }
 

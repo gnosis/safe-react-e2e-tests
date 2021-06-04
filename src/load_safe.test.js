@@ -12,12 +12,14 @@ import { accountsSelectors } from '../utils/selectors/accounts'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { loadSafeForm } from '../utils/selectors/loadSafeForm'
 import { initWithWalletConnected } from '../utils/testSetup'
-import { TESTING_SAFE_ADDRESS } from '../utils/config'
+import config from '../utils/config'
 
 let browser
 let metamask
 let gnosisPage
 let MMpage
+
+const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
   [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected()
