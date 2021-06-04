@@ -18,12 +18,14 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import { sendFundsForm } from '../utils/selectors/sendFundsForm'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
+import config from '../utils/config'
 
 let browser
 let metamask
 let gnosisPage
 let MMpage
 
+const { FUNDS_RECEIVER_ADDRESS } = config
 const TOKEN_AMOUNT = 0.01
 
 beforeAll(async () => {
@@ -47,7 +49,7 @@ describe('Send funds and sign with two owners', () => {
     console.log('Open the send funds form\n')
     try {
       currentEthFundsOnText = await getInnerText(assetTab.balance_value('eth'), gnosisPage, 'css')
-      currentEthFunds = parseFloat((await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')).toFixed(3))
+      currentEthFunds = parseFloat((await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')))
       await clickByText('button', 'New Transaction', gnosisPage)
       await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
       await assertElementPresent(sendFundsForm.review_btn_disabled.selector, gnosisPage, 'css')
@@ -62,7 +64,7 @@ describe('Send funds and sign with two owners', () => {
   test('Fill the form and check error messages when inputs are wrong', async (done) => {
     console.log('Filling the Form\n')
     try {
-      await clickAndType(sendFundsForm.recipient_input, gnosisPage, accountsSelectors.testAccountsHash.acc1)
+      await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS)
 
       await openDropdown(sendFundsForm.select_token, gnosisPage)
       await clickElement(sendFundsForm.select_token_ether, gnosisPage)
@@ -108,7 +110,7 @@ describe('Send funds and sign with two owners', () => {
         sendFundsForm.recipient_address_review.selector
       ], gnosisPage, 'css')
       const recipientHash = await getInnerText(sendFundsForm.recipient_address_review.selector, gnosisPage, 'css')
-      expect(recipientHash).toMatch(accountsSelectors.testAccountsHash.acc1)
+      expect(recipientHash).toMatch(FUNDS_RECEIVER_ADDRESS)
       const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review.selector, gnosisPage, 'css')
       expect(tokenAmount).toMatch(TOKEN_AMOUNT.toString())
 
@@ -158,7 +160,7 @@ describe('Send funds and sign with two owners', () => {
       await clickElement(transactionsTab.tx_type, gnosisPage)
       const recipientAddress = await getInnerText('div.tx-details > div p', gnosisPage, 'css')
       // regex to match an address hash
-      expect(recipientAddress.match(/(0x[a-fA-F0-9]+)/)[0]).toMatch(accountsSelectors.testAccountsHash.acc1)
+      expect(recipientAddress.match(/(0x[a-fA-F0-9]+)/)[0]).toMatch(FUNDS_RECEIVER_ADDRESS)
       await clickByText('span', 'ASSETS', gnosisPage)
       await assertElementPresent(assetTab.balance_value('eth'), gnosisPage, 'css')
       const array = ['[data-testid="balance-ETH"]', currentEthFundsOnText]

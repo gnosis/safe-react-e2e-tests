@@ -14,11 +14,14 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import { sendFundsForm } from '../utils/selectors/sendFundsForm'
 import { transactionsTab, statusLabel } from '../utils/selectors/transactionsTab'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
+import config from '../utils/config'
 
 let browser
 let metamask
 let gnosisPage
 let MMpage
+
+const { FUNDS_RECEIVER_ADDRESS } = config
 
 beforeAll(async () => {
   [browser, metamask, gnosisPage, MMpage] = await initWithDefaultSafeDirectNavigation(true)
@@ -52,7 +55,7 @@ describe('Reject transaction flow', () => {
   test('Filling the Form', async (done) => {
     try {
       console.log('Filling the Form')
-      await clickAndType(sendFundsForm.recipient_input, gnosisPage, accountsSelectors.testAccountsHash.non_owner_acc)
+      await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS)
       await openDropdown(sendFundsForm.select_token, gnosisPage)
       await clickElement(sendFundsForm.select_token_ether, gnosisPage)
       await clickAndType(sendFundsForm.amount_input, gnosisPage, '0.5')

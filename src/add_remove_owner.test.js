@@ -15,11 +15,14 @@ import { accountsSelectors } from '../utils/selectors/accounts'
 import { settingsPage } from '../utils/selectors/settings'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
+import config from '../utils/config'
 
 let browser
 let metamask
 let gnosisPage
 let MMpage
+
+const { FUNDS_RECEIVER_ADDRESS, NON_OWNER_ADDRESS } = config
 
 beforeAll(async () => {
   [browser, metamask, gnosisPage, MMpage] = await initWithDefaultSafeDirectNavigation(true)
@@ -33,12 +36,12 @@ afterAll(async () => {
 describe.skip('Adding and removing owners', () => {
   const errorMsg = sels.errorMsg
   const newOwnerName = accountsSelectors.otherAccountNames.owner6_name
-  const newOwnerAddress = accountsSelectors.testAccountsHash.non_owner_acc
+  const newOwnerAddress = NON_OWNER_ADDRESS
   let currentNonce = ''
 
   test('Filling Form and submitting tx', async (done) => {
     console.log('Filling Form and submitting tx')
-    const existingOwnerHash = accountsSelectors.testAccountsHash.acc1
+    const existingOwnerHash = FUNDS_RECEIVER_ADDRESS
     try {
       await clickByText('span', 'settings', gnosisPage)
       await clickElement(settingsPage.owners_tab, gnosisPage)
