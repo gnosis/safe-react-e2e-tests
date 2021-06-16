@@ -7,10 +7,14 @@ export const settingsPage = {
   add_owner_review_btn: { selector: "[data-testid='add-owner-threshold-next-btn']", type: 'css' },
   add_owner_submit_btn: { selector: "[data-testid='add-owner-submit-btn']", type: 'css' },
   add_owner_submit_btn_disabled: { selector: "[data-testid='add-owner-submit-btn'][disabled]", type: 'css' },
+  add_owner_name_review: { selector: "[data-testid='add-owner-review'] div div div p", type: 'css' },
+  add_owner_address_review: { selector: "[data-testid='add-owner-review'] div div div div p", type: 'css' },
   remove_owner_trashcan_icon: { selector: "[data-testid='remove-owner-btn']", type: 'css' },
   remove_owner_next_btn: { selector: "[data-testid='remove-owner-next-btn']", type: 'css' },
   remove_owner_review_btn: { selector: "[data-testid='remove-owner-threshold-next-btn']", type: 'css' },
   remove_owner_submit_btn: { selector: "[data-testid='remove-owner-review-btn']", type: 'css' },
+  remove_owner_name_review: { selector: "[data-testid='remove-owner-review'] div div div p", type: 'css' },
+  remove_owner_address_review: { selector: "[data-testid='remove-owner-review'] div div div div p", type: 'css' },
 }
 
 export const settingsTabs = {
