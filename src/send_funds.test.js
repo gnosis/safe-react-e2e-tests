@@ -2,7 +2,6 @@ import { approveAndExecuteWithOwner } from '../utils/actions/approveAndExecuteWi
 import {
   assertElementPresent,
   assertAllElementPresent,
-  selectorChildren,
   assertTextPresent,
   clearInput,
   clickAndType,
@@ -10,10 +9,9 @@ import {
   clickElement,
   getNumberInString,
   getInnerText,
-  openDropdown
+  openDropdown,
 } from '../utils/selectorsHelpers'
 import { sels } from '../utils/selectors'
-import { accountsSelectors } from '../utils/selectors/accounts'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { sendFundsForm } from '../utils/selectors/sendFundsForm'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
@@ -113,11 +111,8 @@ describe('Send funds and sign with two owners', () => {
       expect(recipientHash).toMatch(FUNDS_RECEIVER_ADDRESS)
       const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review.selector, gnosisPage, 'css')
       expect(tokenAmount).toMatch(TOKEN_AMOUNT.toString())
-
       await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
-      await assertElementPresent(sendFundsForm.submit_btn.selector, gnosisPage, 'css')
       await clickElement(sendFundsForm.submit_btn, gnosisPage)
-
       await gnosisPage.waitForTimeout(4000)
       await metamask.sign()
       done()
@@ -153,10 +148,11 @@ describe('Send funds and sign with two owners', () => {
       await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
       await clickByText('button > span > p', 'History', gnosisPage)
       // Wating for the new tx to show in the history, looking for the nonce
+      await gnosisPage.waitForTimeout(2000)
       const nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
       expect(nonce).toBe(currentNonce)
-      const sentAmount = await selectorChildren(transactionsTab.tx_info, gnosisPage, 'number', 0)
-      expect(sentAmount).toBe(TOKEN_AMOUNT)
+      const sentAmount = await getInnerText(transactionsTab.tx_info, gnosisPage, 'css')
+      expect(sentAmount).toBe(`-${TOKEN_AMOUNT.toString().replace('.', ',')} ETH`)
       await clickElement(transactionsTab.tx_type, gnosisPage)
       const recipientAddress = await getInnerText('div.tx-details > div p', gnosisPage, 'css')
       // regex to match an address hash
