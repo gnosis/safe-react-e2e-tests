@@ -33,7 +33,7 @@ afterAll(async () => {
   await browser.close()
 })
 
-describe.skip('Adding and removing owners', () => {
+describe('Adding and removing owners', () => {
   const errorMsg = sels.errorMsg
   const newOwnerName = accountsSelectors.otherAccountNames.owner6_name
   const newOwnerAddress = NON_OWNER_ADDRESS
@@ -66,9 +66,12 @@ describe.skip('Adding and removing owners', () => {
       await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
 
       await clickElement(settingsPage.add_owner_review_btn, gnosisPage)
-      await assertTextPresent('//div[13]/div/div/div[2]/p', newOwnerName, gnosisPage)
-      await assertTextPresent('//div[13]/div/div/div[2]/div/p', newOwnerAddress, gnosisPage)
+      const addedName = await getInnerText(settingsPage.add_owner_name_review.selector, gnosisPage, settingsPage.add_owner_name_review.type)
+      const addedAddress = await getInnerText(settingsPage.add_owner_address_review.selector, gnosisPage, settingsPage.add_owner_address_review.type)
+      expect(addedName).toBe(newOwnerName)
+      expect(addedAddress).toBe(newOwnerAddress)
       // Checking the new owner name and address is present in the review step ^^^. Do we need an Id for this?
+      await gnosisPage.waitForTimeout(2000)
       await assertElementPresent(settingsPage.add_owner_submit_btn.selector, gnosisPage, 'css')
       await gnosisPage.waitForFunction(
         selector => !document.querySelector(selector),
@@ -110,27 +113,20 @@ describe.skip('Adding and removing owners', () => {
       await clickByText('span', 'settings', gnosisPage)
       await clickElement(settingsPage.owners_tab, gnosisPage)
       await assertElementPresent("[data-testid='remove-owner-btn']", gnosisPage, 'css')
-
-      let count = 0
-      let aux = 1
-      await gnosisPage.evaluate((count, aux) => {
-        console.log('Entre. Count = ', count, '   aux = ', aux)
-        document.querySelectorAll("[data-testid='owners-row'] p").forEach(x => {
-          if (x.innerText === '0xc8b99Dc2414fAA46E195a8f3EC69DD222EF1744F')
-            aux = 0;
-          count += aux;
-        })
-        // FIXME is not selecting the correct owner to remove. It removes a random owner
-        document.querySelectorAll("[data-testid='remove-owner-btn']")[(count === 0) ? 0 : count - 1].click()
-      }, count, aux)
-      // The only way I could find the correct "remove owner" icon to click ^^^
+      const ownersList = await gnosisPage.evaluate(() => Array.from(document.querySelectorAll("[data-testid='owners-row'] p"), element => element.textContent))
+      const removeIndex = ownersList.findIndex((address) => newOwnerAddress === address)
+      await gnosisPage.evaluate((removeIndex) => {
+        document.querySelectorAll("[data-testid='remove-owner-btn']")[removeIndex].click()
+      }, removeIndex)
       await clickElement(settingsPage.remove_owner_next_btn, gnosisPage)
       await openDropdown({ selector: '[id="mui-component-select-threshold"]', type: 'css' }, gnosisPage)
       await clickElement({ selector: "[data-value='2']", type: 'css' }, gnosisPage)
       await gnosisPage.waitForTimeout(2000)
       await clickElement(settingsPage.remove_owner_review_btn, gnosisPage)
-      await assertTextPresent('//div[13]/div/div/div[2]/p', newOwnerName, gnosisPage)
-      await assertTextPresent('//div[13]/div/div/div[2]/div/p', newOwnerAddress, gnosisPage)
+      const removedName = await getInnerText(settingsPage.remove_owner_name_review.selector, gnosisPage, settingsPage.remove_owner_name_review.type)
+      const removedAddress = await getInnerText(settingsPage.remove_owner_address_review.selector, gnosisPage, settingsPage.remove_owner_address_review.type)
+      expect(removedName).toBe(newOwnerName)
+      expect(removedAddress).toBe(newOwnerAddress)
       await assertElementPresent("[data-testid='remove-owner-review-btn']", gnosisPage, 'css')
       await gnosisPage.waitForFunction(
         () => !document.querySelector("[data-testid='remove-owner-review-btn'][disabled]")
