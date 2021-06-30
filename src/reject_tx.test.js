@@ -58,7 +58,7 @@ describe('Reject transaction flow', () => {
       await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS)
       await openDropdown(sendFundsForm.select_token, gnosisPage)
       await clickElement(sendFundsForm.select_token_ether, gnosisPage)
-      await clickAndType(sendFundsForm.amount_input, gnosisPage, '0.5')
+      await clickAndType(sendFundsForm.amount_input, gnosisPage, '0.01')
       await assertElementPresent(sendFundsForm.valid_amount_msg.selector, gnosisPage)
       await gnosisPage.waitForTimeout(2000)
       await clickElement(sendFundsForm.review_btn, gnosisPage)
