@@ -17,6 +17,7 @@ import { sendFundsForm } from '../utils/selectors/sendFundsForm'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
+import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 
 let browser
 let metamask
@@ -31,6 +32,7 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -43,25 +45,17 @@ describe('Send funds and sign with two owners', () => {
   let currentEthFundsOnText = ''
   let currentNonce = ''
 
-  test('Open the send funds form', async (done) => {
+  test('Send funds and return the funds', async (done) => {
     console.log('Open the send funds form\n')
     try {
+      // Open the send funds form
       currentEthFundsOnText = await getInnerText(assetTab.balance_value('eth'), gnosisPage, 'css')
       currentEthFunds = parseFloat((await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')))
       await clickByText('button', 'New Transaction', gnosisPage)
       await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
       await assertElementPresent(sendFundsForm.review_btn_disabled.selector, gnosisPage, 'css')
       await gnosisPage.waitForTimeout(3000)
-      done()
-    } catch (error) {
-      console.log(error)
-      done()
-    }
-  }, 50000)
-
-  test('Fill the form and check error messages when inputs are wrong', async (done) => {
-    console.log('Filling the Form\n')
-    try {
+      // Fill the form and check error messages when inputs are wrong
       await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS)
 
       await openDropdown(sendFundsForm.select_token, gnosisPage)
@@ -93,16 +87,7 @@ describe('Send funds and sign with two owners', () => {
       await clickAndType(sendFundsForm.amount_input, gnosisPage, TOKEN_AMOUNT.toString())
       await assertElementPresent(sendFundsForm.valid_amount_msg.selector, gnosisPage)
       await clickElement(sendFundsForm.review_btn, gnosisPage)
-      done()
-    } catch (error) {
-      console.log(error)
-      done(error)
-    }
-  }, 15000)
-
-  test('Review information is correct and submit transaction with signature', async (done) => {
-    console.log('Review Info and submit')
-    try {
+      // Review information is correct and submit transaction with signature
       await assertAllElementPresent([
         sendFundsForm.send_funds_review.selector,
         sendFundsForm.recipient_address_review.selector
@@ -115,32 +100,14 @@ describe('Send funds and sign with two owners', () => {
       await clickElement(sendFundsForm.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
       await metamask.sign()
-      done()
-    } catch (error) {
-      console.log(error)
-      done(error)
-    }
-  }, 15000)
-
-  test('Approving and executing the transaction with owner 2', async (done) => {
-    console.log('Approving the Tx with the owner 2')
-    try {
+      // Approving and executing the transaction with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
       currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
       console.log('CurrentNonce = ', currentNonce)
       // We approve and execute with account 1
       await approveAndExecuteWithOwner(1, gnosisPage, metamask)
-      done()
-    } catch (error) {
-      console.log(error)
-      done(error)
-    }
-  }, 120000)
-
-  test('Check that transaction was successfully executed', async (done) => {
-    console.log('Check that transaction was successfully executed')
-    try {
+      // Check that transaction was successfully executed
       await gnosisPage.bringToFront()
       await gnosisPage.waitForTimeout(2000)
       await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
@@ -166,11 +133,10 @@ describe('Send funds and sign with two owners', () => {
       }, { polling: 100 }, array)
       const newEthFunds = await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')
       expect(parseFloat(newEthFunds.toFixed(3))).toBe(parseFloat((currentEthFunds - TOKEN_AMOUNT).toFixed(3)))
-
       done()
     } catch (error) {
       console.log(error)
-      done(error)
+      done()
     }
-  }, 90000)
+  }, 290000)
 })

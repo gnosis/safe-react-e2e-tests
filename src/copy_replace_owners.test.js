@@ -3,6 +3,7 @@ import { sels } from '../utils/selectors'
 import { accountsSelectors } from '../utils/selectors/accounts'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { initWithDefaultSafe } from '../utils/testSetup'
+import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 
 let browser
 let metamask
@@ -14,25 +15,26 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
 
 describe.skip('Adding and removing owners', () => {
-  const setting_owners = sels.xpSelectors.setting_owners
-  const replace_owner = sels.xpSelectors.replace_owner
+  const settingOwners = sels.xpSelectors.setting_owners
+  const replaceOwner = sels.xpSelectors.replace_owner
   const errorMsg = sels.errorMsg
-  const safe_hub = sels.xpSelectors.safe_hub
+  const safeHub = sels.xpSelectors.safe_hub
 
-  let owner_replaced_address
-  let owner_for_replacement_address
-  let owner_for_replacement_name
+  let ownerReplacedAddress
+  let ownerForReplacementAddress
+  let ownerForReplacementName
   let flag
 
-  test('Enter in settings. Checking which owner replace', async (done) => {
-    console.log('Enter in settings. Checking which owner replace')
+  test('Adding and removing owners', async (done) => {
+    // Enter in settings. Checking which owner replace
     flag = true
-    owner_for_replacement_name = 'Cory Barlog'
+    ownerForReplacementName = 'Cory Barlog'
     try {
       await gFunc.isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
       await gFunc.clickByText('span', 'SETTINGS', gnosisPage)
@@ -41,124 +43,87 @@ describe.skip('Adding and removing owners', () => {
       await gFunc.isTextPresent('body', 'Manage Safe Owners', gnosisPage)
       try {
         // I check which user replace, I check if owner 3 is present
-        await gnosisPage.waitForXPath('//span[contains(text(),"0x6E45d69a383CECa3d54688e833Bd0e1388747e6B")]', {timeout:2000})
+        await gnosisPage.waitForXPath('//span[contains(text(),"0x6E45d69a383CECa3d54688e833Bd0e1388747e6B")]', { timeout: 2000 })
       } catch (e) {
         flag = false
       }
       if (flag) {
         // if acc3 is pressent, that will be replaced, if not then acc5 will be replaced
-        owner_replaced_address = accountsSelectors.testAccountsHash.acc3
-        owner_for_replacement_address = accountsSelectors.testAccountsHash.acc5
+        ownerReplacedAddress = accountsSelectors.testAccountsHash.acc3
+        ownerForReplacementAddress = accountsSelectors.testAccountsHash.acc5
       } else {
-        owner_replaced_address = accountsSelectors.testAccountsHash.acc5
-        owner_for_replacement_address = accountsSelectors.testAccountsHash.acc3
+        ownerReplacedAddress = accountsSelectors.testAccountsHash.acc5
+        ownerForReplacementAddress = accountsSelectors.testAccountsHash.acc3
       }
-
-      console.log('Owner_replaced_address = ', owner_replaced_address, '\nOwner_for_replacement_address = ', owner_for_replacement_address)
-      done()
-    } catch (error) {
-      done(error)
-    }
-  }, 60000)
-  test('Open Replace Owner form', async (done) => {
-    const existing_owner_address = owner_replaced_address
-    console.log('Open Replace Owner form')
-    try {
+      // Open Replace Owner form
+      const existingOwnerAddress = ownerReplacedAddress
       await gnosisPage.waitFor(2000)
-      await gFunc.assertElementPresent(setting_owners.owner_row_options(owner_replaced_address, 2), gnosisPage)
-      await gFunc.clickSomething(setting_owners.owner_row_options(owner_replaced_address, 2), gnosisPage)
-      await gFunc.assertElementPresent(replace_owner.onwer_replaced_address(owner_replaced_address),gnosisPage)
-      await gFunc.clickSomething(setting_owners.next_btn, gnosisPage)
+      await gFunc.assertElementPresent(settingOwners.owner_row_options(ownerReplacedAddress, 2), gnosisPage)
+      await gFunc.clickSomething(settingOwners.owner_row_options(ownerReplacedAddress, 2), gnosisPage)
+      await gFunc.assertElementPresent(replaceOwner.onwer_replaced_address(ownerReplacedAddress), gnosisPage)
+      await gFunc.clickSomething(settingOwners.next_btn, gnosisPage)
       await gFunc.assertElementPresent(errorMsg.error(errorMsg.required), gnosisPage) // asserts error "required" in name
-      await gFunc.clickAndType({ selector: replace_owner.owner_name_input }, gnosisPage, owner_for_replacement_name)
+      await gFunc.clickAndType({ selector: replaceOwner.owner_name_input }, gnosisPage, ownerForReplacementName)
       await gFunc.assertElementPresent(errorMsg.error(errorMsg.required), gnosisPage) // asserts error "required" in address
-      await gFunc.clickAndType({ selector: replace_owner.owner_address_input }, gnosisPage, '0xInvalidHash')
+      await gFunc.clickAndType({ selector: replaceOwner.owner_address_input }, gnosisPage, '0xInvalidHash')
       await gFunc.assertElementPresent(errorMsg.error(errorMsg.valid_ENS_name), gnosisPage) // assert invalid address error
-      await gFunc.clearInput(replace_owner.owner_address_input, gnosisPage)
-      await gFunc.clickAndType({ selector: replace_owner.owner_address_input }, gnosisPage, existing_owner_address)
+      await gFunc.clearInput(replaceOwner.owner_address_input, gnosisPage)
+      await gFunc.clickAndType({ selector: replaceOwner.owner_address_input }, gnosisPage, existingOwnerAddress)
       await gFunc.assertElementPresent(errorMsg.error(errorMsg.duplicated_address), gnosisPage) // assert duplicated address error
-      await gFunc.clearInput(replace_owner.owner_address_input, gnosisPage)
-      await gFunc.clickAndType(replace_owner.owner_address_input, gnosisPage, owner_for_replacement_address)
-      await gFunc.clickSomething(setting_owners.next_btn, gnosisPage)
-      done()
-    } catch (error) {
-      done(error)
-    }
-  }, 60000)
-  test('Step 2 - Verify owner replacementen and submit', async (done) => {
-    console.log('Step 2 - Verify owner replacementen and submit')
-    try {
+      await gFunc.clearInput(replaceOwner.owner_address_input, gnosisPage)
+      await gFunc.clickAndType(replaceOwner.owner_address_input, gnosisPage, ownerForReplacementAddress)
+      await gFunc.clickSomething(settingOwners.next_btn, gnosisPage)
+      // Verify owner replacementen and submit
       await gFunc.assertAllElementPresent([
-        replace_owner.removing_owner_title,
-        replace_owner.new_owner_section,
-        replace_owner.replaced_owner_address(owner_replaced_address),
-        replace_owner.owner_for_replacement_name(owner_for_replacement_name),
-        replace_owner.owner_for_replacement_address(owner_for_replacement_address),
+        replaceOwner.removing_owner_title,
+        replaceOwner.new_owner_section,
+        replaceOwner.replaced_owner_address(ownerReplacedAddress),
+        replaceOwner.owner_for_replacement_name(ownerForReplacementName),
+        replaceOwner.owner_for_replacement_address(ownerForReplacementAddress)
       ], gnosisPage)
-      await gFunc.clickSomething(setting_owners.submit_btn, gnosisPage)
+      await gFunc.clickSomething(settingOwners.submit_btn, gnosisPage)
       await gnosisPage.waitFor(2000)
       await metamask.sign()
-      done()
-    } catch (error) {
-      done(error)
-    }
-  }, 60000)
-  test('Sign with owner 2', async (done) => {
-    console.log('Sign with owner 2')
-    try {
+      // Sign with owner 2
       await MMpage.waitFor(5000)
       await gnosisPage.bringToFront()
-      await gFunc.clickSomething(safe_hub.needs_confirmations, gnosisPage)
-      await gFunc.assertElementPresent(safe_hub.confirmed_counter(1), gnosisPage)
+      await gFunc.clickSomething(safeHub.needs_confirmations, gnosisPage)
+      await gFunc.assertElementPresent(safeHub.confirmed_counter(1), gnosisPage)
       await metamask.switchAccount(1) // currently in account4, changing to account 1
       await gnosisPage.waitFor(2000)
       await gnosisPage.bringToFront()
-      await gFunc.clickSomething(safe_hub.confirm_btn, gnosisPage)
-      await gFunc.clickSomething(safe_hub.approve_tx_btn, gnosisPage)
+      await gFunc.clickSomething(safeHub.confirm_btn, gnosisPage)
+      await gFunc.clickSomething(safeHub.approve_tx_btn, gnosisPage)
       await gnosisPage.waitFor(2000)
       await metamask.sign()
-      done()
-    } catch (error) {
-      done(error)
-    }
-  }, 60000)
-  test('Signing and executing with owner 3', async (done) => {
-    console.log('Signing and executing with owner 3')
-    try {
+      // Signing and executing with owner 3
       await MMpage.waitFor(5000)
       await gnosisPage.bringToFront()
-      await gFunc.assertElementPresent(safe_hub.confirmed_counter(2), gnosisPage)
+      await gFunc.assertElementPresent(safeHub.confirmed_counter(2), gnosisPage)
       await metamask.switchAccount(2)
       await gnosisPage.bringToFront()
       await gnosisPage.waitFor(5000)
-      await gFunc.clickSomething(safe_hub.confirm_btn, gnosisPage)
-      await gFunc.clickSomething(safe_hub.approve_tx_btn, gnosisPage)
+      await gFunc.clickSomething(safeHub.confirm_btn, gnosisPage)
+      await gFunc.clickSomething(safeHub.approve_tx_btn, gnosisPage)
       await gnosisPage.waitFor(2000)
       await metamask.confirmTransaction()
-      done()
-    } catch (error) {
-      done(error)
-    }
-  }, 60000)
-  test('Verify the Owner Replacement', async (done) => {
-    console.log('Verify the Owner Replacement')
-    try {
+      // Verify the Owner Replacement
       await MMpage.waitFor(2000)
       await gnosisPage.bringToFront()
       await gnosisPage.waitForXPath("//div[contains(text(),'Executor')]")
       await gFunc.assertAllElementPresent([
-        replace_owner.tx_remove_owner_title,
-        replace_owner.tx_removed_owner_address(owner_replaced_address),
-        replace_owner.tx_add_owner_title,
+        replaceOwner.tx_remove_owner_title,
+        replaceOwner.tx_removed_owner_address(ownerReplacedAddress),
+        replaceOwner.tx_add_owner_title,
         // replace_owner.tx_add_owner_name(owner_for_replacement_name), // This is broken in the application. Issue #649
-        replace_owner.tx_add_owner_address(owner_for_replacement_address),
+        replaceOwner.tx_add_owner_address(ownerForReplacementAddress)
       ], gnosisPage)
-      await gFunc.clickSomething(setting_owners.settings_tab, gnosisPage)
-      await gFunc.clickSomething(setting_owners.owners_tab, gnosisPage)
-      await gFunc.assertElementPresent(setting_owners.owner_table_row_address(owner_for_replacement_address), gnosisPage)
+      await gFunc.clickSomething(settingOwners.settings_tab, gnosisPage)
+      await gFunc.clickSomething(settingOwners.owners_tab, gnosisPage)
+      await gFunc.assertElementPresent(settingOwners.owner_table_row_address(ownerForReplacementAddress), gnosisPage)
       done()
     } catch (error) {
       done(error)
     }
-  }, 150000)
+  }, 180000)
 })

@@ -16,6 +16,7 @@ import { settingsPage } from '../utils/selectors/settings'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
+import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 
 let browser
 let metamask
@@ -29,6 +30,7 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -39,10 +41,11 @@ describe('Adding and removing owners', () => {
   const newOwnerAddress = NON_OWNER_ADDRESS
   let currentNonce = ''
 
-  test('Filling Form and submitting tx', async (done) => {
+  test('Add and remove an owner', async (done) => {
     console.log('Filling Form and submitting tx')
     const existingOwnerHash = FUNDS_RECEIVER_ADDRESS
     try {
+      // Filling Form and submitting tx
       await clickByText('span', 'settings', gnosisPage)
       await clickElement(settingsPage.owners_tab, gnosisPage)
       await clickElement(settingsPage.add_owner_btn, gnosisPage)
@@ -82,34 +85,15 @@ describe('Adding and removing owners', () => {
       await clickElement(settingsPage.add_owner_submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
       await metamask.sign()
-      done()
-    } catch (error) {
-      console.log(error)
-      done(error)
-    }
-  }, 60000)
-  test('Approving and executing the transaction with owner 2', async (done) => {
-    console.log('Approving the Tx with the owner 2')
-    try {
+      // Approving and executing the transaction with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
       currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
       console.log('CurrentNonce = ', currentNonce)
-      // We are currently using account 2
-      // We approve and execute with account 1
       await approveAndExecuteWithOwner(1, gnosisPage, metamask)
-      done()
-    } catch (error) {
-      console.log(error)
-      done(error)
-    }
-  }, 120000)
-  test('Deleting owner form filling and tx creation', async (done) => {
-    console.log('Deleting owner form filling and tx creation')
-    try {
+      // Deleting owner form filling and tx creation
       await gnosisPage.bringToFront()
       await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
-      // we need a better way to know if the Queue tab is empty ^^^
       await clickByText('span', 'settings', gnosisPage)
       await clickElement(settingsPage.owners_tab, gnosisPage)
       await assertElementPresent("[data-testid='remove-owner-btn']", gnosisPage, 'css')
@@ -134,33 +118,16 @@ describe('Adding and removing owners', () => {
       await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
       await metamask.sign()
-      done()
-    } catch (error) {
-      console.log(error)
-      done(error)
-    }
-  }, 120000)
-  test('Executing the owner deletion with owner 2', async (done) => {
-    console.log('Executing the owner deletion with owner 2')
-    try {
+      // Executing the owner deletion with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
       currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
       console.log('CurrentNonce = ', currentNonce)
-      // We are currently using account 1
-      // We approve and execute with account 2
       await approveAndExecuteWithOwner(2, gnosisPage, metamask)
-      done()
-    } catch (error) {
-      console.log(error)
-      done(error)
-    }
-  }, 120000)
-  test('Verifying owner deletion', async (done) => {
-    console.log('Verifying owner deletion')
-    try {
+      // Verifying owner deletion
       await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
       await clickByText('button > span > p', 'History', gnosisPage)
+      await gnosisPage.waitForTimeout(4000)
       const nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
       expect(nonce).toBe(currentNonce)
       const executedTxStatus = await getInnerText(transactionsTab.tx_status, gnosisPage, 'css')
@@ -168,7 +135,7 @@ describe('Adding and removing owners', () => {
       done()
     } catch (error) {
       console.log(error)
-      done()
+      done(error)
     }
-  }, 120000)
+  }, 540000)
 })
