@@ -13,6 +13,7 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import { loadSafeForm } from '../utils/selectors/loadSafeForm'
 import { initWithWalletConnected } from '../utils/testSetup'
 import config from '../utils/config'
+import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 
 let browser
 let metamask
@@ -22,10 +23,11 @@ let MMpage
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
-  [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected()
+  [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected(true)
 }, 60000)
 
 afterAll(async () => {
+  await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -54,6 +56,7 @@ describe('Add an existing safe', () => {
       await assertElementPresent(generalInterface.show_qr_btn.selector, gnosisPage, 'css')
       await clickElement(generalInterface.show_qr_btn, gnosisPage)
       await isTextPresent(generalInterface.sidebar, accountsSelectors.safeNames.load_safe_name, gnosisPage)
+      await clickByText('button > span', 'Done', gnosisPage)
       done()
     } catch (error) {
       done(error)
