@@ -4,6 +4,7 @@ import { accountsSelectors } from '../utils/selectors/accounts'
 import { createSafePage } from '../utils/selectors/createSafePage'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { initWithWalletConnected } from '../utils/testSetup'
+import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 
 let browser
 let metamask
@@ -15,6 +16,7 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -26,20 +28,17 @@ describe('Create New Safe', () => {
   const newSafeName = accountsSelectors.safeNames.create_safe_name
   const owner2Name = accountsSelectors.accountNames.owner2_name
   const owner2Address = accountsSelectors.testAccountsHash.acc2
-  test('Open Create Safe Form', async () => {
+  test('Create Safe', async () => {
     console.log('Open Create Safe Form\n')
+    // Open Create Safe Form
     await gFunc.clickByText('p', '+ Create New Safe', gnosisPage)
     await gFunc.assertElementPresent(createSafePage.form, gnosisPage, 'css')
-  }, 60000)
-  test('Naming The Safe', async () => {
-    console.log('Naming The Safe\n')
+    // Naming The Safe
     await gFunc.clickElement(generalInterface.submit_btn, gnosisPage) // click with empty safe field
     await gFunc.assertElementPresent(errorMsg.error(errorMsg.required), gnosisPage) // check error message
     await gFunc.clickAndType({ selector: createSafePage.safe_name_field, type: 'css' }, gnosisPage, newSafeName)
     await gFunc.clickElement(generalInterface.submit_btn, gnosisPage)
-  }, 60000)
-  test('Adding Owners', async () => {
-    console.log('Adding Owners\n')
+    // Adding Owners
     await gFunc.assertElementPresent(createSafePage.step_two, gnosisPage, 'css')
     await gFunc.clickElement({ selector: createSafePage.add_owner_btn }, gnosisPage) // adding new row
     await gnosisPage.waitForTimeout(1000)
@@ -51,16 +50,12 @@ describe('Create New Safe', () => {
     await gFunc.assertElementPresent(createSafePage.valid_address(1), gnosisPage, 'css')
     rowsAmount = await gnosisPage.$$eval(createSafePage.owner_row, x => x.length) // see how many owner I've created
     await gFunc.assertElementPresent(createSafePage.req_conf_limit(rowsAmount), gnosisPage, 'css') // that amount should be in the text "out of X owners"
-  }, 60000)
-  test('Setting Required Confirmation', async () => {
-    console.log('Setting Required Confirmation')
+    // Setting Required Confirmation
     await gFunc.clickElement({ selector: createSafePage.threshold_select_input }, gnosisPage)
     await gFunc.clickElement({ selector: createSafePage.select_input(rowsAmount) }, gnosisPage)
     await gnosisPage.waitForTimeout(2000) // gotta wait before clickin review_btn or doesn't work
     await gFunc.clickElement(generalInterface.submit_btn, gnosisPage)
-  }, 60000)
-  test('Reviewing Safe Info', async () => {
-    console.log('Reviewing Safe Info\n')
+    // Reviewing Safe Info
     await gFunc.assertElementPresent(createSafePage.step_three, gnosisPage, 'css')
     await gFunc.assertTextPresent(createSafePage.review_safe_name, newSafeName, gnosisPage, 'css')
     await gFunc.assertElementPresent(createSafePage.review_req_conf(rowsAmount), gnosisPage, 'css')
@@ -70,9 +65,7 @@ describe('Create New Safe', () => {
     await MMpage.bringToFront()
     await MMpage.waitForTimeout(2000)
     await metamask.confirmTransaction()
-  }, 60000)
-  test('Assert Safe Creation', async () => {
-    console.log('Assert Safe Creation\n')
+    // Assert Safe Creation
     await gnosisPage.bringToFront()
     await gFunc.assertElementPresent(createSafePage.back_btn, gnosisPage, 'css')
     await gFunc.assertElementPresent(createSafePage.etherscan_link, gnosisPage, 'css')
