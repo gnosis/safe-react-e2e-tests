@@ -3,10 +3,9 @@ import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 let browser
 let metamask
 let gnosisPage
-let MMpage
 
 beforeAll(async () => {
-  [browser, metamask, gnosisPage, MMpage] = await initWithDefaultSafeDirectNavigation(true)
+  [browser, metamask, gnosisPage] = await initWithDefaultSafeDirectNavigation(true)
 }, 60000)
 
 afterAll(async () => {

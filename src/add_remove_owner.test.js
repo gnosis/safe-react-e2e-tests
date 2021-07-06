@@ -8,7 +8,7 @@ import {
   getInnerText,
   getNumberInString,
   assertTextPresent,
-  openDropdown
+  openDropdown,
 } from '../utils/selectorsHelpers'
 import { sels } from '../utils/selectors'
 import { accountsSelectors } from '../utils/selectors/accounts'
@@ -21,12 +21,11 @@ import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 let browser
 let metamask
 let gnosisPage
-let MMpage
 
 const { FUNDS_RECEIVER_ADDRESS, NON_OWNER_ADDRESS } = config
 
 beforeAll(async () => {
-  [browser, metamask, gnosisPage, MMpage] = await initWithDefaultSafeDirectNavigation(true)
+  ;[browser, metamask, gnosisPage] = await initWithDefaultSafeDirectNavigation(true)
 }, 60000)
 
 afterAll(async () => {
@@ -69,17 +68,25 @@ describe('Adding and removing owners', () => {
       await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
 
       await clickElement(settingsPage.add_owner_review_btn, gnosisPage)
-      const addedName = await getInnerText(settingsPage.add_owner_name_review.selector, gnosisPage, settingsPage.add_owner_name_review.type)
-      const addedAddress = await getInnerText(settingsPage.add_owner_address_review.selector, gnosisPage, settingsPage.add_owner_address_review.type)
+      const addedName = await getInnerText(
+        settingsPage.add_owner_name_review.selector,
+        gnosisPage,
+        settingsPage.add_owner_name_review.type,
+      )
+      const addedAddress = await getInnerText(
+        settingsPage.add_owner_address_review.selector,
+        gnosisPage,
+        settingsPage.add_owner_address_review.type,
+      )
       expect(addedName).toBe(newOwnerName)
       expect(addedAddress).toBe(newOwnerAddress)
       // Checking the new owner name and address is present in the review step ^^^. Do we need an Id for this?
       await gnosisPage.waitForTimeout(2000)
       await assertElementPresent(settingsPage.add_owner_submit_btn.selector, gnosisPage, 'css')
       await gnosisPage.waitForFunction(
-        selector => !document.querySelector(selector),
+        (selector) => !document.querySelector(selector),
         {},
-        settingsPage.add_owner_submit_btn_disabled.selector
+        settingsPage.add_owner_submit_btn_disabled.selector,
       )
       // The submit button starts disabled. I wait for it to become enabled ^^^
       await clickElement(settingsPage.add_owner_submit_btn, gnosisPage)
@@ -97,7 +104,9 @@ describe('Adding and removing owners', () => {
       await clickByText('span', 'settings', gnosisPage)
       await clickElement(settingsPage.owners_tab, gnosisPage)
       await assertElementPresent("[data-testid='remove-owner-btn']", gnosisPage, 'css')
-      const ownersList = await gnosisPage.evaluate(() => Array.from(document.querySelectorAll("[data-testid='owners-row'] p"), element => element.textContent))
+      const ownersList = await gnosisPage.evaluate(() =>
+        Array.from(document.querySelectorAll("[data-testid='owners-row'] p"), (element) => element.textContent),
+      )
       const removeIndex = ownersList.findIndex((address) => newOwnerAddress === address)
       await gnosisPage.evaluate((removeIndex) => {
         document.querySelectorAll("[data-testid='remove-owner-btn']")[removeIndex].click()
@@ -107,13 +116,21 @@ describe('Adding and removing owners', () => {
       await clickElement({ selector: "[data-value='2']", type: 'css' }, gnosisPage)
       await gnosisPage.waitForTimeout(2000)
       await clickElement(settingsPage.remove_owner_review_btn, gnosisPage)
-      const removedName = await getInnerText(settingsPage.remove_owner_name_review.selector, gnosisPage, settingsPage.remove_owner_name_review.type)
-      const removedAddress = await getInnerText(settingsPage.remove_owner_address_review.selector, gnosisPage, settingsPage.remove_owner_address_review.type)
+      const removedName = await getInnerText(
+        settingsPage.remove_owner_name_review.selector,
+        gnosisPage,
+        settingsPage.remove_owner_name_review.type,
+      )
+      const removedAddress = await getInnerText(
+        settingsPage.remove_owner_address_review.selector,
+        gnosisPage,
+        settingsPage.remove_owner_address_review.type,
+      )
       expect(removedName).toBe(newOwnerName)
       expect(removedAddress).toBe(newOwnerAddress)
       await assertElementPresent("[data-testid='remove-owner-review-btn']", gnosisPage, 'css')
       await gnosisPage.waitForFunction(
-        () => !document.querySelector("[data-testid='remove-owner-review-btn'][disabled]")
+        () => !document.querySelector("[data-testid='remove-owner-review-btn'][disabled]"),
       )
       await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)

@@ -6,7 +6,7 @@ import {
   clickByText,
   clickElement,
   getInnerText,
-  openDropdown
+  openDropdown,
 } from '../utils/selectorsHelpers'
 import { sels } from '../utils/selectors'
 import { generalInterface } from '../utils/selectors/generalInterface'
@@ -19,12 +19,11 @@ import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 let browser
 let metamask
 let gnosisPage
-let MMpage
 
 const { FUNDS_RECEIVER_ADDRESS } = config
 
 beforeAll(async () => {
-  [browser, metamask, gnosisPage, MMpage] = await initWithDefaultSafeDirectNavigation(true)
+  ;[browser, metamask, gnosisPage] = await initWithDefaultSafeDirectNavigation(true)
 }, 60000)
 
 afterAll(async () => {
@@ -66,12 +65,14 @@ describe('Reject transaction flow', () => {
       await gnosisPage.waitForTimeout(3000)
       await clickByText('button > span', 'Reject', gnosisPage)
       // making sure that a "Reject Transaction" text exist in the page first
-      await gnosisPage.waitForFunction(() =>
-        document.querySelector('body').innerText.includes('Reject transaction')
-      )
+      await gnosisPage.waitForFunction(() => document.querySelector('body').innerText.includes('Reject transaction'))
       await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
       await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
-      await gnosisPage.waitForFunction(selector => !document.querySelector(selector), {}, generalInterface.submit_tx_btn_disabled)
+      await gnosisPage.waitForFunction(
+        (selector) => !document.querySelector(selector),
+        {},
+        generalInterface.submit_tx_btn_disabled,
+      )
       await clickElement(generalInterface.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
       await metamask.sign()
@@ -84,12 +85,14 @@ describe('Reject transaction flow', () => {
       await clickElement(transactionsTab.on_chain_rejection_type, gnosisPage)
       await gnosisPage.waitForTimeout(1000)
       await clickByText('button > span', 'Confirm', gnosisPage)
-      await gnosisPage.waitForFunction(() =>
-        document.querySelector('body').innerText.includes('Approve Transaction')
-      )
+      await gnosisPage.waitForFunction(() => document.querySelector('body').innerText.includes('Approve Transaction'))
       await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
       await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
-      await gnosisPage.waitForFunction(selector => !document.querySelector(selector), {}, generalInterface.submit_tx_btn_disabled)
+      await gnosisPage.waitForFunction(
+        (selector) => !document.querySelector(selector),
+        {},
+        generalInterface.submit_tx_btn_disabled,
+      )
       await clickElement(generalInterface.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
       await metamask.confirmTransaction()
