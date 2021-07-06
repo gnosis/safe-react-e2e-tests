@@ -7,7 +7,7 @@ import {
   clickElement,
   getNumberInString,
   isTextPresent,
-  openDropdown
+  openDropdown,
 } from '../utils/selectorsHelpers'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { sendFundsForm } from '../utils/selectors/sendFundsForm'
@@ -20,10 +20,9 @@ import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 let browser
 let metamask
 let gnosisPage
-let MMpage
 
 beforeAll(async () => {
-  [browser, metamask, gnosisPage, MMpage] = await initWithDefaultSafeDirectNavigation(true)
+  ;[browser, metamask, gnosisPage] = await initWithDefaultSafeDirectNavigation(true)
 }, 60000)
 
 afterAll(async () => {
@@ -57,9 +56,9 @@ describe('Change Policies', () => {
       await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
       await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
       await gnosisPage.waitForFunction(
-        selector => !document.querySelector(selector),
+        (selector) => !document.querySelector(selector),
         {},
-        generalInterface.submit_tx_btn_disabled
+        generalInterface.submit_tx_btn_disabled,
       )
       await clickElement(generalInterface.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(2000)
@@ -98,7 +97,11 @@ describe('Change Policies', () => {
       await clickElement({ selector: '[data-value="2"]' }, gnosisPage)
       await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
       await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
-      await gnosisPage.waitForFunction(selector => !document.querySelector(selector), {}, generalInterface.submit_tx_btn_disabled)
+      await gnosisPage.waitForFunction(
+        (selector) => !document.querySelector(selector),
+        {},
+        generalInterface.submit_tx_btn_disabled,
+      )
       await clickElement(generalInterface.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(2000)
       await metamask.confirmTransaction()

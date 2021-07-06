@@ -22,13 +22,12 @@ import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 let browser
 let metamask
 let gnosisPage
-let MMpage
 
 const { FUNDS_RECEIVER_ADDRESS } = config
 const TOKEN_AMOUNT = 0.01
 
 beforeAll(async () => {
-  [browser, metamask, gnosisPage, MMpage] = await initWithDefaultSafeDirectNavigation(true)
+  ;[browser, metamask, gnosisPage] = await initWithDefaultSafeDirectNavigation(true)
 }, 60000)
 
 afterAll(async () => {
@@ -50,7 +49,7 @@ describe('Send funds and sign with two owners', () => {
     try {
       // Open the send funds form
       currentEthFundsOnText = await getInnerText(assetTab.balance_value('eth'), gnosisPage, 'css')
-      currentEthFunds = parseFloat((await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')))
+      currentEthFunds = parseFloat(await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css'))
       await clickByText('button', 'New Transaction', gnosisPage)
       await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
       await assertElementPresent(sendFundsForm.review_btn_disabled.selector, gnosisPage, 'css')
@@ -88,10 +87,11 @@ describe('Send funds and sign with two owners', () => {
       await assertElementPresent(sendFundsForm.valid_amount_msg.selector, gnosisPage)
       await clickElement(sendFundsForm.review_btn, gnosisPage)
       // Review information is correct and submit transaction with signature
-      await assertAllElementPresent([
-        sendFundsForm.send_funds_review.selector,
-        sendFundsForm.recipient_address_review.selector
-      ], gnosisPage, 'css')
+      await assertAllElementPresent(
+        [sendFundsForm.send_funds_review.selector, sendFundsForm.recipient_address_review.selector],
+        gnosisPage,
+        'css',
+      )
       const recipientHash = await getInnerText(sendFundsForm.recipient_address_review.selector, gnosisPage, 'css')
       expect(recipientHash).toMatch(FUNDS_RECEIVER_ADDRESS)
       const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review.selector, gnosisPage, 'css')
@@ -128,9 +128,13 @@ describe('Send funds and sign with two owners', () => {
       await assertElementPresent(assetTab.balance_value('eth'), gnosisPage, 'css')
       const array = ['[data-testid="balance-ETH"]', currentEthFundsOnText]
       // check every 100ms an update in the ETH funds in the assets tab
-      await gnosisPage.waitForFunction((array) => {
-        return document.querySelector(array[0]).innerText !== array[1]
-      }, { polling: 100 }, array)
+      await gnosisPage.waitForFunction(
+        (array) => {
+          return document.querySelector(array[0]).innerText !== array[1]
+        },
+        { polling: 100 },
+        array,
+      )
       const newEthFunds = await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')
       expect(parseFloat(newEthFunds.toFixed(3))).toBe(parseFloat((currentEthFunds - TOKEN_AMOUNT).toFixed(3)))
       done()
