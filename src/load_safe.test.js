@@ -5,7 +5,7 @@ import {
   clickAndType,
   clickByText,
   clickElement,
-  isTextPresent
+  isTextPresent,
 } from '../utils/selectorsHelpers'
 import { sels } from '../utils/selectors'
 import { accountsSelectors } from '../utils/selectors/accounts'
@@ -18,12 +18,11 @@ import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 let browser
 let metamask
 let gnosisPage
-let MMpage
 
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
-  [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected(true)
+  ;[browser, metamask, gnosisPage] = await initWithWalletConnected(true)
 }, 60000)
 
 afterAll(async () => {
@@ -49,8 +48,18 @@ describe('Add an existing safe', () => {
       await clickElement(generalInterface.submit_btn, gnosisPage)
       // Add Safe review details
       await assertElementPresent(loadSafeForm.step_three.selector, gnosisPage, 'css')
-      await assertTextPresent(loadSafeForm.review_safe_name.selector, accountsSelectors.safeNames.load_safe_name, gnosisPage, 'css')
-      await assertTextPresent(loadSafeForm.review_owner_name().selector, accountsSelectors.accountNames.owner_name, gnosisPage, 'css')
+      await assertTextPresent(
+        loadSafeForm.review_safe_name.selector,
+        accountsSelectors.safeNames.load_safe_name,
+        gnosisPage,
+        'css',
+      )
+      await assertTextPresent(
+        loadSafeForm.review_owner_name().selector,
+        accountsSelectors.accountNames.owner_name,
+        gnosisPage,
+        'css',
+      )
       await gnosisPage.waitForTimeout(2000)
       await clickElement(generalInterface.submit_btn, gnosisPage)
       await assertElementPresent(generalInterface.show_qr_btn.selector, gnosisPage, 'css')

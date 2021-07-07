@@ -91,7 +91,7 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
     browser,
     metamask,
     gnosisPage,
-    MMpage,
+    MMpage
   ]
 }
 
@@ -132,7 +132,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
     browser,
     metamask,
     gnosisPage,
-    MMpage,
+    MMpage
   ]
 }
 
@@ -152,6 +152,6 @@ export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts
     browser,
     metamask,
     gnosisPage,
-    MMpage,
+    MMpage
   ]
 }
