@@ -16,7 +16,7 @@ import { transactionsTab } from '../utils/selectors/transactionsTab'
 import { settingsPage } from '../utils/selectors/settings'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
-import { rejectPendingTxs } from '../utils/rejectPendingTxs'
+import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
 const { NON_OWNER_ADDRESS } = config
 

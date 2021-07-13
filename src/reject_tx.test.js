@@ -1,4 +1,3 @@
-import * as gFunc from '../utils/selectorsHelpers'
 import {
   assertElementPresent,
   assertTextPresent,
@@ -7,14 +6,15 @@ import {
   clickElement,
   getInnerText,
   openDropdown,
+  getNumberInString,
 } from '../utils/selectorsHelpers'
-import { sels } from '../utils/selectors'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { sendFundsForm } from '../utils/selectors/sendFundsForm'
+import { assetsTab } from '../utils/selectors/assetsTab'
 import { transactionsTab, statusLabel } from '../utils/selectors/transactionsTab'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
-import { rejectPendingTxs } from '../utils/rejectPendingTxs'
+import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
 let browser
 let metamask
@@ -35,12 +35,10 @@ afterAll(async () => {
 describe('Reject transaction flow', () => {
   let startBalance = 0.0
 
-  const assetTab = sels.testIdSelectors.asset_tab
-
   test('Reject transaction flow', async (done) => {
     try {
-      await assertElementPresent(assetTab.balance_value('eth'), gnosisPage, 'css')
-      startBalance = await gFunc.getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')
+      await assertElementPresent(assetsTab.balance_value('eth'), gnosisPage, 'css')
+      startBalance = await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css')
       await clickByText('button', 'New Transaction', gnosisPage)
       await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
       await assertElementPresent(sendFundsForm.review_btn_disabled.selector, gnosisPage, 'css')
@@ -107,9 +105,9 @@ describe('Reject transaction flow', () => {
       const executedTxStatus = await getInnerText(transactionsTab.tx_status, gnosisPage, 'css')
       expect(executedTxStatus).toBe('Success')
       await clickByText('span', 'ASSETS', gnosisPage)
-      await assertElementPresent(assetTab.balance_value('eth'), gnosisPage, 'css')
+      await assertElementPresent(assetsTab.balance_value('eth'), gnosisPage, 'css')
       // await gnosisPage.waitForTimeout(4000)
-      const finalBalance = await gFunc.getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')
+      const finalBalance = await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css')
       // Balance should not have changed
       expect(finalBalance).toBe(startBalance)
       done()

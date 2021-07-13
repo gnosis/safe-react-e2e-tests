@@ -4,10 +4,10 @@ import {
   clickByText,
   clickElement,
   getInnerText,
-} from './selectorsHelpers'
-import { generalInterface } from './selectors/generalInterface'
-import { sendFundsForm } from './selectors/sendFundsForm'
-import { transactionsTab, statusLabel } from './selectors/transactionsTab'
+} from '../selectorsHelpers'
+import { generalInterface } from '../selectors/generalInterface'
+import { sendFundsForm } from '../selectors/sendFundsForm'
+import { transactionsTab, statusLabel } from '../selectors/transactionsTab'
 
 export const rejectPendingTxs = async (gnosisPage, metamask) => {
   let element
@@ -27,7 +27,6 @@ export const rejectPendingTxs = async (gnosisPage, metamask) => {
     await metamask.switchAccount(2)
     await gnosisPage.bringToFront()
     const currentNonce = await getInnerText('div.tx-nonce > p', gnosisPage, 'css')
-    // await gFunc.assertElementPresent(transactionsTab.reject_tx_btn, gnosisPage, 'css')
     await gnosisPage.waitForTimeout(3000)
     await assertTextPresent('#infinite-scroll-container > div > p', 'NEXT TRANSACTION', gnosisPage, 'css')
     await clickElement(transactionsTab.tx_type, gnosisPage)
@@ -50,7 +49,6 @@ export const rejectPendingTxs = async (gnosisPage, metamask) => {
 
     await metamask.switchAccount(1) // changing to account 1
     await gnosisPage.bringToFront()
-    // await gFunc.assertElementPresent(transactionsTab.reject_tx_btn, gnosisPage, 'css')
     await gnosisPage.waitForTimeout(3000)
     await clickElement(transactionsTab.on_chain_rejection_type, gnosisPage)
     // await clickByText(transactionsTab.tx_type.selector, 'On-chain rejection', gnosisPage)

@@ -1,5 +1,4 @@
 import { approveAndExecuteWithOwner } from '../utils/actions/approveAndExecuteWithOwner'
-import * as gFunc from '../utils/selectorsHelpers'
 import {
   assertElementPresent,
   assertTextPresent,
@@ -8,12 +7,13 @@ import {
   getNumberInString,
   isTextPresent,
   openDropdown,
+  getInnerText,
 } from '../utils/selectorsHelpers'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { sendFundsForm } from '../utils/selectors/sendFundsForm'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
 import { settingsTabs } from '../utils/selectors/settings'
-import { rejectPendingTxs } from '../utils/rejectPendingTxs'
+import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 
@@ -82,7 +82,7 @@ describe('Change Policies', () => {
       let nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
       expect(nonce).toBe(transactionNonce)
       await clickElement(transactionsTab.tx_type, gnosisPage)
-      const changeConfirmationText = await gFunc.getInnerText('div.tx-details > p', gnosisPage, 'css')
+      const changeConfirmationText = await getInnerText('div.tx-details > p', gnosisPage, 'css')
       expect(changeConfirmationText).toBe('Change required confirmations:')
       await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
       await clickByText('span', 'SETTINGS', gnosisPage)
