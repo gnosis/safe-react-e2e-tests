@@ -145,11 +145,6 @@ describe('Owner Replacement', () => {
       expect(toReplaceAddress).toBe(ownerForReplacementAddress)
       expect(replacedName).toBe(newOwnerName)
       expect(replacedAddress).toBe(newOwnerAddress)
-      await isTextPresent(settingsPage.add_remove_replace_modal.selector, 'REMOVING OWNER ↓', gnosisPage)
-      await isTextPresent(settingsPage.add_remove_replace_modal.selector, 'ADDING NEW OWNER ↓', gnosisPage)
-      await isTextPresent(settingsPage.add_remove_replace_modal.selector, ownerForReplacementName, gnosisPage)
-      await isTextPresent(settingsPage.add_remove_replace_modal.selector, ownerForReplacementAddress, gnosisPage)
-      // ^^^----------------We probably have to add some test-id here, these isTextPresent are too vague.---------------------^^^
       await isTextPresent(settingsPage.add_remove_replace_modal.selector, 'Submit', gnosisPage)
       // Making sure the Submit button is enabled before clicking
       await clickElement(settingsPage.replace_owner_submit_btn, gnosisPage)
