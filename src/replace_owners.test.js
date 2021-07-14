@@ -51,8 +51,8 @@ describe('Owner Replacement', () => {
     try {
       // Owner adding
       await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
-      await clickByText('span', 'settings', gnosisPage)
-      await clickElement(settingsPage.owners_tab, gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
       await clickElement(settingsPage.add_owner_btn, gnosisPage)
       await clickAndType(settingsPage.add_owner_name_input, gnosisPage, newOwnerName)
       await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress)
@@ -100,9 +100,8 @@ describe('Owner Replacement', () => {
 
       // Owner replacement
       await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
-      await clickByText('span', 'SETTINGS', gnosisPage)
-      await isTextPresent('body', 'Contract Version', gnosisPage)
-      await clickElement(settingsPage.owners_tab, gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
       await isTextPresent('body', 'Manage Safe Owners', gnosisPage)
       await gnosisPage.waitForTimeout(2000)
       let ownersList = await gnosisPage.evaluate(
@@ -168,16 +167,15 @@ describe('Owner Replacement', () => {
       executedNonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
       expect(executedNonce).toBe(currentNonce)
       await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
-      await clickByText('span', 'SETTINGS', gnosisPage)
-      await isTextPresent('body', 'Contract Version', gnosisPage)
-      await clickElement(settingsPage.owners_tab, gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
       await isTextPresent('body', 'Manage Safe Owners', gnosisPage)
       await isTextPresent('body', ownerForReplacementAddress, gnosisPage)
       // Owner replacement
 
       // Owner removal
-      await clickByText('span', 'settings', gnosisPage)
-      await clickElement(settingsPage.owners_tab, gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
       await assertElementPresent(settingsPage.remove_owner_trashcan_icon.selector, gnosisPage, 'css')
       ownersList = await gnosisPage.evaluate(
         (OwnerRowAddress) => Array.from(document.querySelectorAll(OwnerRowAddress), (element) => element.textContent),

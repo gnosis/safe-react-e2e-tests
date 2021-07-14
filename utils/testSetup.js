@@ -145,7 +145,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
  */
 export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts = false) => {
   const [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected(importMultipleAccounts)
-  await gnosisPage.goto(envUrl + '#/safes/' + TESTING_SAFE_ADDRESS)
+  await gnosisPage.goto(envUrl + '#/safes/' + TESTING_SAFE_ADDRESS + "/balances")
   await gnosisPage.waitForTimeout(2000)
 
   return [

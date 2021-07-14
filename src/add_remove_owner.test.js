@@ -15,6 +15,7 @@ import { settingsPage } from '../utils/selectors/settings'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
+import { generalInterface } from '../utils/selectors/generalInterface'
 import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 import { errorMsg } from '../utils/selectors/errorMsg'
 
@@ -40,12 +41,12 @@ describe('Adding and removing owners', () => {
   let currentNonce = ''
 
   test('Add and remove an owner', async (done) => {
-    console.log('Filling Form and submitting tx')
+    console.log('Test Add and remove an owner')
     const existingOwnerHash = FUNDS_RECEIVER_ADDRESS
     try {
       // Filling Form and submitting tx
-      await clickByText('span', 'settings', gnosisPage)
-      await clickElement(settingsPage.owners_tab, gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
       await clickElement(settingsPage.add_owner_btn, gnosisPage)
 
       await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
@@ -100,9 +101,11 @@ describe('Adding and removing owners', () => {
       // Deleting owner form filling and tx creation
       await gnosisPage.bringToFront()
       await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
-      await clickByText('span', 'settings', gnosisPage)
-      await clickElement(settingsPage.owners_tab, gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
+      await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
       await assertElementPresent("[data-testid='remove-owner-btn']", gnosisPage, 'css')
+      await gnosisPage.waitForTimeout(1000) 
+      //the new owner takes a moment to show up, if we don't wait then OwnerList will have the list of owners without the new one added
       const ownersList = await gnosisPage.evaluate(() =>
         Array.from(document.querySelectorAll("[data-testid='owners-row'] p"), (element) => element.textContent),
       )
