@@ -11,13 +11,14 @@ import {
   getInnerText,
   openDropdown,
 } from '../utils/selectorsHelpers'
-import { sels } from '../utils/selectors'
+import { assetsTab } from '../utils/selectors/assetsTab'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { sendFundsForm } from '../utils/selectors/sendFundsForm'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
+import { errorMsg } from '../utils/selectors/errorMsg'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
-import { rejectPendingTxs } from '../utils/rejectPendingTxs'
+import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
 let browser
 let metamask
@@ -37,9 +38,6 @@ afterAll(async () => {
 })
 
 describe('Send funds and sign with two owners', () => {
-  const errorMsg = sels.errorMsg
-  const assetTab = sels.testIdSelectors.asset_tab
-
   let currentEthFunds = ''
   let currentEthFundsOnText = ''
   let currentNonce = ''
@@ -48,8 +46,8 @@ describe('Send funds and sign with two owners', () => {
     console.log('Open the send funds form\n')
     try {
       // Open the send funds form
-      currentEthFundsOnText = await getInnerText(assetTab.balance_value('eth'), gnosisPage, 'css')
-      currentEthFunds = parseFloat(await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css'))
+      currentEthFundsOnText = await getInnerText(assetsTab.balance_value('eth'), gnosisPage, 'css')
+      currentEthFunds = parseFloat(await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css'))
       await clickByText('button', 'New Transaction', gnosisPage)
       await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
       await assertElementPresent(sendFundsForm.review_btn_disabled.selector, gnosisPage, 'css')
@@ -125,7 +123,7 @@ describe('Send funds and sign with two owners', () => {
       // regex to match an address hash
       expect(recipientAddress.match(/(0x[a-fA-F0-9]+)/)[0]).toMatch(FUNDS_RECEIVER_ADDRESS)
       await clickByText('span', 'ASSETS', gnosisPage)
-      await assertElementPresent(assetTab.balance_value('eth'), gnosisPage, 'css')
+      await assertElementPresent(assetsTab.balance_value('eth'), gnosisPage, 'css')
       const array = ['[data-testid="balance-ETH"]', currentEthFundsOnText]
       // check every 100ms an update in the ETH funds in the assets tab
       await gnosisPage.waitForFunction(
@@ -135,7 +133,7 @@ describe('Send funds and sign with two owners', () => {
         { polling: 100 },
         array,
       )
-      const newEthFunds = await getNumberInString(assetTab.balance_value('eth'), gnosisPage, 'css')
+      const newEthFunds = await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css')
       expect(parseFloat(newEthFunds.toFixed(3))).toBe(parseFloat((currentEthFunds - TOKEN_AMOUNT).toFixed(3)))
       done()
     } catch (error) {

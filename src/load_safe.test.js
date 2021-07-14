@@ -7,13 +7,12 @@ import {
   clickElement,
   isTextPresent,
 } from '../utils/selectorsHelpers'
-import { sels } from '../utils/selectors'
 import { accountsSelectors } from '../utils/selectors/accounts'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { loadSafeForm } from '../utils/selectors/loadSafeForm'
 import { initWithWalletConnected } from '../utils/testSetup'
 import config from '../utils/config'
-import { rejectPendingTxs } from '../utils/rejectPendingTxs'
+import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
 let browser
 let metamask
@@ -37,7 +36,7 @@ describe('Add an existing safe', () => {
       await clickByText('p', 'Add existing Safe', gnosisPage)
       await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
       await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
-      await assertTextPresent(loadSafeForm.valid_safe_name.selector, sels.assertions.valid_safe_name_field, gnosisPage)
+      await assertTextPresent(loadSafeForm.valid_safe_name.selector, 'Safe name', gnosisPage)
       await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
       await assertElementPresent(loadSafeForm.valid_address.selector, gnosisPage, 'css')
       await clickElement(generalInterface.submit_btn, gnosisPage)
