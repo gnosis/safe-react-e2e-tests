@@ -14,4 +14,4 @@ jobs:
       env:
         CI: 'true'
       with:
-        args: npm test load_safe
+        args: npm test load_safe TESTING_ENV='rinkeby'
