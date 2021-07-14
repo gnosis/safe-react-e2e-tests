@@ -10,14 +10,14 @@ import {
   assertTextPresent,
   openDropdown,
 } from '../utils/selectorsHelpers'
-import { sels } from '../utils/selectors'
 import { accountsSelectors } from '../utils/selectors/accounts'
 import { settingsPage } from '../utils/selectors/settings'
 import { transactionsTab } from '../utils/selectors/transactionsTab'
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
-import { rejectPendingTxs } from '../utils/rejectPendingTxs'
 import { generalInterface } from '../utils/selectors/generalInterface'
+import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
+import { errorMsg } from '../utils/selectors/errorMsg'
 
 let browser
 let metamask
@@ -36,7 +36,6 @@ afterAll(async () => {
 })
 
 describe('Adding and removing owners', () => {
-  const errorMsg = sels.errorMsg
   const newOwnerName = accountsSelectors.otherAccountNames.owner6_name
   const newOwnerAddress = NON_OWNER_ADDRESS
   let currentNonce = ''
