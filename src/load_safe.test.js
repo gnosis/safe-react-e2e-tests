@@ -20,6 +20,7 @@ const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
   const context = await initWithWalletConnected(true)
+  console.log(context[0], context[2])
   browser = context[0]
   gnosisPage = context[2]
 }, 60000)
