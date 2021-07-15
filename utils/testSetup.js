@@ -16,7 +16,7 @@ const importAccounts = async (metamask, privateKeys) => {
   }
 }
 
-const { SLOWMO, ENVIRONMENT, MNEMONIC, PRIVATE_KEY_GROUP, PASSWORD, TESTING_ENV, TESTING_SAFE_ADDRESS } = config
+const { SLOWMO, ENVIRONMENT, MNEMONIC, PRIVATE_KEY_GROUP, PASSWORD, PUPPETEER_EXEC_PATH, TESTING_ENV, TESTING_SAFE_ADDRESS } = config
 
 let envUrl
 if (TESTING_ENV === 'PR') {
@@ -31,9 +31,10 @@ if (TESTING_ENV === 'PR') {
 
 export const init = async () => {
   const browser = await dappeteer.launch(puppeteer, {
+    executablePath: PUPPETEER_EXEC_PATH,
     defaultViewport: null, // this extends the page to the size of the browser
     slowMo: SLOWMO, // Miliseconds it will wait for every action performed. It's 1 by default. change it in the .env file
-    args: ['--start-maximized', envUrl] // maximized browser, URL for the base page
+    args: ['--no-sandbox', '--start-maximized', envUrl] // maximized browser, URL for the base page
   })
 
   const metamask = await dappeteer.getMetamask(browser, {
