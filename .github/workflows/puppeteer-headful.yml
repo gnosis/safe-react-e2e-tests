@@ -1,0 +1,22 @@
+name: Run safe-react e2e tests
+on: 
+  push:
+    branches:
+      - develop
+  repository_dispatch:
+    types: [run-e2e-from-safe-react]
+jobs:
+  installDependencies:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install Dependencies
+      uses: actions/setup-node@v2
+    - run: npm install
+    - name: Test Code
+      uses: mujo-code/puppeteer-headful@master
+      env:
+        CI: 'true'
+      with:
+        args: npm test load_safe TESTING_ENV='rinkeby'

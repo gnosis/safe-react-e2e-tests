@@ -12,20 +12,19 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import { loadSafeForm } from '../utils/selectors/loadSafeForm'
 import { initWithWalletConnected } from '../utils/testSetup'
 import config from '../utils/config'
-import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
 let browser
-let metamask
 let gnosisPage
 
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
-  ;[browser, metamask, gnosisPage] = await initWithWalletConnected(true)
+  const context = await initWithWalletConnected(true)
+  browser = context[0]
+  gnosisPage = context[2]
 }, 60000)
 
 afterAll(async () => {
-  await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
