@@ -1,5 +1,8 @@
 name: Mujo-code Puppeteer Headful
-on: push
+on: 
+  push:
+  repository_dispatch:
+    types: [run-e2e]
 jobs:
   installDependencies:
     name: Install Dependencies
