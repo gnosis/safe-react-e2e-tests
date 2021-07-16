@@ -1,8 +1,10 @@
-name: Mujo-code Puppeteer Headful
+name: Run safe-react e2e tests
 on: 
   push:
+    branches:
+      - develop
   repository_dispatch:
-    types: [run-e2e]
+    types: [run-e2e-from-safe-react]
 jobs:
   installDependencies:
     name: Install Dependencies
