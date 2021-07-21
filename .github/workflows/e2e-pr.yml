@@ -3,8 +3,8 @@ on:
   repository_dispatch:
     types: [run-e2e-from-safe-react-on-pr]
 jobs:
-  installDependencies:
-    name: Install Dependencies
+  runE2eTests:
+    name: Run e2e tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -12,8 +12,19 @@ jobs:
       uses: actions/setup-node@v2
     - run: npm install
     - name: Test Code
+      id: test-code
       uses: mujo-code/puppeteer-headful@master
       env:
         CI: 'true'
       with:
         args: npm test load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
+    ## Dispatch job result to safe-react
+    - name: Repository Dispatch Comment
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.E2E_RUN_HOOK_ACCESS_TOKEN }}
+          repository: gnosis/safe-react
+          event-type: comment-pr-on-success
+          client-payload: '{"pr_number": "${{ github.event.client_payload.pr_number }}", "status": "${{ job.steps.test-code.status }}"}'
+      
+  

@@ -6,8 +6,8 @@ on:
   repository_dispatch:
     types: [run-e2e-from-safe-react]
 jobs:
-  installDependencies:
-    name: Install Dependencies
+  runE2eTests:
+    name: Run e2e tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
