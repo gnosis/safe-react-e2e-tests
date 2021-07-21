@@ -28,5 +28,5 @@ jobs:
           token: ${{ secrets.E2E_RUN_HOOK_ACCESS_TOKEN }}
           repository: gnosis/safe-react
           event-type: comment-pr-on-success
-          client-payload: '{"pr_number": "${{ github.event.number }}"}'
+          client-payload: '{"pr_number": "${{ github.event.client_payload.pr_number }}"}'
   
