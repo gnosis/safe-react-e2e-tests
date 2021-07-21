@@ -17,3 +17,16 @@ jobs:
         CI: 'true'
       with:
         args: npm test load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
+  commentPr:
+    name: Comment pr
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.E2E_RUN_HOOK_ACCESS_TOKEN }}
+          repository: gnosis/safe-react
+          event-type: comment-pr-on-success
+          client-payload: '{"pr_number": "${{ github.event.number }}"}'
+  
