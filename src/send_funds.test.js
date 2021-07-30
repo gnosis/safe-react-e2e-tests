@@ -97,7 +97,7 @@ describe('Send funds and sign with two owners', () => {
       await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
       await clickElement(sendFundsForm.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
-      await metamask.sign()
+      await metamask.signTransaction()
       // Approving and executing the transaction with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')

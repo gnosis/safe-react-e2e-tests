@@ -54,7 +54,7 @@ describe('Reject transaction flow', () => {
       await assertElementPresent(sendFundsForm.submit_btn.selector, gnosisPage, 'css')
       await clickElement(sendFundsForm.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
-      await metamask.sign()
+      await metamask.signTransaction()
       // Rejecting transaction with the 1st owner
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, statusLabel.needs_confirmations, gnosisPage, 'css')
@@ -73,7 +73,7 @@ describe('Reject transaction flow', () => {
       )
       await clickElement(generalInterface.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
-      await metamask.sign()
+      await metamask.signTransaction()
       // Rejecting transaction with 2nd owner
       await gnosisPage.bringToFront()
       await assertElementPresent(transactionsTab.on_chain_rejection_type.selector, gnosisPage, 'css')

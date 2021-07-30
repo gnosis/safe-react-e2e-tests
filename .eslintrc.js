@@ -4,7 +4,10 @@ module.exports = {
     es2021: true,
     'jest/globals': true
   },
-  extends: 'eslint-config-standard',
+  extends: [
+    'eslint-config-standard',
+    'prettier'
+  ],
   plugins: [
     'eslint-plugin-import',
     'eslint-plugin-node',
