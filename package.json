@@ -17,28 +17,28 @@
     "test-pr": "cross-env TESTING_ENV=PR yarn test"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.2",
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
     "babel-jest": "^26.6.3",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
-    "eslint": "^7.30.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.1.5",
+    "eslint": "^7.31.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
     "husky": "4",
     "jest": "^26.6.3",
+    "jest-cli": "^26.6.3",
     "jest-puppeteer": "^4.4.0",
     "lint-staged": "^11.0.0",
-    "pptr-testing-library": "^0.6.4",
-    "prettier": "^2.3.2",
-    "puppeteer": "^5.5.0"
+    "pptr-testing-library": "^0.6.5",
+    "prettier": "^2.3.2"
   },
   "dependencies": {
-    "@dasanra/dappeteer": "^2.0.1",
-    "jest-cli": "^26.6.3"
+    "@dasanra/dappeteer": "^2.1.1",
+    "puppeteer": "^9.1.1"
   },
   "jest": {
     "preset": "jest-puppeteer",

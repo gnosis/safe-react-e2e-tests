@@ -1,16 +1,18 @@
-name: Repo dispatch on prs
+name: Repo dispatch on PRs
 on:
   repository_dispatch:
     types: [run-e2e-from-safe-react-on-pr]
+env:
+  PUPPETEER_EXEC_PATH: 'google-chrome-stable'
 jobs:
   runE2eTests:
     name: Run e2e tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - uses: actions/setup-node@v2
     - name: Install Dependencies
-      uses: actions/setup-node@v2
-    - run: npm install
+      run: yarn install --frozen-lockfile
     - name: Test Code
       id: test-code
       uses: mujo-code/puppeteer-headful@master

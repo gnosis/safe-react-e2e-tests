@@ -43,7 +43,7 @@ export const rejectPendingTxs = async (gnosisPage, metamask) => {
     await clickElement(generalInterface.submit_btn, gnosisPage)
 
     await gnosisPage.waitForTimeout(4000)
-    await metamask.sign()
+    await metamask.signTransaction()
     await gnosisPage.bringToFront()
     await assertElementPresent(transactionsTab.on_chain_rejection_type.selector, gnosisPage, 'css')
 

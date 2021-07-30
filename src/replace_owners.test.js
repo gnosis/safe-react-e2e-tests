@@ -81,7 +81,7 @@ describe('Owner Replacement', () => {
       // The submit button starts disabled. I wait for it to become enabled ^^^
       await clickElement(settingsPage.add_owner_submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
-      await metamask.sign()
+      await metamask.signTransaction()
       // Approving and executing the transaction with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
@@ -148,7 +148,7 @@ describe('Owner Replacement', () => {
       // Making sure the Submit button is enabled before clicking
       await clickElement(settingsPage.replace_owner_submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
-      await metamask.sign()
+      await metamask.signTransaction()
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
       currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
@@ -212,7 +212,7 @@ describe('Owner Replacement', () => {
       )
       await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
-      await metamask.sign()
+      await metamask.signTransaction()
       // Executing the owner deletion with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')

@@ -61,7 +61,7 @@ describe('Change Policies', () => {
       )
       await clickElement(generalInterface.submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(2000)
-      await metamask.sign()
+      await metamask.signTransaction()
       // Approving Tx with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')

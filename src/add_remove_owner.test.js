@@ -91,7 +91,7 @@ describe('Adding and removing owners', () => {
       // The submit button starts disabled. I wait for it to become enabled ^^^
       await clickElement(settingsPage.add_owner_submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
-      await metamask.sign()
+      await metamask.signTransaction()
       // Approving and executing the transaction with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
@@ -104,8 +104,8 @@ describe('Adding and removing owners', () => {
       await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
       await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
       await assertElementPresent("[data-testid='remove-owner-btn']", gnosisPage, 'css')
-      await gnosisPage.waitForTimeout(1000) 
-      //the new owner takes a moment to show up, if we don't wait then OwnerList will have the list of owners without the new one added
+      await gnosisPage.waitForTimeout(1000)
+      // the new owner takes a moment to show up, if we don't wait then OwnerList will have the list of owners without the new one added
       const ownersList = await gnosisPage.evaluate(() =>
         Array.from(document.querySelectorAll("[data-testid='owners-row'] p"), (element) => element.textContent),
       )
@@ -136,7 +136,7 @@ describe('Adding and removing owners', () => {
       )
       await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
       await gnosisPage.waitForTimeout(4000)
-      await metamask.sign()
+      await metamask.signTransaction()
       // Executing the owner deletion with owner 2
       await gnosisPage.bringToFront()
       await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
