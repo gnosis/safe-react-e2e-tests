@@ -1,6 +1,5 @@
 name: Repo dispatch on PR
 on:
-  pull_request:
   repository_dispatch:
     types: [run-e2e-from-safe-react-on-pr]
 env:
@@ -21,6 +20,7 @@ jobs:
         CI: 'true'
       with:
         args: npm test load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
+    ## Dispatch job result to safe-react
     - name: Repository Dispatch Comment
       uses: peter-evans/repository-dispatch@v1
       with:
