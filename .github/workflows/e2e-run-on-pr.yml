@@ -1,4 +1,4 @@
-name: Repo dispatch on PR ${{ github.event.client_payload.pr_number }} 
+name: Repo dispatch on PR
 on:
   pull_request:
   repository_dispatch:
@@ -20,7 +20,8 @@ jobs:
       env:
         CI: 'true'
       with:
-        args: npm test load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
+        args: npm test load_safe TESTING_ENV=PR PR=2587
+    ## ${{ github.event.client_payload.pr_number }}
     ## Debug fetch job state
     - run: |
         echo ${{ job.steps }}
