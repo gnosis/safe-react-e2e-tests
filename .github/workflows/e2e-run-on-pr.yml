@@ -1,4 +1,4 @@
-name: Repo dispatch on PRs
+name: Repo dispatch on PR
 on:
   repository_dispatch:
     types: [run-e2e-from-safe-react-on-pr]
@@ -27,4 +27,4 @@ jobs:
         token: ${{ secrets.E2E_RUN_HOOK_ACCESS_TOKEN }}
         repository: gnosis/safe-react
         event-type: comment-pr-on-success
-        client-payload: '{"pr_number": "${{ github.event.client_payload.pr_number }}", "status": "${{ job.steps.test-code.status }}"}'
+        client-payload: '{"pr_number": "${{ github.event.client_payload.pr_number }}", "status": "${{ steps.test-code.outcome }}"}'
