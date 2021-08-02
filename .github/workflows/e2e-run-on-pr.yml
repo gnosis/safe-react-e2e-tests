@@ -22,9 +22,6 @@ jobs:
       with:
         args: npm test load_safe TESTING_ENV=PR PR=2587
     ## ${{ github.event.client_payload.pr_number }}
-    ## Debug fetch job state
-    - run: |
-        printf '%s\n' "${{ steps.test-code }}"
     ## Dispatch job result to safe-react
     - name: Repository Dispatch Comment
       uses: peter-evans/repository-dispatch@v1
@@ -32,4 +29,4 @@ jobs:
         token: ${{ secrets.E2E_RUN_HOOK_ACCESS_TOKEN }}
         repository: gnosis/safe-react
         event-type: comment-pr-on-success
-        client-payload: '{"pr_number": "${{ github.event.client_payload.pr_number }}", "status": "${{ job.steps.test-code.status }}"}'
+        client-payload: '{"pr_number": "${{ github.event.client_payload.pr_number }}", "status": "${{ steps.test-code.status }}"}'
