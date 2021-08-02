@@ -24,8 +24,7 @@ jobs:
     ## ${{ github.event.client_payload.pr_number }}
     ## Debug fetch job state
     - run: |
-        echo ${{ job.steps }}
-        echo ${{ steps.test-code }}
+        printf '%s\n' "${{ steps.test-code }}"
     ## Dispatch job result to safe-react
     - name: Repository Dispatch Comment
       uses: peter-evans/repository-dispatch@v1
