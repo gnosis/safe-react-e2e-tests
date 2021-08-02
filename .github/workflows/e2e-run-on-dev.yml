@@ -21,4 +21,4 @@ jobs:
       env:
         CI: 'true'
       with:
-        args: npm test load_safe TESTING_ENV='rinkeby'
+        args: npm test load_safe TESTING_ENV='rinkeby' PUPPETEER_EXEC_PATH='google-chrome-stable'

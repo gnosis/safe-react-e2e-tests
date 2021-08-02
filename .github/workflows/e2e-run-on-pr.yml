@@ -19,7 +19,7 @@ jobs:
       env:
         CI: 'true'
       with:
-        args: npm test load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
+        args: npm test load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }} PUPPETEER_EXEC_PATH='google-chrome-stable'
     ## Dispatch job result to safe-react
     - name: Repository Dispatch Comment
       uses: peter-evans/repository-dispatch@v1
