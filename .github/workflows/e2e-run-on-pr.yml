@@ -20,13 +20,7 @@ jobs:
       env:
         CI: 'true'
       with:
-        args: npm test load_safe TESTING_ENV=PR PR=2587
-    ## ${{ github.event.client_payload.pr_number }}
-    ## Dispatch job result to safe-react
-    - run: |
-        echo "${{ job }}"
-        echo "${{ steps }}"
-        echo "${{ steps.test-code.outcome }}"
+        args: npm test load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
     - name: Repository Dispatch Comment
       uses: peter-evans/repository-dispatch@v1
       with:
