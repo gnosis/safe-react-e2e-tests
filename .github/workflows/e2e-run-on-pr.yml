@@ -5,6 +5,14 @@ on:
 env:
   PUPPETEER_EXEC_PATH: 'google-chrome-stable'
 jobs:
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
   runE2eTests:
     name: Run e2e tests
     runs-on: ubuntu-latest
