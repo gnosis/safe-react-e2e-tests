@@ -13,8 +13,10 @@
   "scripts": {
     "lint:check": "eslint './src/**/*.{js,jsx,ts,tsx}'",
     "test": "jest --detectOpenHandles",
+    "test-ci": "jest --detectOpenHandles --json --outputFile=output.txt",
     "test-local": "cross-env TESTING_ENV=local yarn test",
-    "test-pr": "cross-env TESTING_ENV=PR yarn test"
+    "test-pr": "cross-env TESTING_ENV=PR yarn test",
+    "format-tests-output": "node ./scripts/format-output.js"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
