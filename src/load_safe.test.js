@@ -35,7 +35,7 @@ describe('Add an existing safe', () => {
   test('Successful test', (done) => {
     done()
   })
-  test('Add an existing safe', async (done) => {
+  test.skip('Add an existing safe', async (done) => {
     try {
       throw new Error('New error')
       await clickByText('p', 'Add existing Safe', gnosisPage)
