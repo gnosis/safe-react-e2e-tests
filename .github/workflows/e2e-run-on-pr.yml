@@ -24,7 +24,7 @@ jobs:
       run: npm run format-tests-output > output.txt
     - name: Set env variable
       id: format
-      run: echo "TEST_RESULTS=Tests passed" >> $GITHUB_ENV
+      run: echo "TEST_RESULTS=Testspassed" >> $GITHUB_ENV
     ## Dispatch job result to safe-react
     - name: Repository Dispatch Comment
       uses: peter-evans/repository-dispatch@v1
