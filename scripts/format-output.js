@@ -1,16 +1,17 @@
 const output = require('../output.json')
+const testResults = []
 
-/*const errors = output.testResults.map((testResults) => {
-    testResults.map((result)=>{
-        if(result.failureMessages.length > 0){
-            console.log(`Test: ${result.title}`)
-            result.failureMessages.map((messages)=> {
-                console.log(messages)
+for (let i = 0; i < output.testResults.length; i++) {
+    const testResult = output.testResults[i];
+    for (let j = 0; j < testResult.assertionResults.length; j++) {
+        const testCase = testResult.assertionResults[j];
+        if(testCase.failureMessages.length > 0){
+            testResults.push({
+                title: testCase.fullName,
+                errors: testCase.failureMessages
             })
         }
-    })
-    console.log(JSON.stringify(results))
-})*/
+    }
+}
 
-
-console.log('List of errors')
+console.log(JSON.stringify(testResults))
