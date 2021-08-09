@@ -21,12 +21,15 @@ jobs:
       with:
         args: npm run test-ci load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
     - name: Format output
+      if: ${{ always() }}
       run: npm run format-tests-output > output.txt
     - name: Set env variable
+      if: ${{ always() }}
       id: format
       run: echo "TEST_RESULTS="$(cat output.txt) >> $GITHUB_ENV
     ## Dispatch job result to safe-react
     - name: Repository Dispatch Comment
+      if: ${{ always() }}
       uses: peter-evans/repository-dispatch@v1
       with:
         token: ${{ secrets.E2E_RUN_HOOK_ACCESS_TOKEN }}
