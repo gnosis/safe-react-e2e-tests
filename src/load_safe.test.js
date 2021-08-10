@@ -35,6 +35,13 @@ describe('Add an existing safe', () => {
   test('Successful test', (done) => {
     done()
   })
+  test('Unsuccessful test', (done) => {
+    try{
+      throw new Error('New error')
+    } catch (err) {
+      done(err)
+    }
+  })
   test('Add an existing safe', async (done) => {
     try {
       throw new Error('New error')
