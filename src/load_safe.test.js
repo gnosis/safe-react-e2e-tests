@@ -18,7 +18,6 @@ let gnosisPage
 
 const { TESTING_SAFE_ADDRESS } = config
 
-/*
 beforeAll(async () => {
   const context = await initWithWalletConnected(true)
   browser = context[0]
@@ -28,28 +27,12 @@ beforeAll(async () => {
 afterAll(async () => {
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
-})*/
+})
 
 describe('Add an existing safe', () => {
-  test('Failing test 1', async (done) => {
-    try {
-      throw new Error('Error 1')
-    } catch (err) {
-      done(err)
-    }
-  }
-  )
-  test('Failing test 2', async (done) => {
-    try {
-      throw new Error('Error 2')
-    } catch (err) {
-      done(err)
-    }
-  }
-  )
   test('Add an existing safe', async (done) => {
     try {
-      done() /*
+      done()
       await clickByText('p', 'Add existing Safe', gnosisPage)
       await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
       await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
@@ -82,7 +65,7 @@ describe('Add an existing safe', () => {
       await clickElement(generalInterface.show_qr_btn, gnosisPage)
       await isTextPresent(generalInterface.sidebar, accountsSelectors.safeNames.load_safe_name, gnosisPage)
       await clickByText('button > span', 'Done', gnosisPage)
-      done() */
+      done()
     } catch (error) {
       done(error)
     }
