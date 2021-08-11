@@ -31,6 +31,22 @@ afterAll(async () => {
 })
 
 describe('Add an existing safe', () => {
+  test('Failin test 1', async (done) => {
+    try {
+      throw new Error('Error 1')
+    } catch (err) {
+      done(err)
+    }
+  }
+  )
+  test('Failin test 2', async (done) => {
+    try {
+      throw new Error('Error 2')
+    } catch (err) {
+      done(err)
+    }
+  }
+  )
   test('Add an existing safe', async (done) => {
     try {
       done() /*
