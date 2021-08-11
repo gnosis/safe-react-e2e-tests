@@ -16,7 +16,7 @@
     "test-ci": "jest --detectOpenHandles --json --outputFile=output.json",
     "test-local": "cross-env TESTING_ENV=local yarn test",
     "test-pr": "cross-env TESTING_ENV=PR yarn test",
-    "format-tests-output": "node ./scripts/format-output.js"
+    "format-tests-output": "node ./scripts/format-output.js > text.txt"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
