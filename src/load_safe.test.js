@@ -18,7 +18,7 @@ let gnosisPage
 
 const { TESTING_SAFE_ADDRESS } = config
 
-
+/*
 beforeAll(async () => {
   const context = await initWithWalletConnected(true)
   browser = context[0]
@@ -28,10 +28,10 @@ beforeAll(async () => {
 afterAll(async () => {
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
-})
+})*/
 
 describe('Add an existing safe', () => {
-  test('Failin test 1', async (done) => {
+  test('Failing test 1', async (done) => {
     try {
       throw new Error('Error 1')
     } catch (err) {
@@ -39,7 +39,7 @@ describe('Add an existing safe', () => {
     }
   }
   )
-  test('Failin test 2', async (done) => {
+  test('Failing test 2', async (done) => {
     try {
       throw new Error('Error 2')
     } catch (err) {
