@@ -26,13 +26,14 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await gnosisPage.waitForTimeout(2000)
+  const pages = await browser.pages()
+  await Promise.all(pages.map((page) => page.close()))
   await browser.close()
 })
 
 describe('Add an existing safe', () => {
   test('Add an existing safe', async (done) => {
     try {
-      done()
       await clickByText('p', 'Add existing Safe', gnosisPage)
       await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
       await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
