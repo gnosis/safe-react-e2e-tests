@@ -1,7 +1,7 @@
 name: Repo dispatch on PR
 on:
   repository_dispatch:
-    types: [run-e2e-from-safe-react-on-pr]
+    types: [run-e2e-tests-from-safe-react-on-pr]
 env:
   PUPPETEER_EXEC_PATH: 'google-chrome-stable'
 jobs:
