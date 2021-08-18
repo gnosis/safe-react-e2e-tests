@@ -13,11 +13,11 @@ jobs:
     - uses: actions/setup-node@v2
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
-    - name: Test Code
-      id: test-code
-      uses: mujo-code/puppeteer-headful@master
+    - name: Smoke tests
+      uses: beemi/puppeteer-headful@master
       env:
         CI: 'true'
+        DISPLAY: :99
       with:
         args: npm run test-ci load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
     - name: Format output
