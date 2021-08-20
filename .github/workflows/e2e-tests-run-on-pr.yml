@@ -13,8 +13,9 @@ jobs:
     - uses: actions/setup-node@v2
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
-    - name: Smoke tests
+    - name: Read only tests
       uses: beemi/puppeteer-headful@master
+      id: test-code
       env:
         CI: 'true'
         DISPLAY: :99
