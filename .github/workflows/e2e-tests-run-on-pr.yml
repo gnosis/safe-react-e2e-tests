@@ -30,12 +30,11 @@ jobs:
       id: format
       run: echo "TEST_RESULTS="$(cat output.txt) >> $GITHUB_ENV
     ## Dispatch job result to safe-react
-    ## Commenting while e2e are not working
-    ## - name: Repository Dispatch Comment
-    ##   if: ${{ always() }}
-    ##   uses: peter-evans/repository-dispatch@v1
-    ##   with:
-    ##     token: ${{ secrets.E2E_RUN_HOOK_ACCESS_TOKEN }}
-    ##     repository: gnosis/safe-react
-    ##     event-type: comment-pr-on-success
-    ##     client-payload: '{"pr_number": "${{ github.event.client_payload.pr_number }}", "status": "${{ steps.test-code.outcome }}", "run_number": "${{ github.run_id }}", "message": "${{ env.TEST_RESULTS }}" }'
+    - name: Repository Dispatch Comment
+      if: ${{ always() }}
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.E2E_RUN_HOOK_ACCESS_TOKEN }}
+        repository: gnosis/safe-react
+        event-type: comment-pr-on-success
+        client-payload: '{"pr_number": "${{ github.event.client_payload.pr_number }}", "status": "${{ steps.test-code.outcome }}", "run_number": "${{ github.run_id }}", "message": "${{ env.TEST_RESULTS }}" }'
