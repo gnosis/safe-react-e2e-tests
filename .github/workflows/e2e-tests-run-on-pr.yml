@@ -18,8 +18,10 @@ jobs:
       env:
         CI: 'true'
         DISPLAY: :99
+        TESTING_ENV: PR
+        PR: ${{ github.event.client_payload.pr_number }}
       with:
-        args: npm run test-ci load_safe TESTING_ENV=PR PR=${{ github.event.client_payload.pr_number }}
+        args: npm run test-ci load_safe
     - name: Format output
       if: ${{ always() }}
       run: npm run format-tests-output
