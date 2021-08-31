@@ -16,7 +16,8 @@
     "test-ci": "jest --detectOpenHandles --json --outputFile=output.json",
     "test-local": "cross-env TESTING_ENV=local yarn test",
     "test-pr": "cross-env TESTING_ENV=PR yarn test",
-    "format-tests-output": "node ./scripts/format-output.js > output.txt"
+    "format-tests-output": "node ./scripts/format-output.js > output.txt",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
@@ -31,7 +32,7 @@
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "husky": "4",
+    "husky": "^7.0.0",
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
     "jest-puppeteer": "^4.4.0",
@@ -47,11 +48,6 @@
     "preset": "jest-puppeteer",
     "testTimeout": 180000,
     "rootDir": "src"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged --allow-empty"
-    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
