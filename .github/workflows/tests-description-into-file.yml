@@ -5,6 +5,9 @@ on:
       - develop
 jobs:
   writeFile:
+    name: Run e2e tests
+    runs-on: ubuntu-latest
+    steps:
     - name: Format output
       run: npm run write-tests-description
 
