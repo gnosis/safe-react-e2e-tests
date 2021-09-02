@@ -14,6 +14,19 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import config from '../utils/config'
 import path from 'path'
 
+/*
+Address Book
+-- Loads safe form, giving name to the safe and the first 2 owners
+-- Enter into address book. Validates 3 entries present by name (the load safe process created them)
+-- Creates an entry with valid name and address. Validates it in the entries list
+-- Validate error messages in entry creation: "RandomString", duplicated entry.
+-- Validates ENS names translation (is a hardcoded ENS name for this test)
+-- Edits entry. First validates name to be required, then enters a valid new name and saves
+-- Finds edited name and deletes the entry
+-- Exports a file (no validations)
+-- Imports a file. checks new expected name to be in the entries list
+*/
+
 let browser
 let gnosisPage
 

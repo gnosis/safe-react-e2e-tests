@@ -13,6 +13,16 @@ import { loadSafeForm } from '../utils/selectors/loadSafeForm'
 import { initWithWalletConnected } from '../utils/testSetup'
 import config from '../utils/config'
 
+/*
+Load safe
+-- Enters into the load form with the Load button
+-- Types name and address for the safe
+-- Enters the name of the 1st owner in the list
+-- Checks in the 3rd step that the safe name and owner name are the ones set before
+-- Loads the safe
+-- Opens the QR code for the safe on the sidebar and checks the safe name again
+*/
+
 let browser
 let gnosisPage
 
