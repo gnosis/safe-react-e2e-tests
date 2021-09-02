@@ -1,0 +1,11 @@
+name: Write test description into file
+on: 
+  push:
+    branches:
+      - develop
+jobs:
+  writeFile:
+    - name: Format output
+      run: npm run write-tests-description
+
+   
