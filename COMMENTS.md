@@ -64,18 +64,18 @@ Create safe\
 
 #### load_safe.test.js
 
-Load safe\
-1.
- Enters into the load form with the load button\
-2.
- Types name and address for the safe\
-3.
- Enters the name of the 1st owner in the list\
-4.
- Checks in the 3rd step that the safe name and owner name are the ones set before\
-5.
- Loads the safe\
-6.
+Load saf\
+1.e
+ Enters into the load form with the load butto\
+2.n
+ Types name and address for the saf\
+3.e
+ Enters the name of the 1st owner in the lis\
+4.t
+ Checks in the 3rd step that the safe name and owner name are the ones set befor\
+5.e
+ Loads the saf\
+6.e
  Opens the QR code for the safe on the sidebar and checks the safe name again
 
 #### modify_policies.test.js
