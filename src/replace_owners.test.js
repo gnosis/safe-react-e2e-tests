@@ -18,6 +18,19 @@ import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
 import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
+/*
+Replace owner
+-- Add owner form, inputs name and address, validates name and address in review step. Signs and executes
+-- Find added owner. click "Replace" button
+-- Add valid name and address for replacement owner
+-- Validate owner being replaced name and address and owner for replacement name and address in review step
+-- Signs and execute
+-- Validate owner for replacement present in the owner list
+-- Removes owner for replacement. Sets threshold to "2". Check owner name and address in review step
+-- Signs and executes
+-- Checks status success of executed tx
+*/
+
 const { NON_OWNER_ADDRESS } = config
 
 let browser

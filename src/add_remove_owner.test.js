@@ -19,6 +19,18 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 import { errorMsg } from '../utils/selectors/errorMsg'
 
+/*
+Add/remove Owners
+-- Enter add owner form
+-- Validate Owner name and address required, invalid address, duplicated address
+-- Input valid owner name and address,
+-- Checks them in review step and submits, confirms and executes
+-- Finds new owner in the owners list, clicks on remove owner
+-- Sets threshold value to "2"
+-- Verifies owner to be removed name an address
+-- Signs and executes. Verifies tx success status
+*/
+
 let browser
 let metamask
 let gnosisPage

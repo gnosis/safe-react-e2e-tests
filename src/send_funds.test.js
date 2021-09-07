@@ -20,6 +20,19 @@ import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
 import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
+/*
+Send funds
+-- Open send funds form
+-- Types a receiver address
+-- Selects ETH token to send (is hardcoded to send only ETH, so it will fail for other networks currently)
+-- Validates error for invalid amounts: 0, "abc", 99999
+-- Checks "Send max" button
+-- Checks receiver address and amount input in the review step
+-- Signs with current account, executes with the 2nd owner account
+-- Goes to history tx tab, checks tx amount sent and receiver address
+-- Goes to Assets, checks the amount of tokens was reduced by the sent amount
+*/
+
 let browser
 let metamask
 let gnosisPage

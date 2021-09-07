@@ -14,6 +14,18 @@ import config from '../utils/config'
 import { rejectNextTx } from '../utils/actions/rejectNextTx'
 import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
+/*
+Reject tx
+-- Checks current ETH funds in safe
+-- Open send funds form
+-- Fills address, eth amount and signs transaction
+-- Open tx details and click reject button
+-- Signs with current owner
+-- Checks ON-CHAIN REJECTION text to assure rejection is waiting for execution
+-- Executes Rejection
+-- Opens history tab, checks last tx is a Rejection and checks the successful status
+*/
+
 let browser
 let metamask
 let gnosisPage
