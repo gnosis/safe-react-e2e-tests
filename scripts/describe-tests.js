@@ -22,7 +22,7 @@ fileNames.forEach((fileName)=>{
     if(lineCount > 0){
       console.log(`${lineCount}.${comment}  `)
     } else {
-      console.log(`#### [${comment}](src/${fileName})`)
+      console.log(`#### [${comment}](./../src/${fileName})`)
     }
     lineCount ++
   }
