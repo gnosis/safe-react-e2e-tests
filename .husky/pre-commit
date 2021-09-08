@@ -3,4 +3,4 @@
 
 yarn lint-staged --allow-empty
 npm run write-tests-description
-git add COMMENTS.md
+git add ./docs/coverage.md
