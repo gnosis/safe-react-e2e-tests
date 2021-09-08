@@ -19,18 +19,6 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 import { errorMsg } from '../utils/selectors/errorMsg'
 
-/*
-Add/remove Owners
--- Enter add owner form
--- Validate Owner name and address required, invalid address, duplicated address
--- Input valid owner name and address,
--- Checks them in review step and submits, confirms and executes
--- Finds new owner in the owners list, clicks on remove owner
--- Sets threshold value to "2"
--- Verifies owner to be removed name an address
--- Signs and executes. Verifies tx success status
-*/
-
 let browser
 let metamask
 let gnosisPage
@@ -53,13 +41,15 @@ describe('Adding and removing owners', () => {
   let currentNonce = ''
 
   test('Add and remove an owner', async (done) => {
-    console.log('Test Add and remove an owner')
+    console.log('Add/remove Owners')
     const existingOwnerHash = FUNDS_RECEIVER_ADDRESS
     // Filling Form and submitting tx
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
+    console.log('Enter add owner form')
     await clickElement(settingsPage.add_owner_btn, gnosisPage)
 
+    console.log('Validate Owner name and address required, invalid address, duplicated address')
     await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
     await assertElementPresent(errorMsg.error(errorMsg.required), gnosisPage) // asserts error "required" in name
     await clickAndType(settingsPage.add_owner_name_input, gnosisPage, newOwnerName)
@@ -75,9 +65,11 @@ describe('Adding and removing owners', () => {
     await assertElementPresent(errorMsg.error(errorMsg.duplicated_address), gnosisPage)
     await clearInput(settingsPage.add_owner_address_input, gnosisPage)
 
+    console.log('Input valid owner name and address')
     await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress)
     await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
 
+    console.log('Checks them in review step and submits, confirms and executes')
     await clickElement(settingsPage.add_owner_review_btn, gnosisPage)
     const addedName = await getInnerText(
       settingsPage.add_owner_name_review.selector,
@@ -107,7 +99,6 @@ describe('Adding and removing owners', () => {
     await gnosisPage.bringToFront()
     await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
     currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
-    console.log('CurrentNonce = ', currentNonce)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Deleting owner form filling and tx creation
     await gnosisPage.bringToFront()
@@ -124,11 +115,14 @@ describe('Adding and removing owners', () => {
     await gnosisPage.evaluate((removeIndex) => {
       document.querySelectorAll("[data-testid='remove-owner-btn']")[removeIndex].click()
     }, removeIndex)
+    console.log('Finds new owner in the owners list, clicks on remove owner')
     await clickElement(settingsPage.remove_owner_next_btn, gnosisPage)
+    console.log('Sets threshold value to "2"')
     await openDropdown({ selector: '[id="mui-component-select-threshold"]', type: 'css' }, gnosisPage)
     await clickElement({ selector: "[data-value='2']", type: 'css' }, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     await clickElement(settingsPage.remove_owner_review_btn, gnosisPage)
+    console.log('Verifies owner to be removed name an address')
     const removedName = await getInnerText(
       settingsPage.remove_owner_name_review.selector,
       gnosisPage,
@@ -143,6 +137,7 @@ describe('Adding and removing owners', () => {
     expect(removedAddress).toBe(newOwnerAddress)
     await assertElementPresent("[data-testid='remove-owner-review-btn']", gnosisPage, 'css')
     await gnosisPage.waitForFunction(() => !document.querySelector("[data-testid='remove-owner-review-btn'][disabled]"))
+    console.log('Signs and executes. Verifies tx success status')
     await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)
     await metamask.signTransaction()
@@ -150,7 +145,6 @@ describe('Adding and removing owners', () => {
     await gnosisPage.bringToFront()
     await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
     currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
-    console.log('CurrentNonce = ', currentNonce)
     await approveAndExecuteWithOwner(2, gnosisPage, metamask)
     // Verifying owner deletion
     await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')

@@ -60,11 +60,14 @@ describe('Owner Replacement', () => {
   const newOwnerAddress = NON_OWNER_ADDRESS
 
   test('Replacement test. Adding, Replacing and Removing owner.', async () => {
-    console.log('Replacement test. Adding, Replacing and Removing owner.')
+    console.log('Replace owner')
     // Owner adding
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
+    console.log(
+      'Add owner form, inputs name and address, validates name and address in review step. Signs and executes',
+    )
     await clickElement(settingsPage.add_owner_btn, gnosisPage)
     await clickAndType(settingsPage.add_owner_name_input, gnosisPage, newOwnerName)
     await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress)
@@ -98,7 +101,6 @@ describe('Owner Replacement', () => {
     await gnosisPage.bringToFront()
     await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
     currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
-    console.log('CurrentNonce = ', currentNonce)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Deleting owner form filling and tx creation
     await gnosisPage.bringToFront()
@@ -110,6 +112,7 @@ describe('Owner Replacement', () => {
     expect(executedNonce).toBe(currentNonce)
     // Owner adding
 
+    console.log('Find added owner. click "Replace" button')
     // Owner replacement
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
@@ -128,6 +131,7 @@ describe('Owner Replacement', () => {
       removeIndex,
       settingsPage.replace_owner_btn.selector,
     )
+    console.log('Add valid name and address for replacement owner')
     // We get the list of owners, find the one we have to replace and take the index, then click the replace button with the same index
     await clickAndType(settingsPage.replace_owner_name_input, gnosisPage, ownerForReplacementName)
     await clickAndType(settingsPage.replace_owner_address_input, gnosisPage, ownerForReplacementAddress)
@@ -152,19 +156,23 @@ describe('Owner Replacement', () => {
       gnosisPage,
       settingsPage.remove_owner_address_review.type,
     )
+    console.log(
+      'Validate owner being replaced name and address and owner for replacement name and address in review step',
+    )
     expect(toReplaceName).toBe(ownerForReplacementName)
     expect(toReplaceAddress).toBe(ownerForReplacementAddress)
     expect(replacedName).toBe(newOwnerName)
     expect(replacedAddress).toBe(newOwnerAddress)
+
     await isTextPresent(settingsPage.add_remove_replace_modal.selector, 'Submit', gnosisPage)
     // Making sure the Submit button is enabled before clicking
+    console.log('Signs and execute')
     await clickElement(settingsPage.replace_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)
     await metamask.signTransaction()
     await gnosisPage.bringToFront()
     await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
     currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
-    console.log('CurrentNonce = ', currentNonce)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(2, gnosisPage, metamask)
     // Check that transaction was successfully executed
@@ -201,6 +209,7 @@ describe('Owner Replacement', () => {
       removeIndex,
       settingsPage.remove_owner_trashcan_icon.selector,
     )
+    console.log('Removes owner for replacement. Sets threshold to "2". Check owner name and address in review step')
     await clickElement(settingsPage.remove_owner_next_btn, gnosisPage)
     await openDropdown({ selector: '[id="mui-component-select-threshold"]', type: 'css' }, gnosisPage)
     await clickElement({ selector: "[data-value='2']", type: 'css' }, gnosisPage)
@@ -220,6 +229,7 @@ describe('Owner Replacement', () => {
     expect(removedAddress).toBe(ownerForReplacementAddress)
     await assertElementPresent(settingsPage.remove_owner_submit_btn.selector, gnosisPage, 'css')
     await gnosisPage.waitForFunction(() => !document.querySelector("[data-testid='remove-owner-review-btn'][disabled]"))
+    console.log('Signs and executes')
     await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)
     await metamask.signTransaction()
@@ -227,8 +237,8 @@ describe('Owner Replacement', () => {
     await gnosisPage.bringToFront()
     await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
     currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
-    console.log('CurrentNonce = ', currentNonce)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
+    console.log('Checks status success of executed tx')
     // Verifying owner deletion
     await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
     await clickByText('button > span > p', 'History', gnosisPage)
