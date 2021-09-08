@@ -13,6 +13,19 @@ import { initWithWalletConnected } from '../utils/testSetup'
 import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 import { errorMsg } from '../utils/selectors/errorMsg'
 
+/*
+Create safe
+-- Enters into the create safe form with the Create button
+-- Type a name for the safe
+-- Adds a new owner row
+-- Check that owner names and addresses are required when clicking submit
+-- Type names and addresses only for "owner2"
+-- Checks that the policies selector matches the amount of owners
+-- Checks in review step the name of the safe, name and address of owner2
+-- Checks "block explorer" and "back" button during the safe creation
+-- Checks safe name on the sidebar once the safe is loaded
+*/
+
 let browser
 let metamask
 let gnosisPage
@@ -33,7 +46,7 @@ describe('Create New Safe', () => {
   const newSafeName = accountsSelectors.safeNames.create_safe_name
   const owner2Name = accountsSelectors.accountNames.owner2_name
   const owner2Address = accountsSelectors.testAccountsHash.acc2
-  test('Create Safe', async (done) => {
+  test('Create Safe', async () => {
     console.log('Open Create Safe Form\n')
     // Open Create Safe Form
     try {

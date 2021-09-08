@@ -16,24 +16,26 @@
     "test-ci": "jest --detectOpenHandles --json --outputFile=output.json",
     "test-local": "cross-env TESTING_ENV=local yarn test",
     "test-pr": "cross-env TESTING_ENV=PR yarn test",
-    "format-tests-output": "node ./scripts/format-output.js > output.txt"
+    "format-tests-output": "node ./scripts/format-output.js > output.txt",
+    "write-tests-description": "node ./scripts/describe-tests.js > COMMENTS.md",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.8",
-    "@babel/preset-env": "^7.14.8",
-    "babel-jest": "^26.6.3",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "babel-jest": "^27.1.0",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "husky": "4",
-    "jest": "^26.6.3",
-    "jest-cli": "^26.6.3",
+    "husky": "^7.0.2",
+    "jest": "^27.1.0",
+    "jest-cli": "^27.1.0",
     "jest-puppeteer": "^4.4.0",
     "lint-staged": "^11.1.2",
     "pptr-testing-library": "^0.6.5",
@@ -47,11 +49,6 @@
     "preset": "jest-puppeteer",
     "testTimeout": 180000,
     "rootDir": "src"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged --allow-empty"
-    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
