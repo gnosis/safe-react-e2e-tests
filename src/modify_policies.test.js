@@ -17,16 +17,6 @@ import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 
-/*
-Modify policies
--- Opens modify policies
--- Opens selector, selects "1" value
--- Signs transaction with current owner, confirm and executes with the 2nd owner
--- Opens modify policies again, changes it to "2"
--- Signs and execute
--- Checks in settings the successful change to "2 out of X"
-*/
-
 let browser
 let metamask
 let gnosisPage

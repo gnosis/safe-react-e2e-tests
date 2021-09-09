@@ -20,9 +20,9 @@ fileNames.forEach((fileName)=>{
     logEnding = fileText.indexOf(commentEnd, logIndex)
     comment = comment.replace(commentStart, '').replace(commentEnd, '')
     if(lineCount > 0){
-      console.log(`${lineCount}.${comment}  `)
+      console.log(`${lineCount}. ${comment}  `)
     } else {
-      console.log(`#### [${comment}](./../src/${fileName})`)
+      console.log(`\n#### [${comment}](./../src/${fileName})`)
     }
     lineCount ++
   }

@@ -37,8 +37,7 @@ describe('Address book', () => {
 
   test('Address book', async (done) => {
     console.log('Address book')
-    console.log('Loads safe form, giving name to the safe and the first 2 owners')
-    console.log('Enter into address book. Validates 3 entries present by name (the load safe process created them)')
+    console.log('Enter the address book. Validates 3 entries present by name (the load safe process created them)')
     await isTextPresent(generalInterface.sidebar, 'ADDRESS BOOK', gnosisPage)
     await clickByText('span', 'ADDRESS BOOK', gnosisPage)
     await isTextPresent('body', 'Create entry', gnosisPage)
