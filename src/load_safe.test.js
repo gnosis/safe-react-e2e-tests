@@ -33,19 +33,24 @@ afterAll(async () => {
 
 describe('Add an existing safe', () => {
   test('Add an existing safe', async () => {
+    console.log('Load safe')
+    console.log('Enters into the load form with the Load button component')
     await clickByText('p', 'Add existing Safe', gnosisPage)
     await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
+    console.log('Types name and address for the safe')
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
     await assertTextPresent(loadSafeForm.valid_safe_name.selector, 'Safe name', gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
     await assertElementPresent(loadSafeForm.valid_address.selector, gnosisPage, 'css')
     await clickElement(generalInterface.submit_btn, gnosisPage)
     // Add Safe owner step edition
+    console.log('Enters the name of the 1st owner in the list')
     await assertElementPresent(loadSafeForm.step_two.selector, gnosisPage, 'css')
     await clearInput(loadSafeForm.owner_name(), gnosisPage)
     await clickAndType(loadSafeForm.owner_name(), gnosisPage, accountsSelectors.accountNames.owner_name)
     await clickElement(generalInterface.submit_btn, gnosisPage)
     // Add Safe review details
+    console.log('Checks in the 3rd step that the safe name and owner name are the ones set before')
     await assertElementPresent(loadSafeForm.step_three.selector, gnosisPage, 'css')
     await assertTextPresent(
       loadSafeForm.review_safe_name.selector,
@@ -60,7 +65,9 @@ describe('Add an existing safe', () => {
       'css',
     )
     await gnosisPage.waitForTimeout(2000)
+    console.log('Loads the safe')
     await clickElement(generalInterface.submit_btn, gnosisPage)
+    console.log('Opens the QR code for the safe on the sidebar and checks the safe name again')
     await assertElementPresent(generalInterface.show_qr_btn.selector, gnosisPage, 'css')
     await clickElement(generalInterface.show_qr_btn, gnosisPage)
     await isTextPresent(generalInterface.sidebar, accountsSelectors.safeNames.load_safe_name, gnosisPage)
