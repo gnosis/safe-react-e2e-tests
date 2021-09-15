@@ -108,22 +108,22 @@ Modify policie\
 
 #### reject_tx.test.js
 
-Reject tx\
-1.
- Checks current ETH funds in safe\
-2.
- Open send funds form\
-3.
- Fills address, eth amount and signs transaction\
-4.
- Open tx details and click reject button\
-5.
- Signs with current owner\
-6.
- Checks ON-CHAIN REJECTION text to assure rejection is waiting for execution\
-7.
- Executes Rejection\
-8.
+Reject t\
+1.x
+ Checks current ETH funds in saf\
+2.e
+ Open send funds for\
+3.m
+ Fills address, eth amount and signs transactio\
+4.n
+ Open tx details and click reject butto\
+5.n
+ Signs with current owne\
+6.r
+ Checks ON-CHAIN REJECTION text to assure rejection is waiting for executio\
+7.n
+ Executes Rejectio\
+8.n
  Opens history tab, checks last tx is a Rejection and checks the successful status
 
 #### replace_owners.test.js

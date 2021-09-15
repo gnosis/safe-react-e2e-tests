@@ -77,7 +77,7 @@ describe('Address book', () => {
     // Testing ENS name, it will create a duplicated name so is validating the "duplicated address error"
     await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes acc1 address
     await gnosisPage.waitForTimeout(1000)
-    const convertedValue = await getInnerText(addressBook.createEntryAddressInput.selector, gnosisPage, 'css')
+    const convertedValue = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
     expect(convertedValue).toBe(accountsSelectors.testAccountsHash.acc1)
     await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)

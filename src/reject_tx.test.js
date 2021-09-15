@@ -46,8 +46,8 @@ describe('Reject transaction flow', () => {
   let startBalance = 0.0
 
   test('Reject transaction flow', async () => {
-    await assertElementPresent({selector: assetsTab.balance_value('eth'), type: 'css'}, gnosisPage)
-    startBalance = await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css')
+    await assertElementPresent({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
+    startBalance = await getNumberInString({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
     await clickByText('button', 'New Transaction', gnosisPage)
     await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
     await assertElementPresent(sendFundsForm.review_btn_disabled, gnosisPage)
@@ -68,9 +68,9 @@ describe('Reject transaction flow', () => {
     await rejectNextTx(gnosisPage, metamask)
 
     await clickByText('span', 'ASSETS', gnosisPage)
-    await assertElementPresent({selector: assetsTab.balance_value('eth'), type: 'css'}, gnosisPage)
+    await assertElementPresent({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
     // await gnosisPage.waitForTimeout(4000)
-    const finalBalance = await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css')
+    const finalBalance = await getNumberInString({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
     // Balance should not have changed
     expect(finalBalance).toBe(startBalance)
   }, 345000)

@@ -20,7 +20,7 @@ import { transactionsTab } from '../selectors/transactionsTab'
 export const rejectNextTx = async (gnosisPage, metamask) => {
     await metamask.switchAccount(2)
     await gnosisPage.bringToFront()
-    const currentNonce = await getInnerText('div.tx-nonce > p', gnosisPage, 'css')
+    const currentNonce = await getInnerText({selector: 'div.tx-nonce > p', type: 'css'}, gnosisPage)
     await gnosisPage.waitForTimeout(3000)
     await assertTextPresent({selector: '#infinite-scroll-container > div > p', type: 'css'}, 'NEXT TRANSACTION', gnosisPage)
     await clickElement(transactionsTab.tx_type, gnosisPage)
@@ -65,8 +65,8 @@ export const rejectNextTx = async (gnosisPage, metamask) => {
     await gnosisPage.waitForFunction((nonce) =>
       document.querySelector('div.tx-nonce').innerText.includes(nonce), {}, currentNonce
     )
-    const executedTxType = await getInnerText(transactionsTab.tx_type.selector, gnosisPage, 'css')
+    const executedTxType = await getInnerText(transactionsTab.tx_type, gnosisPage)
     expect(executedTxType).toBe('On-chain rejection')
-    const executedTxStatus = await getInnerText(transactionsTab.tx_status, gnosisPage, 'css')
+    const executedTxStatus = await getInnerText({selector: transactionsTab.tx_status, type: 'css'}, gnosisPage)
     expect(executedTxStatus).toBe('Success')
 }

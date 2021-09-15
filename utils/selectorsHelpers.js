@@ -54,7 +54,7 @@ export const assertTextPresent = async function ({selector, type = 'Xpath'}, tex
   expect(elementText).toMatch(textPresent)
 }
 
-export const getInnerText = async function (selector, page, type = 'Xpath') {
+export const getInnerText = async function ({selector, type = 'Xpath'}, page) {
   const element = await assertElementPresent({selector, type}, page)
   let elementText = await page.evaluate(x => x.innerText, element)
   if (elementText === '') {
@@ -63,8 +63,8 @@ export const getInnerText = async function (selector, page, type = 'Xpath') {
   return elementText
 }
 
-export const getNumberInString = async function (selector, page, type = 'Xpath') {
-  const text = await getInnerText(selector, page, type)
+export const getNumberInString = async function ({selector, type = 'Xpath'}, page) {
+  const text = await getInnerText({selector, type}, page)
   const number = text.match(/\d+.?\d+|\d+/)[0]
   return parseFloat(number)
 }

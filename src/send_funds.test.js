@@ -57,8 +57,10 @@ describe('Send funds and sign with two owners', () => {
   test('Send funds and return the funds', async () => {
     console.log('Open the send funds form\n')
     // Open the send funds form
-    currentEthFundsOnText = await getInnerText(assetsTab.balance_value('eth'), gnosisPage, 'css')
-    currentEthFunds = parseFloat(await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css'))
+    currentEthFundsOnText = await getInnerText({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
+    currentEthFunds = parseFloat(
+      await getNumberInString({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage),
+    )
     await clickByText('button', 'New Transaction', gnosisPage)
     await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
     await assertElementPresent(sendFundsForm.review_btn_disabled, gnosisPage)
@@ -91,7 +93,7 @@ describe('Send funds and sign with two owners', () => {
 
     // Checking that the value set by the "Send max" button is the same as the current balance
     await clickElement(sendFundsForm.send_max_btn, gnosisPage)
-    const maxInputValue = await getNumberInString(sendFundsForm.amount_input.selector, gnosisPage, 'css')
+    const maxInputValue = await getNumberInString(sendFundsForm.amount_input, gnosisPage)
     expect(parseFloat(maxInputValue)).toBe(currentEthFunds)
     await clearInput(sendFundsForm.amount_input, gnosisPage)
 
@@ -101,9 +103,9 @@ describe('Send funds and sign with two owners', () => {
     // Review information is correct and submit transaction with signature
     await assertElementPresent(sendFundsForm.send_funds_review, gnosisPage)
     await assertElementPresent(sendFundsForm.recipient_address_review, gnosisPage)
-    const recipientHash = await getInnerText(sendFundsForm.recipient_address_review.selector, gnosisPage, 'css')
+    const recipientHash = await getInnerText(sendFundsForm.recipient_address_review, gnosisPage)
     expect(recipientHash).toMatch(FUNDS_RECEIVER_ADDRESS)
-    const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review.selector, gnosisPage, 'css')
+    const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review, gnosisPage)
     expect(tokenAmount).toMatch(TOKEN_AMOUNT.toString())
     await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
     await clickElement(sendFundsForm.submit_btn, gnosisPage)
@@ -112,7 +114,7 @@ describe('Send funds and sign with two owners', () => {
     // Approving and executing the transaction with owner 2
     await gnosisPage.bringToFront()
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
-    currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
+    currentNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     console.log('CurrentNonce = ', currentNonce)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
@@ -125,12 +127,12 @@ describe('Send funds and sign with two owners', () => {
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
-    const nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
+    const nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
     expect(nonce).toBe(currentNonce)
-    const sentAmount = await getInnerText(transactionsTab.tx_info, gnosisPage, 'css')
+    const sentAmount = await getInnerText({ selector: transactionsTab.tx_info, type: 'css' }, gnosisPage)
     expect(sentAmount).toBe(`-${TOKEN_AMOUNT.toString()} ETH`)
     await clickElement(transactionsTab.tx_type, gnosisPage)
-    const recipientAddress = await getInnerText('div.tx-details > div p', gnosisPage, 'css')
+    const recipientAddress = await getInnerText({ selector: 'div.tx-details > div p', type: 'css' }, gnosisPage)
     // regex to match an address hash
     expect(recipientAddress.match(/(0x[a-fA-F0-9]+)/)[0]).toMatch(FUNDS_RECEIVER_ADDRESS)
     await clickByText('span', 'ASSETS', gnosisPage)
@@ -144,7 +146,7 @@ describe('Send funds and sign with two owners', () => {
       { polling: 100 },
       array,
     )
-    const newEthFunds = await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css')
+    const newEthFunds = await getNumberInString({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
     expect(parseFloat(newEthFunds.toFixed(3))).toBe(parseFloat((currentEthFunds - TOKEN_AMOUNT).toFixed(3)))
   }, 290000)
 })

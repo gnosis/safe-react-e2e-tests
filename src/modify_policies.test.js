@@ -74,7 +74,7 @@ describe('Change Policies', () => {
     // Approving Tx with owner 2
     await gnosisPage.bringToFront()
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
-    transactionNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
+    transactionNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     console.log('CurrentNonce = ', transactionNonce)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
@@ -87,10 +87,10 @@ describe('Change Policies', () => {
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     // Wating for the new tx to show in the history, looking for the nonce
-    let nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
+    let nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
     expect(nonce).toBe(transactionNonce)
     await clickElement(transactionsTab.tx_type, gnosisPage)
-    const changeConfirmationText = await getInnerText('div.tx-details > p', gnosisPage, 'css')
+    const changeConfirmationText = await getInnerText({ selector: 'div.tx-details > p', type: 'css' }, gnosisPage)
     expect(changeConfirmationText).toBe('Change required confirmations:')
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
@@ -120,7 +120,7 @@ describe('Change Policies', () => {
     await isTextPresent('body', 'Transaction successfully executed', gnosisPage)
     const expectedNonce = transactionNonce + 1
     await gnosisPage.waitForTimeout(1000)
-    nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
+    nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
     expect(nonce).toBe(expectedNonce)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
