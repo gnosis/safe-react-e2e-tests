@@ -1,7 +1,6 @@
 import { approveAndExecuteWithOwner } from '../utils/actions/approveAndExecuteWithOwner'
 import {
   assertElementPresent,
-  assertAllElementPresent,
   assertTextPresent,
   clearInput,
   clickAndType,
@@ -100,11 +99,8 @@ describe('Send funds and sign with two owners', () => {
     await assertElementPresent(sendFundsForm.valid_amount_msg, gnosisPage)
     await clickElement(sendFundsForm.review_btn, gnosisPage)
     // Review information is correct and submit transaction with signature
-    await assertAllElementPresent(
-      [sendFundsForm.send_funds_review.selector, sendFundsForm.recipient_address_review.selector],
-      gnosisPage,
-      'css',
-    )
+    await assertElementPresent(sendFundsForm.send_funds_review, gnosisPage)
+    await assertElementPresent(sendFundsForm.recipient_address_review, gnosisPage)
     const recipientHash = await getInnerText(sendFundsForm.recipient_address_review.selector, gnosisPage, 'css')
     expect(recipientHash).toMatch(FUNDS_RECEIVER_ADDRESS)
     const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review.selector, gnosisPage, 'css')
