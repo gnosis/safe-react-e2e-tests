@@ -55,24 +55,30 @@ describe('Send funds and sign with two owners', () => {
   let currentNonce = ''
 
   test('Send funds and return the funds', async () => {
-    console.log('Open the send funds form\n')
-    // Open the send funds form
+    console.log('Send funds')
     currentEthFundsOnText = await getInnerText({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
     currentEthFunds = parseFloat(
       await getNumberInString({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage),
     )
+    // Open the send funds form
+    console.log('Open the send funds form')
     await clickByText('button', 'New Transaction', gnosisPage)
+    console.log('Types a receiver address')
     await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
     await assertElementPresent(sendFundsForm.review_btn_disabled, gnosisPage)
     await gnosisPage.waitForTimeout(3000)
     // Fill the form and check error messages when inputs are wrong
     await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS)
 
+    console.log(
+      'Selects ETH token to send (is hardcoded to send only ETH, so it will fail for other networks currently)',
+    )
     await openDropdown(sendFundsForm.select_token, gnosisPage)
     await clickElement(sendFundsForm.select_token_ether, gnosisPage)
 
     await gnosisPage.waitForTimeout(1000)
 
+    console.log('Validates error for invalid amounts: 0, "abc", 99999')
     // Checking that 0 amount triggers an error
     await clickAndType(sendFundsForm.amount_input, gnosisPage, '0')
     await assertElementPresent({ selector: errorMsg.error(errorMsg.greater_than_0), type: 'Xpath' }, gnosisPage)
@@ -91,6 +97,7 @@ describe('Send funds and sign with two owners', () => {
     )
     await clearInput(sendFundsForm.amount_input, gnosisPage)
 
+    console.log('Checks "Send max" button')
     // Checking that the value set by the "Send max" button is the same as the current balance
     await clickElement(sendFundsForm.send_max_btn, gnosisPage)
     const maxInputValue = await getNumberInString(sendFundsForm.amount_input, gnosisPage)
@@ -100,6 +107,7 @@ describe('Send funds and sign with two owners', () => {
     await clickAndType(sendFundsForm.amount_input, gnosisPage, TOKEN_AMOUNT.toString())
     await assertElementPresent(sendFundsForm.valid_amount_msg, gnosisPage)
     await clickElement(sendFundsForm.review_btn, gnosisPage)
+    console.log('Checks receiver address and amount input in the review step')
     // Review information is correct and submit transaction with signature
     await assertElementPresent(sendFundsForm.send_funds_review, gnosisPage)
     await assertElementPresent(sendFundsForm.recipient_address_review, gnosisPage)
@@ -108,6 +116,7 @@ describe('Send funds and sign with two owners', () => {
     const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review, gnosisPage)
     expect(tokenAmount).toMatch(TOKEN_AMOUNT.toString())
     await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
+    console.log('Signs with current account, executes with the 2nd owner account')
     await clickElement(sendFundsForm.submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)
     await metamask.signTransaction()
@@ -115,7 +124,6 @@ describe('Send funds and sign with two owners', () => {
     await gnosisPage.bringToFront()
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
     currentNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
-    console.log('CurrentNonce = ', currentNonce)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Check that transaction was successfully executed
@@ -124,6 +132,7 @@ describe('Send funds and sign with two owners', () => {
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Pending', gnosisPage)
     // waiting for the queue list to be empty and the executed tx to be on the history tab
     await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
+    console.log('Goes to history tx tab, checks tx amount sent and receiver address')
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
@@ -135,6 +144,7 @@ describe('Send funds and sign with two owners', () => {
     const recipientAddress = await getInnerText({ selector: 'div.tx-details > div p', type: 'css' }, gnosisPage)
     // regex to match an address hash
     expect(recipientAddress.match(/(0x[a-fA-F0-9]+)/)[0]).toMatch(FUNDS_RECEIVER_ADDRESS)
+    console.log('Goes to Assets, checks the amount of tokens was reduced by the sent amount')
     await clickByText('span', 'ASSETS', gnosisPage)
     await assertElementPresent({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
     const array = ['[data-testid="balance-ETH"]', currentEthFundsOnText]

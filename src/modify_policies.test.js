@@ -42,13 +42,11 @@ afterAll(async () => {
 })
 
 describe('Change Policies', () => {
+  console.log('Modify policies')
   let transactionNonce = ''
 
-  // let owner_amount = false //amount of owners, will be taken from the owners tab in the settings
-  // let req_conf = false //current required confirmations. taken from the message in the policies tab
-  // let max_req_conf = false //max required confirmations. taken from the message in the policies tab
-
   test('Change Policies', async () => {
+    console.log('Opens modify policies')
     // Open Modify form
     await gnosisPage.waitForTimeout(2000)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
@@ -58,6 +56,7 @@ describe('Change Policies', () => {
     await isTextPresent('body', '2 out of', gnosisPage)
     await clickByText('span', 'Change', gnosisPage)
     await isTextPresent('body', 'Change required confirmations', gnosisPage)
+    console.log('Opens selector, selects "1" value')
     // Creating and approving Tx with owner 1
     await openDropdown(settingsTabs.req_conf_dropdown, gnosisPage)
     await clickElement({ selector: '[data-value="1"]' }, gnosisPage)
@@ -70,12 +69,12 @@ describe('Change Policies', () => {
     )
     await clickElement(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
+    console.log('Signs transaction with current owner, confirm and executes with the 2nd owner')
     await metamask.signTransaction()
     // Approving Tx with owner 2
     await gnosisPage.bringToFront()
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
     transactionNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
-    console.log('CurrentNonce = ', transactionNonce)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Verifying the change in the settings
