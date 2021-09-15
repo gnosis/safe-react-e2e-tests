@@ -36,7 +36,7 @@ afterAll(async () => {
 describe('LocalStorage Populate and validate', () => {
     test("", async(done) => {
     try{
-      await assertElementPresent('[data-testid = "sidebar"]', gnosisPage, 'css')
+      await assertElementPresent({selector: '[data-testid = "sidebar"]', type: 'css'}, gnosisPage)
       //Fill the local storage with Safes in the sidebar, Entries in the AB and 2 custom apps
       await gnosisPage.evaluate((jsonSafeKey, jsonSafeValue, jsonABKey, jsonABValue, jsonAppsKey, jsonAppsValue) => {
         localStorage.clear()
@@ -46,9 +46,9 @@ describe('LocalStorage Populate and validate', () => {
         localStorage.setItem(jsonAppsKey, JSON.stringify(jsonAppsValue))
         window.location.reload()
       }, SAFES_KEY, SAFES_VALUES, ADDRESSBOOK_KEY, ADDRESSBOOK_VALUES, APPS_KEY, APPS_VALUES);
-      await assertElementPresent('[data-testid = "sidebar"]', gnosisPage, 'css')
+      await assertElementPresent({selector: '[data-testid = "sidebar"]', type: 'css'}, gnosisPage)
       await clickElement({selector: '[data-testid="sidebar"] button', type : 'css'}, gnosisPage)
-      await assertElementPresent('[aria-label="Add Safe"]', gnosisPage, 'css')
+      await assertElementPresent({selector: '[aria-label = "Add Safe"]', type: 'css'}, gnosisPage)
       //Obtaining the address from the href property of the safes in the sidebar, saving them in an Array
       const safeAddresses = await gnosisPage.evaluate(() => 
         Array.from(document.querySelectorAll('[data-testid="SIDEBAR_SAFELIST_ROW_TESTID"]'),(element)=>{
@@ -61,9 +61,9 @@ describe('LocalStorage Populate and validate', () => {
       const localStorageSafeAddresses = Object.keys(SAFES_VALUES)
       expect(safeAddresses).toStrictEqual(localStorageSafeAddresses)
       await gnosisPage.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
-      await assertElementPresent('[data-testid = "sidebar"]', gnosisPage, 'css')
+      await assertElementPresent({selector: '[data-testid = "sidebar"]', type: 'css'}, gnosisPage)
       await clickByText('span', 'ADDRESS BOOK', gnosisPage)
-      await assertElementPresent('[aria-labelledby="Owners"]', gnosisPage, 'css')
+      await assertElementPresent({selector: '[aria-labelledby="Owners"]', type: 'css'}, gnosisPage)
       //Obtaning the address of all the address book entries
       const addressBookEntries = await gnosisPage.evaluate(() => 
         Array.from(document.querySelectorAll('[data-testid="address-book-row"] td div div div div p'), (element) => 
@@ -80,7 +80,7 @@ describe('LocalStorage Populate and validate', () => {
       }))
       //Check if the names of the apps added are in the list of Apps
       await clickByText('span', "APPS", gnosisPage, 'css')
-      await assertElementPresent('span[color="primary"]', gnosisPage, 'css')
+      await assertElementPresent({selector: 'span[color="primary"]', type: 'css'}, gnosisPage)
       await isTextPresent('body', 'Gnosis Safe App Recorder', gnosisPage)
       await isTextPresent('body', 'ETH Wrapper', gnosisPage)
     done()

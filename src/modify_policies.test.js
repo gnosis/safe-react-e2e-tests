@@ -48,7 +48,7 @@ describe('Change Policies', () => {
   // let req_conf = false //current required confirmations. taken from the message in the policies tab
   // let max_req_conf = false //max required confirmations. taken from the message in the policies tab
 
-  test('Change Policies', async () => {
+  test('Change Policies', async (done) => {
     // Open Modify form
     await gnosisPage.waitForTimeout(2000)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
@@ -61,8 +61,8 @@ describe('Change Policies', () => {
     // Creating and approving Tx with owner 1
     await openDropdown(settingsTabs.req_conf_dropdown, gnosisPage)
     await clickElement({ selector: '[data-value="1"]' }, gnosisPage)
-    await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
-    await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
+    await assertElementPresent(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(
       (selector) => !document.querySelector(selector),
       {},
@@ -83,7 +83,7 @@ describe('Change Policies', () => {
     await gnosisPage.waitForTimeout(2000)
     await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
     // waiting for the queue list to be empty and the executed tx to be on the history tab
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     // Wating for the new tx to show in the history, looking for the nonce
@@ -102,8 +102,8 @@ describe('Change Policies', () => {
     await isTextPresent('body', 'Change required confirmations', gnosisPage)
     await openDropdown(settingsTabs.req_conf_dropdown, gnosisPage)
     await clickElement({ selector: '[data-value="2"]' }, gnosisPage)
-    await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
-    await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
+    await assertElementPresent(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(
       (selector) => !document.querySelector(selector),
       {},
@@ -127,5 +127,6 @@ describe('Change Policies', () => {
     await clickByText(generalInterface.sidebar + ' span', 'policies', gnosisPage)
     await isTextPresent('body', 'Required confirmations', gnosisPage)
     await isTextPresent('body', '2 out of', gnosisPage)
+    done()
   }, 180000)
 })

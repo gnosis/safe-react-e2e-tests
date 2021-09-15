@@ -41,7 +41,7 @@ export const clearInput = async function ({ selector, type = 'Xpath' }, page) {
   page.keyboard.press('Backspace')
 }
 
-export const assertElementPresent = async function (selector, page, type = 'Xpath') {
+export const assertElementPresent = async function ({selector, type = 'Xpath'}, page) {
   const element = await elementSelector(selector, page, type, 90000)
   const expectHandler = expect(element)
   type !== 'Xpath' ? expectHandler.not.toBeNull() : expectHandler.toBeDefined() // for Css there is a different condition to make
@@ -49,19 +49,19 @@ export const assertElementPresent = async function (selector, page, type = 'Xpat
 }
 
 export const assertTextPresent = async function (selector, textPresent, page, type = 'Xpath') {
-  const element = await assertElementPresent(selector, page, type)
+  const element = await assertElementPresent({selector, type}, page)
   const elementText = await page.evaluate(x => x.innerText, element)
   expect(elementText).toMatch(textPresent)
 }
 
 export const assertAllElementPresent = async function (selectors, page, type = 'Xpath') {
   for (let i = 0; i < selectors.length; i++) {
-    await assertElementPresent(selectors[i], page, type)
+    await assertElementPresent({selector: selectors[i], type}, page)
   }
 }
 
 export const getInnerText = async function (selector, page, type = 'Xpath') {
-  const element = await assertElementPresent(selector, page, type)
+  const element = await assertElementPresent({selector, type}, page)
   let elementText = await page.evaluate(x => x.innerText, element)
   if (elementText === '') {
     elementText = await page.evaluate(x => x.value, element)

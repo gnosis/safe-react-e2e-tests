@@ -62,7 +62,7 @@ describe('Send funds and sign with two owners', () => {
     currentEthFunds = parseFloat(await getNumberInString(assetsTab.balance_value('eth'), gnosisPage, 'css'))
     await clickByText('button', 'New Transaction', gnosisPage)
     await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
-    await assertElementPresent(sendFundsForm.review_btn_disabled.selector, gnosisPage, 'css')
+    await assertElementPresent(sendFundsForm.review_btn_disabled, gnosisPage)
     await gnosisPage.waitForTimeout(3000)
     // Fill the form and check error messages when inputs are wrong
     await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS)
@@ -74,17 +74,17 @@ describe('Send funds and sign with two owners', () => {
 
     // Checking that 0 amount triggers an error
     await clickAndType(sendFundsForm.amount_input, gnosisPage, '0')
-    await assertElementPresent(errorMsg.error(errorMsg.greater_than_0), gnosisPage)
+    await assertElementPresent({selector: errorMsg.error(errorMsg.greater_than_0), type: 'Xpath'}, gnosisPage)
     await clearInput(sendFundsForm.amount_input, gnosisPage)
 
     // Checking that any string returns an error
     await clickAndType(sendFundsForm.amount_input, gnosisPage, 'abc')
-    await assertElementPresent(errorMsg.error(errorMsg.not_a_number), gnosisPage)
+    await assertElementPresent({selector: errorMsg.error(errorMsg.not_a_number), type: 'Xpath'}, gnosisPage)
     await clearInput(sendFundsForm.amount_input, gnosisPage)
 
     // Checking that an amount over balance triggers an error
     await clickAndType(sendFundsForm.amount_input, gnosisPage, '99999')
-    await assertElementPresent(errorMsg.error(errorMsg.max_amount_tokens(currentEthFunds)), gnosisPage)
+    await assertElementPresent({selector: errorMsg.error(errorMsg.max_amount_tokens(currentEthFunds)), type: 'Xpath'}, gnosisPage)
     await clearInput(sendFundsForm.amount_input, gnosisPage)
 
     // Checking that the value set by the "Send max" button is the same as the current balance
@@ -94,7 +94,7 @@ describe('Send funds and sign with two owners', () => {
     await clearInput(sendFundsForm.amount_input, gnosisPage)
 
     await clickAndType(sendFundsForm.amount_input, gnosisPage, TOKEN_AMOUNT.toString())
-    await assertElementPresent(sendFundsForm.valid_amount_msg.selector, gnosisPage)
+    await assertElementPresent(sendFundsForm.valid_amount_msg, gnosisPage)
     await clickElement(sendFundsForm.review_btn, gnosisPage)
     // Review information is correct and submit transaction with signature
     await assertAllElementPresent(
@@ -106,7 +106,7 @@ describe('Send funds and sign with two owners', () => {
     expect(recipientHash).toMatch(FUNDS_RECEIVER_ADDRESS)
     const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review.selector, gnosisPage, 'css')
     expect(tokenAmount).toMatch(TOKEN_AMOUNT.toString())
-    await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
+    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
     await clickElement(sendFundsForm.submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)
     await metamask.signTransaction()
@@ -122,20 +122,20 @@ describe('Send funds and sign with two owners', () => {
     await gnosisPage.waitForTimeout(2000)
     await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
     // waiting for the queue list to be empty and the executed tx to be on the history tab
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
     const nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
     expect(nonce).toBe(currentNonce)
     const sentAmount = await getInnerText(transactionsTab.tx_info, gnosisPage, 'css')
-    expect(sentAmount).toBe(`-${TOKEN_AMOUNT.toString().replace('.', ',')} ETH`)
+    expect(sentAmount).toBe(`-${TOKEN_AMOUNT.toString()} ETH`)
     await clickElement(transactionsTab.tx_type, gnosisPage)
     const recipientAddress = await getInnerText('div.tx-details > div p', gnosisPage, 'css')
     // regex to match an address hash
     expect(recipientAddress.match(/(0x[a-fA-F0-9]+)/)[0]).toMatch(FUNDS_RECEIVER_ADDRESS)
     await clickByText('span', 'ASSETS', gnosisPage)
-    await assertElementPresent(assetsTab.balance_value('eth'), gnosisPage, 'css')
+    await assertElementPresent({selector: assetsTab.balance_value('eth'), type: 'css'}, gnosisPage)
     const array = ['[data-testid="balance-ETH"]', currentEthFundsOnText]
     // check every 100ms an update in the ETH funds in the assets tab
     await gnosisPage.waitForFunction(

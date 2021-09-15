@@ -61,18 +61,18 @@ describe('Adding and removing owners', () => {
     await clickElement(settingsPage.add_owner_btn, gnosisPage)
 
     await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
-    await assertElementPresent(errorMsg.error(errorMsg.required), gnosisPage) // asserts error "required" in name
+    await assertElementPresent({selector: errorMsg.error(errorMsg.required), type: 'Xpath'}, gnosisPage) // asserts error "required" in name
     await clickAndType(settingsPage.add_owner_name_input, gnosisPage, newOwnerName)
 
     await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
-    await assertElementPresent(errorMsg.error(errorMsg.required), gnosisPage) // asserts error "required" in name
+    await assertElementPresent({selector: errorMsg.error(errorMsg.required), type: 'Xpath'}, gnosisPage) // asserts error "required" in name
 
     await clickAndType(settingsPage.add_owner_address_input, gnosisPage, '0xInvalidHash')
-    await assertElementPresent(errorMsg.error(errorMsg.valid_ENS_name), gnosisPage)
+    await assertElementPresent({selector: errorMsg.error(errorMsg.valid_ENS_name), type: 'Xpath'}, gnosisPage)
     await clearInput(settingsPage.add_owner_address_input, gnosisPage)
 
     await clickAndType(settingsPage.add_owner_address_input, gnosisPage, existingOwnerHash)
-    await assertElementPresent(errorMsg.error(errorMsg.duplicated_address), gnosisPage)
+    await assertElementPresent({selector: errorMsg.error(errorMsg.duplicated_address), type: 'Xpath'}, gnosisPage)
     await clearInput(settingsPage.add_owner_address_input, gnosisPage)
 
     await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress)
@@ -93,7 +93,7 @@ describe('Adding and removing owners', () => {
     expect(addedAddress).toBe(newOwnerAddress)
     // Checking the new owner name and address is present in the review step ^^^. Do we need an Id for this?
     await gnosisPage.waitForTimeout(2000)
-    await assertElementPresent(settingsPage.add_owner_submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(settingsPage.add_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(
       (selector) => !document.querySelector(selector),
       {},
@@ -111,10 +111,10 @@ describe('Adding and removing owners', () => {
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Deleting owner form filling and tx creation
     await gnosisPage.bringToFront()
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
-    await assertElementPresent("[data-testid='remove-owner-btn']", gnosisPage, 'css')
+    await assertElementPresent({selector: "[data-testid='remove-owner-btn']", type: 'css'}, gnosisPage)
     await gnosisPage.waitForTimeout(1000)
     // the new owner takes a moment to show up, if we don't wait then OwnerList will have the list of owners without the new one added
     const ownersList = await gnosisPage.evaluate(() =>
@@ -141,7 +141,7 @@ describe('Adding and removing owners', () => {
     )
     expect(removedName).toBe(newOwnerName)
     expect(removedAddress).toBe(newOwnerAddress)
-    await assertElementPresent("[data-testid='remove-owner-review-btn']", gnosisPage, 'css')
+    await assertElementPresent({selector: "[data-testid='remove-owner-review-btn']", type: 'css'}, gnosisPage)
     await gnosisPage.waitForFunction(() => !document.querySelector("[data-testid='remove-owner-review-btn'][disabled]"))
     await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)
@@ -153,12 +153,13 @@ describe('Adding and removing owners', () => {
     console.log('CurrentNonce = ', currentNonce)
     await approveAndExecuteWithOwner(2, gnosisPage, metamask)
     // Verifying owner deletion
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForTimeout(4000)
     const nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
     expect(nonce).toBe(currentNonce)
     const executedTxStatus = await getInnerText(transactionsTab.tx_status, gnosisPage, 'css')
     expect(executedTxStatus).toBe('Success')
+    done()
   }, 540000)
 })

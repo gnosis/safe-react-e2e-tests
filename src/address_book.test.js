@@ -127,7 +127,7 @@ describe('Address book', () => {
     console.log('Done waiting')
     // Open Export -- A verification of the file downloaded is needed
     await clickByText('p', 'Export', gnosisPage)
-    await assertElementPresent(addressBook.entryModal.selector, gnosisPage, 'css')
+    await assertElementPresent(addressBook.entryModal, gnosisPage)
     await clickByText('span', 'Download', gnosisPage)
     // Open Import
     await clickByText('p', 'Import', gnosisPage)
@@ -137,5 +137,6 @@ describe('Address book', () => {
     await gnosisPage.waitForTimeout(1000)
     await clickByText('button', 'Import', gnosisPage)
     await isTextPresent('tbody', 'user 1', gnosisPage)
+    done()
   }, 120000)
 })

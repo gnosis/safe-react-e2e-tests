@@ -31,15 +31,15 @@ export const rejectNextTx = async (gnosisPage, metamask) => {
     await gnosisPage.waitForFunction(() =>
       document.querySelector('body').innerText.includes('Reject transaction')
     )
-    await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
-    await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
+    await assertElementPresent(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(selector => !document.querySelector(selector), {}, generalInterface.submit_tx_btn_disabled)
     await clickElement(generalInterface.submit_btn, gnosisPage)
 
     await gnosisPage.waitForTimeout(4000)
     await metamask.signTransaction()
     await gnosisPage.bringToFront()
-    await assertElementPresent(transactionsTab.on_chain_rejection_type.selector, gnosisPage, 'css')
+    await assertElementPresent(transactionsTab.on_chain_rejection_type, gnosisPage)
 
     await metamask.switchAccount(1) // changing to account 1
     await gnosisPage.bringToFront()
@@ -51,8 +51,8 @@ export const rejectNextTx = async (gnosisPage, metamask) => {
     await gnosisPage.waitForFunction(() =>
       document.querySelector('body').innerText.includes('Approve Transaction')
     )
-    await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
-    await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
+    await assertElementPresent(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(selector => !document.querySelector(selector), {}, generalInterface.submit_tx_btn_disabled)
     await clickElement(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)

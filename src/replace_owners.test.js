@@ -84,7 +84,7 @@ describe('Owner Replacement', () => {
     expect(addedAddress).toBe(newOwnerAddress)
     // Checking the new owner name and address is present in the review step ^^^. Do we need an Id for this?
     await gnosisPage.waitForTimeout(2000)
-    await assertElementPresent(settingsPage.add_owner_submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(settingsPage.add_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(
       (selector) => !document.querySelector(selector),
       {},
@@ -102,7 +102,7 @@ describe('Owner Replacement', () => {
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Deleting owner form filling and tx creation
     await gnosisPage.bringToFront()
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
@@ -172,7 +172,7 @@ describe('Owner Replacement', () => {
     await gnosisPage.waitForTimeout(2000)
     await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
     // waiting for the queue list to be empty and the executed tx to be on the history tab
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
@@ -188,7 +188,7 @@ describe('Owner Replacement', () => {
     // Owner removal
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
-    await assertElementPresent(settingsPage.remove_owner_trashcan_icon.selector, gnosisPage, 'css')
+    await assertElementPresent(settingsPage.remove_owner_trashcan_icon, gnosisPage)
     ownersList = await gnosisPage.evaluate(
       (OwnerRowAddress) => Array.from(document.querySelectorAll(OwnerRowAddress), (element) => element.textContent),
       settingsPage.owner_rows_address_block.selector,
@@ -218,7 +218,7 @@ describe('Owner Replacement', () => {
     )
     expect(removedName).toBe(ownerForReplacementName)
     expect(removedAddress).toBe(ownerForReplacementAddress)
-    await assertElementPresent(settingsPage.remove_owner_submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(settingsPage.remove_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(() => !document.querySelector("[data-testid='remove-owner-review-btn'][disabled]"))
     await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)
@@ -230,7 +230,7 @@ describe('Owner Replacement', () => {
     console.log('CurrentNonce = ', currentNonce)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Verifying owner deletion
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForTimeout(4000)
     executedNonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
