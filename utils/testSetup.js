@@ -86,7 +86,7 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
   await metamask.approve({ allAccounts: true })
   await gnosisPage.bringToFront()
 
-  await assertElementPresent(topBar.connected_network.selector, gnosisPage, 'css')
+  await assertElementPresent({selector: topBar.connected_network.selector, type: 'css'}, gnosisPage)
 
   return [
     browser,
@@ -108,13 +108,13 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
 
   // Open load safe form
   await clickByText('p', 'Add existing Safe', gnosisPage)
-  await assertElementPresent(loadSafeForm.form.selector, gnosisPage, 'css')
+  await assertElementPresent(loadSafeForm.form, gnosisPage)
   await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
   await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
   // Second step, review owners
-  await assertElementPresent(loadSafeForm.step_two.selector, gnosisPage, 'css')
+  await assertElementPresent(loadSafeForm.step_two, gnosisPage)
   const keys = Object.keys(accountsSelectors.accountNames)
   for (let i = 0; i < 2/* keys.length */; i++) { // only names on the first 2 owners
     const ownerNameInput = loadSafeForm.owner_name(i)
@@ -125,7 +125,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
   // Third step, review information and submit
-  await assertElementPresent(loadSafeForm.step_three.selector, gnosisPage, 'css')
+  await assertElementPresent(loadSafeForm.step_three, gnosisPage)
   await gnosisPage.waitForTimeout(2000)
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
@@ -154,5 +154,30 @@ export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts
     metamask,
     gnosisPage,
     MMpage
+  ]
+}
+
+/**
+ * This method is for read only tests, were no wallet connection is necessary.
+ */
+
+export const initNoWalletConnection = async () => {
+  const browser = await dappeteer.launch(puppeteer, {
+    executablePath: PUPPETEER_EXEC_PATH,
+    defaultViewport: null, // this extends the page to the size of the browser
+    slowMo: SLOWMO, // Miliseconds it will wait for every action performed. It's 1 by default. change it in the .env file
+    args: ['--no-sandbox', '--start-maximized', envUrl] // maximized browser, URL for the base page
+  })
+
+  const [gnosisPage] = await browser.pages() // get a grip on the current tab
+  await gnosisPage.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
+  await gnosisPage.goto(envUrl + '#/safes/' + TESTING_SAFE_ADDRESS + "/balances")
+  await gnosisPage.bringToFront()
+
+  gnosisPage.setDefaultTimeout(60000)
+
+  return [
+    browser,
+    gnosisPage,
   ]
 }

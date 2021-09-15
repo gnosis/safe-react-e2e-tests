@@ -1,13 +1,3 @@
-#### [Address book](./../src/address_book.test.js)
-1. Enter the address book. Validates 3 entries present by name (the load safe process created them)  
-2. Creates an entry with valid name and address. Validates it in the entries list  
-3. Validate error messages in entry creation: "RandomString", duplicated entry.  
-4. Validates ENS names translation (is a hardcoded ENS name for this test)  
-5. Edits entry. First validates name to be required, then enters a valid new name and saves  
-6. Finds edited name and deletes the entry  
-7. Exports a file (no validations)  
-8. Imports a file. checks new expected name to be in the entries list  
-  
 #### [Add/remove Owners](./../src/add_remove_owner.test.js)
 1. Enter add owner form  
 2. Validate Owner name and address required, invalid address, duplicated address  
@@ -17,6 +7,16 @@
 6. Sets threshold value to "2"  
 7. Verifies owner to be removed name an address  
 8. Signs and executes. Verifies tx success status  
+  
+#### [Address book](./../src/address_book.test.js)
+1. Enter the address book. Validates 3 entries present by name (the load safe process created them)  
+2. Creates an entry with valid name and address. Validates it in the entries list  
+3. Validate error messages in entry creation: "RandomString", duplicated entry.  
+4. Validates ENS names translation (is a hardcoded ENS name for this test)  
+5. Edits entry. First validates name to be required, then enters a valid new name and saves  
+6. Finds edited name and deletes the entry  
+7. Exports a file (no validations)  
+8. Imports a file. checks new expected name to be in the entries list  
   
 #### [Create safe](./../src/create_safe.test.js)
 1. Enters into the create safe form with the Create button  
@@ -36,6 +36,12 @@
 4. Checks in the 3rd step that the safe name and owner name are the ones set before  
 5. Loads the safe  
 6. Opens the QR code for the safe on the sidebar and checks the safe name again  
+  
+#### [address not found = ', address)
+      expect(addressIncluded).toBeTruthy()
+    })
+    // Check if the names of the apps added are in the list of Apps
+    await clickByText('span', 'APPS', gnosisPage, 'css](./../src/local_storage.test.js)
   
 #### [Modify policies](./../src/modify_policies.test.js)
 1. Opens modify policies  

@@ -17,6 +17,16 @@ import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 
+/*
+Modify policies
+-- Opens modify policies
+-- Opens selector, selects "1" value
+-- Signs transaction with current owner, confirm and executes with the 2nd owner
+-- Opens modify policies again, changes it to "2"
+-- Signs and execute
+-- Checks in settings the successful change to "2 out of X"
+*/
+
 let browser
 let metamask
 let gnosisPage
@@ -50,8 +60,8 @@ describe('Change Policies', () => {
     // Creating and approving Tx with owner 1
     await openDropdown(settingsTabs.req_conf_dropdown, gnosisPage)
     await clickElement({ selector: '[data-value="1"]' }, gnosisPage)
-    await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
-    await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
+    await assertElementPresent(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(
       (selector) => !document.querySelector(selector),
       {},
@@ -63,23 +73,23 @@ describe('Change Policies', () => {
     await metamask.signTransaction()
     // Approving Tx with owner 2
     await gnosisPage.bringToFront()
-    await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
-    transactionNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
+    transactionNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Verifying the change in the settings
     await gnosisPage.bringToFront()
     await gnosisPage.waitForTimeout(2000)
-    await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Pending', gnosisPage)
     // waiting for the queue list to be empty and the executed tx to be on the history tab
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     // Wating for the new tx to show in the history, looking for the nonce
-    let nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
+    let nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
     expect(nonce).toBe(transactionNonce)
     await clickElement(transactionsTab.tx_type, gnosisPage)
-    const changeConfirmationText = await getInnerText('div.tx-details > p', gnosisPage, 'css')
+    const changeConfirmationText = await getInnerText({ selector: 'div.tx-details > p', type: 'css' }, gnosisPage)
     expect(changeConfirmationText).toBe('Change required confirmations:')
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
@@ -91,8 +101,8 @@ describe('Change Policies', () => {
     await isTextPresent('body', 'Change required confirmations', gnosisPage)
     await openDropdown(settingsTabs.req_conf_dropdown, gnosisPage)
     await clickElement({ selector: '[data-value="2"]' }, gnosisPage)
-    await assertElementPresent(sendFundsForm.advanced_options.selector, gnosisPage, 'Xpath')
-    await assertElementPresent(generalInterface.submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
+    await assertElementPresent(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(
       (selector) => !document.querySelector(selector),
       {},
@@ -109,7 +119,7 @@ describe('Change Policies', () => {
     await isTextPresent('body', 'Transaction successfully executed', gnosisPage)
     const expectedNonce = transactionNonce + 1
     await gnosisPage.waitForTimeout(1000)
-    nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
+    nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
     expect(nonce).toBe(expectedNonce)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)

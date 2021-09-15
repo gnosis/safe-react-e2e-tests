@@ -14,6 +14,19 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import config from '../utils/config'
 import path from 'path'
 
+/*
+Address Book
+-- Loads safe form, giving name to the safe and the first 2 owners
+-- Enter into address book. Validates 3 entries present by name (the load safe process created them)
+-- Creates an entry with valid name and address. Validates it in the entries list
+-- Validate error messages in entry creation: "RandomString", duplicated entry.
+-- Validates ENS names translation (is a hardcoded ENS name for this test)
+-- Edits entry. First validates name to be required, then enters a valid new name and saves
+-- Finds edited name and deletes the entry
+-- Exports a file (no validations)
+-- Imports a file. checks new expected name to be in the entries list
+*/
+
 let browser
 let gnosisPage
 
@@ -35,7 +48,7 @@ describe('Address book', () => {
   const filePath = path.relative(process.cwd(), path.join(__dirname, '/../utils/files/address_book_test.csv'))
   const ENSName = 'francotest.eth'
 
-  test('Address book', async (done) => {
+  test('Address book', async () => {
     console.log('Address book')
     console.log('Enter the address book. Validates 3 entries present by name (the load safe process created them)')
     await isTextPresent(generalInterface.sidebar, 'ADDRESS BOOK', gnosisPage)
@@ -69,7 +82,7 @@ describe('Address book', () => {
     // Testing ENS name, it will create a duplicated name so is validating the "duplicated address error"
     await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes acc1 address
     await gnosisPage.waitForTimeout(1000)
-    const convertedValue = await getInnerText(addressBook.createEntryAddressInput.selector, gnosisPage, 'css')
+    const convertedValue = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
     expect(convertedValue).toBe(accountsSelectors.testAccountsHash.acc1)
     await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
@@ -120,7 +133,7 @@ describe('Address book', () => {
     console.log('Exports a file (no validations)')
     // Open Export -- A verification of the file downloaded is needed
     await clickByText('p', 'Export', gnosisPage)
-    await assertElementPresent(addressBook.entryModal.selector, gnosisPage, 'css')
+    await assertElementPresent(addressBook.entryModal, gnosisPage)
     await clickByText('span', 'Download', gnosisPage)
     console.log('Imports a file. checks new expected name to be in the entries list')
     // Open Import

@@ -18,6 +18,19 @@ import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 import config from '../utils/config'
 import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 
+/*
+Replace owner
+-- Add owner form, inputs name and address, validates name and address in review step. Signs and executes
+-- Find added owner. click "Replace" button
+-- Add valid name and address for replacement owner
+-- Validate owner being replaced name and address and owner for replacement name and address in review step
+-- Signs and execute
+-- Validate owner for replacement present in the owner list
+-- Removes owner for replacement. Sets threshold to "2". Check owner name and address in review step
+-- Signs and executes
+-- Checks status success of executed tx
+*/
+
 const { NON_OWNER_ADDRESS } = config
 
 let browser
@@ -60,21 +73,13 @@ describe('Owner Replacement', () => {
     await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress)
     await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
     await clickElement(settingsPage.add_owner_review_btn, gnosisPage)
-    const addedName = await getInnerText(
-      settingsPage.add_owner_name_review.selector,
-      gnosisPage,
-      settingsPage.add_owner_name_review.type,
-    )
-    const addedAddress = await getInnerText(
-      settingsPage.add_owner_address_review.selector,
-      gnosisPage,
-      settingsPage.add_owner_address_review.type,
-    )
+    const addedName = await getInnerText(settingsPage.add_owner_name_review, gnosisPage)
+    const addedAddress = await getInnerText(settingsPage.add_owner_address_review, gnosisPage)
     expect(addedName).toBe(newOwnerName)
     expect(addedAddress).toBe(newOwnerAddress)
     // Checking the new owner name and address is present in the review step ^^^. Do we need an Id for this?
     await gnosisPage.waitForTimeout(2000)
-    await assertElementPresent(settingsPage.add_owner_submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(settingsPage.add_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(
       (selector) => !document.querySelector(selector),
       {},
@@ -86,16 +91,16 @@ describe('Owner Replacement', () => {
     await metamask.signTransaction()
     // Approving and executing the transaction with owner 2
     await gnosisPage.bringToFront()
-    await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
-    currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
+    currentNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Deleting owner form filling and tx creation
     await gnosisPage.bringToFront()
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
-    executedNonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
+    executedNonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
     expect(executedNonce).toBe(currentNonce)
     // Owner adding
 
@@ -123,26 +128,10 @@ describe('Owner Replacement', () => {
     await clickAndType(settingsPage.replace_owner_name_input, gnosisPage, ownerForReplacementName)
     await clickAndType(settingsPage.replace_owner_address_input, gnosisPage, ownerForReplacementAddress)
     await clickElement(settingsPage.replace_owner_next_btn, gnosisPage)
-    const toReplaceName = await getInnerText(
-      settingsPage.add_owner_name_review.selector,
-      gnosisPage,
-      settingsPage.add_owner_name_review.type,
-    )
-    const toReplaceAddress = await getInnerText(
-      settingsPage.add_owner_address_review.selector,
-      gnosisPage,
-      settingsPage.add_owner_address_review.type,
-    )
-    const replacedName = await getInnerText(
-      settingsPage.remove_owner_name_review.selector,
-      gnosisPage,
-      settingsPage.remove_owner_name_review.type,
-    )
-    const replacedAddress = await getInnerText(
-      settingsPage.remove_owner_address_review.selector,
-      gnosisPage,
-      settingsPage.remove_owner_address_review.type,
-    )
+    const toReplaceName = await getInnerText(settingsPage.add_owner_name_review, gnosisPage)
+    const toReplaceAddress = await getInnerText(settingsPage.add_owner_address_review, gnosisPage)
+    const replacedName = await getInnerText(settingsPage.remove_owner_name_review, gnosisPage)
+    const replacedAddress = await getInnerText(settingsPage.remove_owner_address_review, gnosisPage)
     console.log(
       'Validate owner being replaced name and address and owner for replacement name and address in review step',
     )
@@ -158,20 +147,20 @@ describe('Owner Replacement', () => {
     await gnosisPage.waitForTimeout(4000)
     await metamask.signTransaction()
     await gnosisPage.bringToFront()
-    await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
-    currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
+    currentNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(2, gnosisPage, metamask)
     // Check that transaction was successfully executed
     await gnosisPage.bringToFront()
     await gnosisPage.waitForTimeout(2000)
-    await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Pending', gnosisPage)
     // waiting for the queue list to be empty and the executed tx to be on the history tab
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
-    executedNonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
+    executedNonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
     expect(executedNonce).toBe(currentNonce)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
@@ -183,7 +172,7 @@ describe('Owner Replacement', () => {
     // Owner removal
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
-    await assertElementPresent(settingsPage.remove_owner_trashcan_icon.selector, gnosisPage, 'css')
+    await assertElementPresent(settingsPage.remove_owner_trashcan_icon, gnosisPage)
     ownersList = await gnosisPage.evaluate(
       (OwnerRowAddress) => Array.from(document.querySelectorAll(OwnerRowAddress), (element) => element.textContent),
       settingsPage.owner_rows_address_block.selector,
@@ -202,19 +191,11 @@ describe('Owner Replacement', () => {
     await clickElement({ selector: "[data-value='2']", type: 'css' }, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     await clickElement(settingsPage.remove_owner_review_btn, gnosisPage)
-    const removedName = await getInnerText(
-      settingsPage.remove_owner_name_review.selector,
-      gnosisPage,
-      settingsPage.remove_owner_name_review.type,
-    )
-    const removedAddress = await getInnerText(
-      settingsPage.remove_owner_address_review.selector,
-      gnosisPage,
-      settingsPage.remove_owner_address_review.type,
-    )
+    const removedName = await getInnerText(settingsPage.remove_owner_name_review, gnosisPage)
+    const removedAddress = await getInnerText(settingsPage.remove_owner_address_review, gnosisPage)
     expect(removedName).toBe(ownerForReplacementName)
     expect(removedAddress).toBe(ownerForReplacementAddress)
-    await assertElementPresent(settingsPage.remove_owner_submit_btn.selector, gnosisPage, 'css')
+    await assertElementPresent(settingsPage.remove_owner_submit_btn, gnosisPage)
     await gnosisPage.waitForFunction(() => !document.querySelector("[data-testid='remove-owner-review-btn'][disabled]"))
     console.log('Signs and executes')
     await clickElement(settingsPage.remove_owner_submit_btn, gnosisPage)
@@ -222,17 +203,17 @@ describe('Owner Replacement', () => {
     await metamask.signTransaction()
     // Executing the owner deletion with owner 2
     await gnosisPage.bringToFront()
-    await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
-    currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
+    currentNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     console.log('Checks status success of executed tx')
     // Verifying owner deletion
-    await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
+    await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForTimeout(4000)
-    executedNonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
+    executedNonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
     expect(executedNonce).toBe(currentNonce)
-    const executedTxStatus = await getInnerText(transactionsTab.tx_status, gnosisPage, 'css')
+    const executedTxStatus = await getInnerText({ selector: transactionsTab.tx_status, type: 'css' }, gnosisPage)
     expect(executedTxStatus).toBe('Success')
     // Owner removal
   }, 360000)
