@@ -42,11 +42,11 @@ afterAll(async () => {
 })
 
 describe('Add an existing safe', () => {
-  test('Add an existing safe', async (done) => {
+  test('Add an existing safe', async () => {
     await clickByText('p', 'Add existing Safe', gnosisPage)
     await assertElementPresent(loadSafeForm.form, gnosisPage)
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
-    await assertTextPresent(loadSafeForm.valid_safe_name.selector, 'Safe name', gnosisPage)
+    await assertTextPresent(loadSafeForm.valid_safe_name, 'Safe name', gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
     await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
     await clickElement(generalInterface.submit_btn, gnosisPage)
@@ -57,18 +57,8 @@ describe('Add an existing safe', () => {
     await clickElement(generalInterface.submit_btn, gnosisPage)
     // Add Safe review details
     await assertElementPresent(loadSafeForm.step_three, gnosisPage)
-    await assertTextPresent(
-      loadSafeForm.review_safe_name.selector,
-      accountsSelectors.safeNames.load_safe_name,
-      gnosisPage,
-      'css',
-    )
-    await assertTextPresent(
-      loadSafeForm.review_owner_name().selector,
-      accountsSelectors.accountNames.owner_name,
-      gnosisPage,
-      'css',
-    )
+    await assertTextPresent(loadSafeForm.review_safe_name, accountsSelectors.safeNames.load_safe_name, gnosisPage)
+    await assertTextPresent(loadSafeForm.review_owner_name(), accountsSelectors.accountNames.owner_name, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     await clickElement(generalInterface.submit_btn, gnosisPage)
     await assertElementPresent(generalInterface.show_qr_btn, gnosisPage)

@@ -96,13 +96,13 @@ describe('Owner Replacement', () => {
     await metamask.signTransaction()
     // Approving and executing the transaction with owner 2
     await gnosisPage.bringToFront()
-    await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
     currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
     console.log('CurrentNonce = ', currentNonce)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Deleting owner form filling and tx creation
     await gnosisPage.bringToFront()
-    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
+    await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
@@ -162,7 +162,7 @@ describe('Owner Replacement', () => {
     await gnosisPage.waitForTimeout(4000)
     await metamask.signTransaction()
     await gnosisPage.bringToFront()
-    await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
     currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
     console.log('CurrentNonce = ', currentNonce)
     // We approve and execute with account 1
@@ -170,9 +170,9 @@ describe('Owner Replacement', () => {
     // Check that transaction was successfully executed
     await gnosisPage.bringToFront()
     await gnosisPage.waitForTimeout(2000)
-    await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Pending', gnosisPage)
     // waiting for the queue list to be empty and the executed tx to be on the history tab
-    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
+    await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForTimeout(2000)
@@ -225,12 +225,12 @@ describe('Owner Replacement', () => {
     await metamask.signTransaction()
     // Executing the owner deletion with owner 2
     await gnosisPage.bringToFront()
-    await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
     currentNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
     console.log('CurrentNonce = ', currentNonce)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Verifying owner deletion
-    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
+    await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForTimeout(4000)
     executedNonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')

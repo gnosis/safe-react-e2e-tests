@@ -48,7 +48,7 @@ describe('Address book', () => {
   const filePath = path.relative(process.cwd(), path.join(__dirname, '/../utils/files/address_book_test.csv'))
   const ENSName = 'francotest.eth'
 
-  test('Addrress book', async (done) => {
+  test('Addrress book', async () => {
     console.log('Addrress book')
     await isTextPresent(generalInterface.sidebar, 'ADDRESS BOOK', gnosisPage)
     await clickByText('span', 'ADDRESS BOOK', gnosisPage)
@@ -137,6 +137,5 @@ describe('Address book', () => {
     await gnosisPage.waitForTimeout(1000)
     await clickByText('button', 'Import', gnosisPage)
     await isTextPresent('tbody', 'user 1', gnosisPage)
-    done()
   }, 120000)
 })

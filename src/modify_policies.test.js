@@ -48,7 +48,7 @@ describe('Change Policies', () => {
   // let req_conf = false //current required confirmations. taken from the message in the policies tab
   // let max_req_conf = false //max required confirmations. taken from the message in the policies tab
 
-  test('Change Policies', async (done) => {
+  test('Change Policies', async () => {
     // Open Modify form
     await gnosisPage.waitForTimeout(2000)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
@@ -73,7 +73,7 @@ describe('Change Policies', () => {
     await metamask.signTransaction()
     // Approving Tx with owner 2
     await gnosisPage.bringToFront()
-    await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
     transactionNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
     console.log('CurrentNonce = ', transactionNonce)
     // We approve and execute with account 1
@@ -81,9 +81,9 @@ describe('Change Policies', () => {
     // Verifying the change in the settings
     await gnosisPage.bringToFront()
     await gnosisPage.waitForTimeout(2000)
-    await assertTextPresent(transactionsTab.tx_status, 'Pending', gnosisPage, 'css')
+    await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Pending', gnosisPage)
     // waiting for the queue list to be empty and the executed tx to be on the history tab
-    await assertElementPresent({selector: transactionsTab.no_tx_in_queue, type: 'css'}, gnosisPage)
+    await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     // Wating for the new tx to show in the history, looking for the nonce
@@ -127,6 +127,5 @@ describe('Change Policies', () => {
     await clickByText(generalInterface.sidebar + ' span', 'policies', gnosisPage)
     await isTextPresent('body', 'Required confirmations', gnosisPage)
     await isTextPresent('body', '2 out of', gnosisPage)
-    done()
   }, 180000)
 })

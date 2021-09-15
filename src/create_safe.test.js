@@ -46,52 +46,51 @@ describe('Create New Safe', () => {
   const newSafeName = accountsSelectors.safeNames.create_safe_name
   const owner2Name = accountsSelectors.accountNames.owner2_name
   const owner2Address = accountsSelectors.testAccountsHash.acc2
-  test('Create Safe', async (done) => {
+  test('Create Safe', async () => {
     console.log('Open Create Safe Form\n')
     // Open Create Safe Form
-    try {
-      await clickByText('p', '+ Create New Safe', gnosisPage)
-      await assertElementPresent({selector: createSafePage.form, type: 'css'}, gnosisPage)
-      // Naming The Safe
-      await clickAndType({ selector: createSafePage.safe_name_field, type: 'css' }, gnosisPage, newSafeName)
-      await clickElement(generalInterface.submit_btn, gnosisPage)
-      // Adding Owners
-      await assertElementPresent({selector: createSafePage.step_two, type: 'css'}, gnosisPage)
-      await clickElement({ selector: createSafePage.add_owner_btn }, gnosisPage) // adding new row
-      await gnosisPage.waitForTimeout(1000)
-      await clickElement(generalInterface.submit_btn, gnosisPage) // making "Required error" show up for the new owner fields
-      await assertElementPresent({selector: errorMsg.error(errorMsg.required), type: 'Xpath'}, gnosisPage) // check first "required" error in name field
-      await clickAndType({ selector: createSafePage.owner_name_field(1), type: 'css' }, gnosisPage, owner2Name) // filling name field
-      await assertElementPresent({selector: errorMsg.error(errorMsg.required), type: 'Xpath'}, gnosisPage) // checking "required" error in address field
-      await clickAndType({ selector: createSafePage.address_field(1), type: 'css' }, gnosisPage, owner2Address)
-      await assertElementPresent({selector: createSafePage.valid_address(1), type: 'css'}, gnosisPage)
-      rowsAmount = await gnosisPage.$$eval(createSafePage.owner_row, (x) => x.length) // see how many owner I've created
-      await assertElementPresent({selector: createSafePage.req_conf_limit(rowsAmount), type: 'css'}, gnosisPage) // that amount should be in the text "out of X owners"
-      // Setting Required Confirmation
-      await clickElement({ selector: createSafePage.threshold_select_input }, gnosisPage)
-      await clickElement({ selector: createSafePage.select_input(rowsAmount) }, gnosisPage)
-      await gnosisPage.waitForTimeout(2000) // gotta wait before clickin review_btn or doesn't work
-      await clickElement(generalInterface.submit_btn, gnosisPage)
-      // Reviewing Safe Info
-      await assertElementPresent({selector: createSafePage.step_three, type: 'css'}, gnosisPage)
-      await assertTextPresent(createSafePage.review_safe_name, newSafeName, gnosisPage, 'css')
-      await assertElementPresent({selector: createSafePage.review_req_conf(rowsAmount), type: 'css'}, gnosisPage)
-      await assertTextPresent(createSafePage.review_owner_name(1), owner2Name, gnosisPage, 'css')
-      await assertTextPresent(createSafePage.review_owner_address(1), owner2Address, gnosisPage, 'css')
-      await clickElement(generalInterface.submit_btn, gnosisPage)
-      await MMpage.bringToFront()
-      await MMpage.waitForTimeout(2000)
-      await metamask.confirmTransaction()
-      // Assert Safe Creation
-      await gnosisPage.bringToFront()
-      await assertElementPresent({selector: createSafePage.back_btn, type: 'css'}, gnosisPage)
-      await assertElementPresent({selector: createSafePage.etherscan_link, type: 'css'}, gnosisPage)
-      await assertElementPresent({selector: createSafePage.continue_btn, type: 'css'}, gnosisPage)
-      await clickElement({ selector: createSafePage.continue_btn }, gnosisPage)
-      await isTextPresent(generalInterface.sidebar, accountsSelectors.safeNames.create_safe_name, gnosisPage)
-      done()
-    } catch (error) {
-      done(error)
-    }
+    await clickByText('p', '+ Create New Safe', gnosisPage)
+    await assertElementPresent({ selector: createSafePage.form, type: 'css' }, gnosisPage)
+    // Naming The Safe
+    await clickAndType({ selector: createSafePage.safe_name_field, type: 'css' }, gnosisPage, newSafeName)
+    await clickElement(generalInterface.submit_btn, gnosisPage)
+    // Adding Owners
+    await assertElementPresent({ selector: createSafePage.step_two, type: 'css' }, gnosisPage)
+    await clickElement({ selector: createSafePage.add_owner_btn }, gnosisPage) // adding new row
+    await gnosisPage.waitForTimeout(1000)
+    await clickElement(generalInterface.submit_btn, gnosisPage) // making "Required error" show up for the new owner fields
+    await assertElementPresent({ selector: errorMsg.error(errorMsg.required), type: 'Xpath' }, gnosisPage) // check first "required" error in name field
+    await clickAndType({ selector: createSafePage.owner_name_field(1), type: 'css' }, gnosisPage, owner2Name) // filling name field
+    await assertElementPresent({ selector: errorMsg.error(errorMsg.required), type: 'Xpath' }, gnosisPage) // checking "required" error in address field
+    await clickAndType({ selector: createSafePage.address_field(1), type: 'css' }, gnosisPage, owner2Address)
+    await assertElementPresent({ selector: createSafePage.valid_address(1), type: 'css' }, gnosisPage)
+    rowsAmount = await gnosisPage.$$eval(createSafePage.owner_row, (x) => x.length) // see how many owner I've created
+    await assertElementPresent({ selector: createSafePage.req_conf_limit(rowsAmount), type: 'css' }, gnosisPage) // that amount should be in the text "out of X owners"
+    // Setting Required Confirmation
+    await clickElement({ selector: createSafePage.threshold_select_input }, gnosisPage)
+    await clickElement({ selector: createSafePage.select_input(rowsAmount) }, gnosisPage)
+    await gnosisPage.waitForTimeout(2000) // gotta wait before clickin review_btn or doesn't work
+    await clickElement(generalInterface.submit_btn, gnosisPage)
+    // Reviewing Safe Info
+    await assertElementPresent({ selector: createSafePage.step_three, type: 'css' }, gnosisPage)
+    await assertTextPresent({ selector: createSafePage.review_safe_name, type: 'css' }, newSafeName, gnosisPage)
+    await assertElementPresent({ selector: createSafePage.review_req_conf(rowsAmount), type: 'css' }, gnosisPage)
+    await assertTextPresent({ selector: createSafePage.review_owner_name(1), type: 'css' }, owner2Name, gnosisPage)
+    await assertTextPresent(
+      { selector: createSafePage.review_owner_address(1), type: 'css' },
+      owner2Address,
+      gnosisPage,
+    )
+    await clickElement(generalInterface.submit_btn, gnosisPage)
+    await MMpage.bringToFront()
+    await MMpage.waitForTimeout(2000)
+    await metamask.confirmTransaction()
+    // Assert Safe Creation
+    await gnosisPage.bringToFront()
+    await assertElementPresent({ selector: createSafePage.back_btn, type: 'css' }, gnosisPage)
+    await assertElementPresent({ selector: createSafePage.etherscan_link, type: 'css' }, gnosisPage)
+    await assertElementPresent({ selector: createSafePage.continue_btn, type: 'css' }, gnosisPage)
+    await clickElement({ selector: createSafePage.continue_btn }, gnosisPage)
+    await isTextPresent(generalInterface.sidebar, accountsSelectors.safeNames.create_safe_name, gnosisPage)
   }, 180000)
 })

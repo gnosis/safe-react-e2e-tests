@@ -22,7 +22,7 @@ export const rejectNextTx = async (gnosisPage, metamask) => {
     await gnosisPage.bringToFront()
     const currentNonce = await getInnerText('div.tx-nonce > p', gnosisPage, 'css')
     await gnosisPage.waitForTimeout(3000)
-    await assertTextPresent('#infinite-scroll-container > div > p', 'NEXT TRANSACTION', gnosisPage, 'css')
+    await assertTextPresent({selector: '#infinite-scroll-container > div > p', type: 'css'}, 'NEXT TRANSACTION', gnosisPage)
     await clickElement(transactionsTab.tx_type, gnosisPage)
     await gnosisPage.waitForTimeout(3000)
     await clickByText('button > span', 'Reject', gnosisPage)

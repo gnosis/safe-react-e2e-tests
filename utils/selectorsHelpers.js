@@ -48,7 +48,7 @@ export const assertElementPresent = async function ({selector, type = 'Xpath'}, 
   return element
 }
 
-export const assertTextPresent = async function (selector, textPresent, page, type = 'Xpath') {
+export const assertTextPresent = async function ({selector, type = 'Xpath'}, textPresent, page) {
   const element = await assertElementPresent({selector, type}, page)
   const elementText = await page.evaluate(x => x.innerText, element)
   expect(elementText).toMatch(textPresent)
