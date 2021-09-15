@@ -48,17 +48,20 @@ describe('Address book', () => {
   const filePath = path.relative(process.cwd(), path.join(__dirname, '/../utils/files/address_book_test.csv'))
   const ENSName = 'francotest.eth'
 
-  test('Addrress book', async (done) => {
-    console.log('Addrress book')
+  test('Address book', async (done) => {
+    console.log('Address book')
+    console.log('Enter the address book. Validates 3 entries present by name (the load safe process created them)')
     await isTextPresent(generalInterface.sidebar, 'ADDRESS BOOK', gnosisPage)
     await clickByText('span', 'ADDRESS BOOK', gnosisPage)
     await isTextPresent('body', 'Create entry', gnosisPage)
     const tableRowsAmount = await gnosisPage.evaluate(() => document.querySelector('tbody').childElementCount)
     expect(tableRowsAmount).toBe(3) // the safe and 2 owners is expected to be there.
+
     await isTextPresent('tbody', TESTING_SAFE_ADDRESS, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.accountNames.owner_name, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.accountNames.owner2_name, gnosisPage)
     // adding an entry
+    console.log('Creates an entry with valid name and address. Validates it in the entries list')
     await clickByText('p', 'Create entry', gnosisPage)
     await clickAndType(addressBook.createEntryNameInput, gnosisPage, accountsSelectors.otherAccountNames.owner5_name)
     await clickAndType(addressBook.createEntryAddressInput, gnosisPage, accountsSelectors.testAccountsHash.acc1)
@@ -67,6 +70,7 @@ describe('Address book', () => {
     await isTextPresent('tbody', accountsSelectors.testAccountsHash.acc1, gnosisPage)
     // validating errors for add entry
     await clickByText('p', 'Create entry', gnosisPage)
+    console.log('Validate error messages in entry creation: "RandomString", duplicated entry.')
     await clickAndType(addressBook.createEntryAddressInput, gnosisPage, 'RandomInvalidString')
     await isTextPresent(
       addressBook.entryModal.selector,
@@ -74,6 +78,7 @@ describe('Address book', () => {
       gnosisPage,
     )
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
+    console.log('Validates ENS names translation (is a hardcoded ENS name for this test)')
     // Testing ENS name, it will create a duplicated name so is validating the "duplicated address error"
     await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes acc1 address
     await gnosisPage.waitForTimeout(1000)
@@ -82,6 +87,7 @@ describe('Address book', () => {
     await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
     await clickByText('.paper.modal span', 'cancel', gnosisPage)
+    console.log('Edits entry. First validates name to be required, then enters a valid new name and saves')
     // Opening Edit entry modal, editing and validating name
     await gnosisPage.evaluate(
       (editName, rowSelector, editEntryBtn) => {
@@ -98,6 +104,7 @@ describe('Address book', () => {
     await clickAndType(addressBook.createEntryNameInput, gnosisPage, editedName)
     await clickElement(addressBook.createSubmitBtn, gnosisPage)
     await isTextPresent('tbody', editedName, gnosisPage)
+    console.log('Finds edited name and deletes the entry')
     // Open Delete entry modal, deleting name, validating entry deleted
     await gnosisPage.evaluate(
       (editName, rowSelector, deleteEntryBtn) => {
@@ -122,13 +129,13 @@ describe('Address book', () => {
     await gnosisPage.waitForTimeout(2000)
     expect(OwnerRemovedIndex).toBe(-1) // didn't find the name in the table, the owner has been removed
     // Open send funds modal
-    console.log('Wating for notif to go off')
     await gnosisPage.waitForTimeout(6000) // The notifications are over the button, I have to wait for them to dissapear
-    console.log('Done waiting')
+    console.log('Exports a file (no validations)')
     // Open Export -- A verification of the file downloaded is needed
     await clickByText('p', 'Export', gnosisPage)
     await assertElementPresent(addressBook.entryModal.selector, gnosisPage, 'css')
     await clickByText('span', 'Download', gnosisPage)
+    console.log('Imports a file. checks new expected name to be in the entries list')
     // Open Import
     await clickByText('p', 'Import', gnosisPage)
     await gnosisPage.waitForSelector("input[type='file']")
