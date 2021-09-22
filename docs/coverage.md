@@ -1,13 +1,3 @@
-#### [Add/remove Owners](./../src/add_remove_owner.test.js)
-1. Enter add owner form  
-2. Validate Owner name and address required, invalid address, duplicated address  
-3. Input valid owner name and address  
-4. Checks them in review step and submits, confirms and executes  
-5. Finds new owner in the owners list, clicks on remove owner  
-6. Sets threshold value to "2"  
-7. Verifies owner to be removed name an address  
-8. Signs and executes. Verifies tx success status  
-  
 #### [Address book](./../src/address_book.test.js)
 1. Enter the address book. Validates 3 entries present by name (the load safe process created them)  
 2. Creates an entry with valid name and address. Validates it in the entries list  
@@ -17,6 +7,16 @@
 6. Finds edited name and deletes the entry  
 7. Exports a file (no validations)  
 8. Imports a file. checks new expected name to be in the entries list  
+  
+#### [Add/remove Owners](./../src/add_remove_owner.test.js)
+1. Enter add owner form  
+2. Validate Owner name and address required, invalid address, duplicated address  
+3. Input valid owner name and address  
+4. Checks them in review step and submits, confirms and executes  
+5. Finds new owner in the owners list, clicks on remove owner  
+6. Sets threshold value to "2"  
+7. Verifies owner to be removed name an address  
+8. Signs and executes. Verifies tx success status  
   
 #### [Create safe](./../src/create_safe.test.js)
 1. Enters into the create safe form with the Create button  
@@ -47,29 +47,6 @@
 1. Opens modify policies  
 2. Opens selector, selects "1" value  
 3. Signs transaction with current owner, confirm and executes with the 2nd owner  
-4. nonce = ', nonce)
-        // I have to keep asking if the tx with the nonce + 1 is in the history tab, assuring the tx was executed
-        return Array.from(document.querySelectorAll(selector))
-          .map((e) => e.innerText)
-          .includes(nonce.toString())
-      },
-      {},
-      transactionsTab.tx_nonce,
-      firsTransactionNonce,
-    )
-    // Wating for the new tx to show in the history, looking for the nonce
-    let nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css  
-5. nonce = ', nonce)
-        // Once again I repeteadily ask if the latest executed tx nonce is present, should be secondTransactionNonce
-        return Array.from(document.querySelectorAll(selector))
-          .map((e) => e.innerText)
-          .includes(nonce.toString())
-      },
-      {},
-      transactionsTab.tx_nonce,
-      secondTransactionNonce,
-    )
-    nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css  
   
 #### [Reject tx](./../src/reject_tx.test.js)
 1. Checks current ETH funds in safe  

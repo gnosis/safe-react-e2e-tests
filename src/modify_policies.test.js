@@ -74,7 +74,7 @@ describe('Change Policies', () => {
     // Approving Tx with owner 2
     await gnosisPage.bringToFront()
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
-    firsTransactionNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
+    firsTransactionNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Verifying the change in the settings
@@ -86,7 +86,6 @@ describe('Change Policies', () => {
     await clickByText('button > span > p', 'History', gnosisPage)
     await gnosisPage.waitForFunction(
       (selector, nonce) => {
-        console.log('nonce = ', nonce)
         // I have to keep asking if the tx with the nonce + 1 is in the history tab, assuring the tx was executed
         return Array.from(document.querySelectorAll(selector))
           .map((e) => e.innerText)
@@ -131,7 +130,6 @@ describe('Change Policies', () => {
     const secondTransactionNonce = firsTransactionNonce + 1
     await gnosisPage.waitForFunction(
       (selector, nonce) => {
-        console.log('nonce = ', nonce)
         // Once again I repeteadily ask if the latest executed tx nonce is present, should be secondTransactionNonce
         return Array.from(document.querySelectorAll(selector))
           .map((e) => e.innerText)
