@@ -33,7 +33,7 @@ afterAll(async () => {
 
 describe('Change Policies', () => {
   console.log('Modify policies')
-  let transactionNonce = ''
+  let firsTransactionNonce = ''
 
   test('Change Policies', async () => {
     console.log('Opens modify policies')
@@ -64,7 +64,7 @@ describe('Change Policies', () => {
     // Approving Tx with owner 2
     await gnosisPage.bringToFront()
     await assertTextPresent(transactionsTab.tx_status, 'Needs confirmations', gnosisPage, 'css')
-    transactionNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
+    firsTransactionNonce = await getNumberInString('div.tx-nonce > p', gnosisPage, 'css')
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Verifying the change in the settings
@@ -74,10 +74,21 @@ describe('Change Policies', () => {
     // waiting for the queue list to be empty and the executed tx to be on the history tab
     await assertElementPresent(transactionsTab.no_tx_in_queue, gnosisPage, 'css')
     await clickByText('button > span > p', 'History', gnosisPage)
-    await gnosisPage.waitForTimeout(2000)
+    await gnosisPage.waitForFunction(
+      (selector, nonce) => {
+        console.log('nonce = ', nonce)
+        // I have to keep asking if the tx with the nonce + 1 is in the history tab, assuring the tx was executed
+        return Array.from(document.querySelectorAll(selector))
+          .map((e) => e.innerText)
+          .includes(nonce.toString())
+      },
+      {},
+      transactionsTab.tx_nonce,
+      firsTransactionNonce,
+    )
     // Wating for the new tx to show in the history, looking for the nonce
     let nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
-    expect(nonce).toBe(transactionNonce)
+    expect(nonce).toBe(firsTransactionNonce)
     await clickElement(transactionsTab.tx_type, gnosisPage)
     const changeConfirmationText = await getInnerText('div.tx-details > p', gnosisPage, 'css')
     expect(changeConfirmationText).toBe('Change required confirmations:')
@@ -107,10 +118,21 @@ describe('Change Policies', () => {
     await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the tx execution notification, history should update after
     await isTextPresent('body', 'Transaction successfully executed', gnosisPage)
-    const expectedNonce = transactionNonce + 1
-    await gnosisPage.waitForTimeout(1000)
+    const secondTransactionNonce = firsTransactionNonce + 1
+    await gnosisPage.waitForFunction(
+      (selector, nonce) => {
+        console.log('nonce = ', nonce)
+        // Once again I repeteadily ask if the latest executed tx nonce is present, should be secondTransactionNonce
+        return Array.from(document.querySelectorAll(selector))
+          .map((e) => e.innerText)
+          .includes(nonce.toString())
+      },
+      {},
+      transactionsTab.tx_nonce,
+      secondTransactionNonce,
+    )
     nonce = await getNumberInString(transactionsTab.tx_nonce, gnosisPage, 'css')
-    expect(nonce).toBe(expectedNonce)
+    expect(nonce).toBe(secondTransactionNonce)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'policies', gnosisPage)
