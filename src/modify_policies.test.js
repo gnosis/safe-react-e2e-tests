@@ -84,20 +84,15 @@ describe('Change Policies', () => {
     // waiting for the queue list to be empty and the executed tx to be on the history tab
     await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     await clickByText('button > span > p', 'History', gnosisPage)
+    // Wating for the new tx to show in the history, looking for the nonce
     await gnosisPage.waitForFunction(
-      (selector, nonce) => {
-        // I have to keep asking if the tx with the nonce + 1 is in the history tab, assuring the tx was executed
-        return Array.from(document.querySelectorAll(selector))
-          .map((e) => e.innerText)
-          .includes(nonce.toString())
-      },
-      {},
+      (selector, nonce) =>
+        // I have to keep asking if the tx with the nonce is in the history tab, assuring the tx was executed
+        document.querySelector(selector).innerText.includes(nonce),
+      { timeout: 0 },
       transactionsTab.tx_nonce,
       firsTransactionNonce,
     )
-    // Wating for the new tx to show in the history, looking for the nonce
-    let nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
-    expect(nonce).toBe(firsTransactionNonce)
     await clickElement(transactionsTab.tx_type, gnosisPage)
     const changeConfirmationText = await getInnerText({ selector: 'div.tx-details > p', type: 'css' }, gnosisPage)
     expect(changeConfirmationText).toBe('Change required confirmations:')
@@ -129,22 +124,15 @@ describe('Change Policies', () => {
     await isTextPresent('body', 'Transaction successfully executed', gnosisPage)
     const secondTransactionNonce = firsTransactionNonce + 1
     await gnosisPage.waitForFunction(
-      (selector, nonce) => {
-        // Once again I repeteadily ask if the latest executed tx nonce is present, should be secondTransactionNonce
-        return Array.from(document.querySelectorAll(selector))
-          .map((e) => e.innerText)
-          .includes(nonce.toString())
-      },
-      {},
+      (selector, nonce) => document.querySelector(selector).innerText.includes(nonce),
+      { timeout: 0 },
       transactionsTab.tx_nonce,
       secondTransactionNonce,
     )
-    nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
-    expect(nonce).toBe(secondTransactionNonce)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'policies', gnosisPage)
     await isTextPresent('body', 'Required confirmations', gnosisPage)
     await isTextPresent('body', '2 out of', gnosisPage)
-  }, 180000)
+  }, 210000)
 })
