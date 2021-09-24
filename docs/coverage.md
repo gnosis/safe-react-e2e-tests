@@ -1,13 +1,3 @@
-#### [Address book](./../src/address_book.test.js)
-1. Enter the address book. Validates 3 entries present by name (the load safe process created them)  
-2. Creates an entry with valid name and address. Validates it in the entries list  
-3. Validate error messages in entry creation: "RandomString", duplicated entry.  
-4. Validates ENS names translation (is a hardcoded ENS name for this test)  
-5. Edits entry. First validates name to be required, then enters a valid new name and saves  
-6. Finds edited name and deletes the entry  
-7. Exports a file (no validations)  
-8. Imports a file. checks new expected name to be in the entries list  
-  
 #### [Add/remove Owners](./../src/add_remove_owner.test.js)
 1. Enter add owner form  
 2. Validate Owner name and address required, invalid address, duplicated address  
@@ -17,6 +7,16 @@
 6. Sets threshold value to "2"  
 7. Verifies owner to be removed name an address  
 8. Signs and executes. Verifies tx success status  
+  
+#### [Address book](./../src/address_book.test.js)
+1. Enter the address book. Validates 3 entries present by name (the load safe process created them)  
+2. Creates an entry with valid name and address. Validates it in the entries list  
+3. Validate error messages in entry creation: "RandomString", duplicated entry.  
+4. Validates ENS names translation (is a hardcoded ENS name for this test)  
+5. Edits entry. First validates name to be required, then enters a valid new name and saves  
+6. Finds edited name and deletes the entry  
+7. Exports a file (no validations)  
+8. Imports a file. checks new expected name to be in the entries list  
   
 #### [Create safe](./../src/create_safe.test.js)
 1. Enters into the create safe form with the Create button  
@@ -31,11 +31,15 @@
   
 #### [Load safe](./../src/load_safe.test.js)
 1. Enters into the load form with the Load button component  
-2. Types name and address for the safe  
-3. Enters the name of the 1st owner in the list  
-4. Checks in the 3rd step that the safe name and owner name are the ones set before  
-5. Loads the safe  
-6. Opens the QR code for the safe on the sidebar and checks the safe name again  
+2. Shows the select network step  
+3. Switches the network  
+4. Types name and address for the safe  
+5. Load Safe address with a QR code  
+6. Invalid Safe address validation  
+7. Enters the name of the 1st owner in the list  
+8. Checks in the 3rd step that the safe name and owner name are the ones set before  
+9. Loads the safe  
+10. Opens the QR code for the safe on the sidebar and checks the safe name again  
   
 #### [address not found = ', address)
       expect(addressIncluded).toBeTruthy()
