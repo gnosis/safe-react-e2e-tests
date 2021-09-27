@@ -86,7 +86,7 @@ describe('Add an existing safe', () => {
     await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
 
     // loads a safe address with QR code
-    console.log('Loads Safe address with a QR code')
+    console.log('Loads a Safe address with a QR code')
     gnosisPage.waitForFileChooser()
     await gnosisPage.evaluate(() => {
       return document.querySelector("img[role='button']").click()
@@ -103,7 +103,7 @@ describe('Add an existing safe', () => {
     await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
 
     // Invalid Address validation
-    console.log('Shows invalid Safe address error')
+    console.log('Shows an error if it is an invalid address')
     const invalidAddress = 'this-is-an-invalid-address'
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, invalidAddress)
@@ -114,7 +114,7 @@ describe('Add an existing safe', () => {
     await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
 
     // Address given is not a valid Safe address
-    console.log('Shows Address given is not a valid Safe address error')
+    console.log('Shows an error if it is an invalid Safe address')
     const invalidSafeAddress = '0x726fD6f875951c10cEc96Dba52F0AA987168Fa97'
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, invalidSafeAddress)
@@ -125,7 +125,7 @@ describe('Add an existing safe', () => {
     await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
 
     // ENS resolution error
-    console.log('Shows an error if it the ENS Name Domain is not registered')
+    console.log('Shows an error if the ENS Name Domain is not registered')
     const notExistingENSNameDomain = 'notExistingENSDomain.eth'
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, notExistingENSNameDomain)
@@ -157,6 +157,7 @@ describe('Add an existing safe', () => {
     expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(safeAddressFromENS)
 
     // Types name and address for the safe
+    console.log('Types name and address for the safe')
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
     await assertTextPresent(loadSafeForm.valid_safe_name, 'Safe name', gnosisPage)
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
