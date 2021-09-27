@@ -15,6 +15,7 @@ import { generalInterface } from '../utils/selectors/generalInterface'
 import { loadSafeForm } from '../utils/selectors/loadSafeForm'
 import { initWithWalletConnected } from '../utils/testSetup'
 import config from '../utils/config'
+import { errorMsg } from '../utils/selectors/errorMsg'
 
 /*
 Load safe
@@ -103,12 +104,25 @@ describe('Add an existing safe', () => {
 
     // Invalid Address validation
     console.log('Invalid Safe address validation')
-    const invalidAddressError = 'Must be a valid address, ENS or Unstoppable domain'
     const invalidAddress = 'this-is-an-invalid-address'
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, invalidAddress)
     expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(invalidAddress)
-    await isTextPresent(loadSafeForm.name_and_address_safe_step.selector, invalidAddressError, gnosisPage)
+    await isTextPresent(loadSafeForm.name_and_address_safe_step.selector, errorMsg.valid_ENS_name, gnosisPage)
+    await clickElement(generalInterface.submit_btn, gnosisPage)
+    await gnosisPage.waitForTimeout(2000)
+    await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
+
+    // Address given is not a valid Safe address
+    console.log('Address given is not a valid Safe address')
+    const invalidSafeAddress = '0x726fD6f875951c10cEc96Dba52F0AA987168Fa97'
+    await clearInput(loadSafeForm.safe_address_field, gnosisPage)
+    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, invalidSafeAddress)
+    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(invalidSafeAddress)
+    await isTextPresent(loadSafeForm.name_and_address_safe_step.selector, errorMsg.invalid_Safe_Address, gnosisPage)
+    await clickElement(generalInterface.submit_btn, gnosisPage)
+    await gnosisPage.waitForTimeout(2000)
+    await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
 
     // Types name and address for the safe
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
