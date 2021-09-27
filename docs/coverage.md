@@ -34,13 +34,16 @@
 2. Shows the select network step  
 3. Switches the network  
 4. Types name and address for the safe  
-5. Load Safe address with a QR code  
-6. Invalid Safe address validation  
-7. Address given is not a valid Safe address  
-8. Enters the name of the 1st owner in the list  
-9. Checks in the 3rd step that the safe name and owner name are the ones set before  
-10. Loads the safe  
-11. Opens the QR code for the safe on the sidebar and checks the safe name again  
+5. Loads Safe address with a QR code  
+6. Shows invalid Safe address error  
+7. Shows Address given is not a valid Safe address error  
+8. Shows an error if it the ENS Name Domain is not registered  
+9. Shows an error if it is an invalid Safe address From a valid ENS Name Domain  
+10. Gets the Safe address From a valid ENS Name Domain  
+11. Enters the name of the 1st owner in the list  
+12. Checks in the 3rd step that the safe name and owner name are the ones set before  
+13. Loads the safe  
+14. Opens the QR code for the safe on the sidebar and checks the safe name again  
   
 #### [address not found = ', address)
       expect(addressIncluded).toBeTruthy()

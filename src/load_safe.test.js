@@ -86,7 +86,7 @@ describe('Add an existing safe', () => {
     await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
 
     // loads a safe address with QR code
-    console.log('Load Safe address with a QR code')
+    console.log('Loads Safe address with a QR code')
     gnosisPage.waitForFileChooser()
     await gnosisPage.evaluate(() => {
       return document.querySelector("img[role='button']").click()
@@ -103,7 +103,7 @@ describe('Add an existing safe', () => {
     await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
 
     // Invalid Address validation
-    console.log('Invalid Safe address validation')
+    console.log('Shows invalid Safe address error')
     const invalidAddress = 'this-is-an-invalid-address'
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, invalidAddress)
@@ -114,7 +114,7 @@ describe('Add an existing safe', () => {
     await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
 
     // Address given is not a valid Safe address
-    console.log('Address given is not a valid Safe address')
+    console.log('Shows Address given is not a valid Safe address error')
     const invalidSafeAddress = '0x726fD6f875951c10cEc96Dba52F0AA987168Fa97'
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, invalidSafeAddress)
@@ -123,6 +123,38 @@ describe('Add an existing safe', () => {
     await clickElement(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
+
+    // ENS resolution error
+    console.log('Shows an error if it the ENS Name Domain is not registered')
+    const notExistingENSNameDomain = 'notExistingENSDomain.eth'
+    await clearInput(loadSafeForm.safe_address_field, gnosisPage)
+    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, notExistingENSNameDomain)
+    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(notExistingENSNameDomain)
+    await isTextPresent(loadSafeForm.name_and_address_safe_step.selector, errorMsg.valid_ENS_name, gnosisPage)
+    await clickElement(generalInterface.submit_btn, gnosisPage)
+    await gnosisPage.waitForTimeout(2000)
+    await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
+
+    // ENS resolution with an invalid Safe address
+    console.log('Shows an error if it is an invalid Safe address From a valid ENS Name Domain')
+    const validENSAddress = 'francotest.eth'
+    const inValidSafeAddressFromENS = '0x61a0c717d18232711bC788F19C9Cd56a43cc8872'
+    await clearInput(loadSafeForm.safe_address_field, gnosisPage)
+    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, validENSAddress)
+    await isTextPresent(loadSafeForm.name_and_address_safe_step.selector, errorMsg.invalid_Safe_Address, gnosisPage)
+    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(inValidSafeAddressFromENS)
+    await clickElement(generalInterface.submit_btn, gnosisPage)
+    await gnosisPage.waitForTimeout(2000)
+    await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
+
+    // ENS resolution with a valid Safe address
+    console.log('Gets the Safe address From a valid ENS Name Domain')
+    const validENSSafe = 'safe.test'
+    const safeAddressFromENS = '0x83eC7B0506556a7749306D69681aDbDbd08f0769'
+    await clearInput(loadSafeForm.safe_address_field, gnosisPage)
+    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, validENSSafe)
+    await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
+    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(safeAddressFromENS)
 
     // Types name and address for the safe
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
