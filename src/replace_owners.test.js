@@ -70,7 +70,10 @@ describe('Owner Replacement', () => {
     )
     await clickElement(settingsPage.add_owner_btn, gnosisPage)
     await clickAndType(settingsPage.add_owner_name_input, gnosisPage, newOwnerName)
-    await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress)
+    // Validating checksum
+    await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress.toUpperCase())
+    const NewOwnerAddressChecksummed = await getInnerText(settingsPage.add_owner_address_input, gnosisPage)
+    expect(NewOwnerAddressChecksummed).toEqual(newOwnerAddress)
     await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
     await clickElement(settingsPage.add_owner_review_btn, gnosisPage)
     const addedName = await getInnerText(settingsPage.add_owner_name_review, gnosisPage)
@@ -126,7 +129,10 @@ describe('Owner Replacement', () => {
     console.log('Add valid name and address for replacement owner')
     // We get the list of owners, find the one we have to replace and take the index, then click the replace button with the same index
     await clickAndType(settingsPage.replace_owner_name_input, gnosisPage, ownerForReplacementName)
-    await clickAndType(settingsPage.replace_owner_address_input, gnosisPage, ownerForReplacementAddress)
+    // Validating Checksum
+    await clickAndType(settingsPage.replace_owner_address_input, gnosisPage, ownerForReplacementAddress.toUpperCase())
+    const ReplaceOwnerAddressChecksummed = await getInnerText(settingsPage.replace_owner_address_input, gnosisPage)
+    expect(ReplaceOwnerAddressChecksummed).toEqual(ownerForReplacementAddress)
     await clickElement(settingsPage.replace_owner_next_btn, gnosisPage)
     const toReplaceName = await getInnerText(settingsPage.add_owner_name_review, gnosisPage)
     const toReplaceAddress = await getInnerText(settingsPage.add_owner_address_review, gnosisPage)

@@ -5,6 +5,7 @@ import {
   clickAndType,
   clickByText,
   clickElement,
+  getInnerText,
   isTextPresent,
 } from '../utils/selectorsHelpers'
 import { accountsSelectors } from '../utils/selectors/accounts'
@@ -50,7 +51,10 @@ describe('Add an existing safe', () => {
     console.log('Types name and address for the safe')
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
     await assertTextPresent(loadSafeForm.valid_safe_name, 'Safe name', gnosisPage)
-    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
+    // validating checksum
+    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS.toUpperCase())
+    const safeAddressChecksummed = await getInnerText(loadSafeForm.safe_address_field, gnosisPage)
+    expect(safeAddressChecksummed).toEqual(TESTING_SAFE_ADDRESS)
     await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
     await clickElement(generalInterface.submit_btn, gnosisPage)
     // Add Safe owner step edition
