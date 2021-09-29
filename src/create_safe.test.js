@@ -5,6 +5,7 @@ import {
   clickAndType,
   assertTextPresent,
   isTextPresent,
+  getInnerText,
 } from '../utils/selectorsHelpers'
 import { accountsSelectors } from '../utils/selectors/accounts'
 import { createSafePage } from '../utils/selectors/createSafePage'
@@ -65,7 +66,17 @@ describe('Create New Safe', () => {
     await assertElementPresent({ selector: errorMsg.error(errorMsg.required), type: 'Xpath' }, gnosisPage) // check first "required" error in name field
     await clickAndType({ selector: createSafePage.owner_name_field(1), type: 'css' }, gnosisPage, owner2Name) // filling name field
     await assertElementPresent({ selector: errorMsg.error(errorMsg.required), type: 'Xpath' }, gnosisPage) // checking "required" error in address field
-    await clickAndType({ selector: createSafePage.address_field(1), type: 'css' }, gnosisPage, owner2Address)
+    // validate checksum
+    await clickAndType(
+      { selector: createSafePage.address_field(1), type: 'css' },
+      gnosisPage,
+      owner2Address.toUpperCase(),
+    )
+    const ownerAddressChecksummed = await getInnerText(
+      { selector: createSafePage.address_field(1), type: 'css' },
+      gnosisPage,
+    )
+    expect(ownerAddressChecksummed).toEqual(owner2Address)
     await assertElementPresent({ selector: createSafePage.valid_address(1), type: 'css' }, gnosisPage)
     rowsAmount = await gnosisPage.$$eval(createSafePage.owner_row, (x) => x.length) // see how many owner I've created
     await assertElementPresent({ selector: createSafePage.req_conf_limit(rowsAmount), type: 'css' }, gnosisPage) // that amount should be in the text "out of X owners"
