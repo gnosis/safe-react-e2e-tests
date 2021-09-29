@@ -68,7 +68,11 @@ describe('Send funds and sign with two owners', () => {
     await assertElementPresent(sendFundsForm.review_btn_disabled, gnosisPage)
     await gnosisPage.waitForTimeout(3000)
     // Fill the form and check error messages when inputs are wrong
-    await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS)
+
+    // Input the receiver. Checks checksum validation
+    await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS.toUpperCase())
+    const receiverAddressChecksummed = await getInnerText(sendFundsForm.recipient_input_value_entered, gnosisPage)
+    expect(receiverAddressChecksummed).toEqual(FUNDS_RECEIVER_ADDRESS) // The input should checksum the uppercase text automatically.
 
     console.log(
       'Selects ETH token to send (is hardcoded to send only ETH, so it will fail for other networks currently)',
@@ -77,6 +81,8 @@ describe('Send funds and sign with two owners', () => {
     await clickElement(sendFundsForm.select_token_ether, gnosisPage)
 
     await gnosisPage.waitForTimeout(1000)
+    // Validates error fixed in #2758. Remove the comment when 2758 is merged. The Review button should be still be disabled by this point
+    // await assertElementPresent(sendFundsForm.review_btn_disabled, gnosisPage)
 
     console.log('Validates error for invalid amounts: 0, "abc", 99999')
     // Checking that 0 amount triggers an error
@@ -103,7 +109,6 @@ describe('Send funds and sign with two owners', () => {
     const maxInputValue = await getNumberInString(sendFundsForm.amount_input, gnosisPage)
     expect(parseFloat(maxInputValue)).toBe(currentEthFunds)
     await clearInput(sendFundsForm.amount_input, gnosisPage)
-
     await clickAndType(sendFundsForm.amount_input, gnosisPage, TOKEN_AMOUNT.toString())
     await assertElementPresent(sendFundsForm.valid_amount_msg, gnosisPage)
     await clickElement(sendFundsForm.review_btn, gnosisPage)

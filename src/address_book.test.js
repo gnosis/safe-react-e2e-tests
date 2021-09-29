@@ -64,7 +64,14 @@ describe('Address book', () => {
     console.log('Creates an entry with valid name and address. Validates it in the entries list')
     await clickByText('p', 'Create entry', gnosisPage)
     await clickAndType(addressBook.createEntryNameInput, gnosisPage, accountsSelectors.otherAccountNames.owner5_name)
-    await clickAndType(addressBook.createEntryAddressInput, gnosisPage, accountsSelectors.testAccountsHash.acc1)
+    // Validating checksum
+    await clickAndType(
+      addressBook.createEntryAddressInput,
+      gnosisPage,
+      accountsSelectors.testAccountsHash.acc1.toUpperCase(),
+    )
+    const addressUppercaseFixed = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
+    expect(addressUppercaseFixed).toEqual(accountsSelectors.testAccountsHash.acc1)
     await clickElement(addressBook.createSubmitBtn, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.otherAccountNames.owner5_name, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.testAccountsHash.acc1, gnosisPage)

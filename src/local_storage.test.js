@@ -79,7 +79,7 @@ describe('LocalStorage Populate and validate', () => {
     // Addresses in the AB are ordered by Name, so they might not be in the same order as they are in the localStorage
     addressBookEntries.forEach((address) => {
       const addressIncluded = localStorageAddressBook.includes(address)
-      if (!addressIncluded) console.log('address not found = ', address)
+      if (!addressIncluded) console.info('address not found = ', address)
       expect(addressIncluded).toBeTruthy()
     })
     // Check if the names of the apps added are in the list of Apps
