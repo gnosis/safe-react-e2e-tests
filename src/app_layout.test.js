@@ -1,5 +1,6 @@
 import { getEnvUrl, initWithWalletConnected } from '../utils/testSetup'
 import { appLayout } from '../utils/selectors/appLayout'
+import { assertElementPresent, assertElementNotPresent } from '../utils/selectorsHelpers'
 import config from '../utils/config'
 
 let browser
@@ -20,23 +21,23 @@ afterAll(async () => {
   await browser.close()
 })
 
-describe('Navigate through the app routes', () => {
+describe('Application Layout', () => {
   test('Footer exists in the Welcome page and Settings', async () => {
     const footerSelector = appLayout.footer.selector
 
-    let footer = await gnosisPage.waitForSelector(footerSelector, { timeout: 1000 })
-    expect(footer).toBeDefined()
+    console.log('Footer is present in the Welcome page')
+    await assertElementPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
+    console.log('Footer is not present in the Balances page')
     await gnosisPage.goto(envUrl + '#/safes/' + TESTING_SAFE_ADDRESS + '/balances/collectibles')
-    footer = await gnosisPage.waitForSelector(footerSelector, { timeout: 1000, hidden: true })
-    expect(footer).toBeNull()
+    await assertElementNotPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
+    console.log('Footer is not present in the Address Book page')
     await gnosisPage.goto(envUrl + '#/safes/' + TESTING_SAFE_ADDRESS + '/address-book')
-    footer = await gnosisPage.waitForSelector(footerSelector, { timeout: 1000, hidden: true })
-    expect(footer).toBeNull()
+    await assertElementNotPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
+    console.log('Footer is present in the Settings pages')
     await gnosisPage.goto(envUrl + '#/safes/' + TESTING_SAFE_ADDRESS + '/settings/policies')
-    footer = await gnosisPage.waitForSelector(footerSelector, { timeout: 1000 })
-    expect(footer).toBeDefined()
+    await assertElementPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
   })
 })
