@@ -18,16 +18,19 @@ const importAccounts = async (metamask, privateKeys) => {
 
 const { SLOWMO, ENVIRONMENT, MNEMONIC, PRIVATE_KEY_GROUP, PASSWORD, PUPPETEER_EXEC_PATH, TESTING_ENV, TESTING_SAFE_ADDRESS } = config
 
-let envUrl
-if (TESTING_ENV === 'PR') {
-  const pullRequestNumber = process.env.PR
-  if (!pullRequestNumber) {
-    throw Error('You have to define PR env variable')
+export const getEnvUrl = () => {
+  if (TESTING_ENV === 'PR') {
+    const pullRequestNumber = process.env.PR
+    if (!pullRequestNumber) {
+      throw Error('You have to define PR env variable')
+    }
+    return ENVIRONMENT[TESTING_ENV.toUpperCase()](pullRequestNumber)
+  } else {
+    return ENVIRONMENT[TESTING_ENV.toLowerCase()]
   }
-  envUrl = ENVIRONMENT[TESTING_ENV.toUpperCase()](pullRequestNumber)
-} else {
-  envUrl = ENVIRONMENT[TESTING_ENV.toLowerCase()]
 }
+const envUrl = getEnvUrl()
+
 
 export const init = async () => {
   const browser = await dappeteer.launch(puppeteer, {
