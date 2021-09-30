@@ -20,14 +20,21 @@
   
 #### [Create safe](./../src/create_safe.test.js)
 1. Enters into the create safe form with the Create button  
-2. Type a name for the safe  
-3. Adds a new owner row  
-4. Type names and addresses only for "owner2"  
-5. Check that owner names and addresses are required when clicking submit  
-6. Checks that the policies selector matches the amount of owners  
-7. Checks in review step the name of the safe, name and address of owner2  
-8. Checks "block explorer" and "back" button during the safe creation  
-9. Checks safe name on the sidebar once the safe is loaded  
+2. Shows Connect wallet & select network step  
+3. Switches the network and connect your wallet  
+4. Shows naming the Safe step  
+5. Type a name for the safe  
+6. Shows Owners and Confirmations step  
+7. Adds the current user address as default owner  
+8. Adds a new owner row with a valid address  
+9. Shows Review Safe step  
+10. Checks the name of the new Safe  
+11. Checks the threshold of the new Safe  
+12. Checks owners of the new Safe  
+13. Submits the Create Safe Form  
+14. Checks "block explorer" and "back" button during the safe creation  
+15. Checks if the Safe Created popup is showed  
+16. Checks safe name on the sidebar once the safe is loaded  
   
 #### [Load safe](./../src/load_safe.test.js)
 1. Enters into the load form with the Load button component  
