@@ -27,14 +27,22 @@
 6. Shows Owners and Confirmations step  
 7. Adds the current user address as default owner  
 8. Adds a new owner row with a valid address  
-9. Shows Review Safe step  
-10. Checks the name of the new Safe  
-11. Checks the threshold of the new Safe  
-12. Checks owners of the new Safe  
-13. Submits the Create Safe Form  
-14. Checks "block explorer" and "back" button during the safe creation  
-15. Checks if the Safe Created popup is showed  
-16. Checks safe name on the sidebar once the safe is loaded  
+9. Shows a "required" error if a owner address is empty  
+10. Shows a "Address already introduced" error if a owner address is duplicated  
+11. Loads a owner address with a QR code  
+12. Shows an error if it is an invalid address  
+13. Shows an error if the ENS Name Domain is not registered  
+14. Loads a owner address with a valid ENS address  
+15. Selects a custom Threshold for the new Safe  
+16. Removes a owner  
+17. Shows Review Safe step  
+18. Checks the name of the new Safe  
+19. Checks the threshold of the new Safe  
+20. Checks owners of the new Safe  
+21. Submits the Create Safe Form  
+22. Checks "block explorer" and "back" button during the safe creation  
+23. Checks if the Safe Created popup is showed  
+24. Checks safe name on the sidebar once the safe is loaded  
   
 #### [Load safe](./../src/load_safe.test.js)
 1. Enters into the load form with the Load button component  

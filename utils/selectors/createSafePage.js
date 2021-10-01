@@ -16,6 +16,18 @@ export const createSafePage = {
     selector: `svg[data-testid='owner-address-${index}-valid-adornment']`,
     type: 'css',
   }),
+  get_remove_owner_btn: (index) => ({
+    selector: `button[data-testid='owner-address-${index}-remove-button']`,
+    type: 'css',
+  }),
+  get_scan_QR_code_btn: (index) => ({ selector: `img[data-testid='owner-address-${index}-scan-QR']`, type: 'css' }),
+  threshold_selector: { selector: "div[data-testid='threshold-selector-input']", type: 'css' },
+  threshold_hidden_input: { selector: "div[data-testid='threshold-selector-input'] input", type: 'css' },
+  get_threshold_option: (option) => ({
+    selector: `li[data-testid='threshold-selector-option-${option}']`,
+    type: 'css',
+  }),
+  error_field_label: { selector: 'p.Mui-error', type: 'css' },
 
   review_safe_step: { selector: "div[data-testid='create-safe-review-step']", type: 'css' },
   review_safe_name_label: { selector: "p[data-testid='create-safe-review-safe-name']", type: 'css' },
