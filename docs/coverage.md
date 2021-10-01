@@ -45,6 +45,22 @@
 24. Checks if the Safe Created popup is showed  
 25. Checks safe name on the sidebar once the safe is loaded  
   
+#### [Create Safe with a Old MultiSig migration](./../src/create_safe_migration.test.js)
+1. Shows Connect wallet & select network step  
+2. Shows naming the Safe step  
+3. Check the name of the safe  
+4. Shows Owners and Confirmations step  
+5. Shows Owners from migration URL  
+6. Selects the custom Threshold from the migration URL  
+7. Shows Review Safe step  
+8. Checks the name of the new Safe  
+9. Checks the threshold of the new Safe  
+10. Checks owners of the new Safe  
+11. Submits the Create Safe Form  
+12. Checks "block explorer" and "back" button during the safe creation  
+13. Checks if the Safe Created popup is showed  
+14. Checks safe name on the sidebar once the safe is loaded  
+  
 #### [Load safe](./../src/load_safe.test.js)
 1. Enters into the load form with the Load button component  
 2. Shows the select network step  

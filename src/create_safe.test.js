@@ -134,11 +134,7 @@ describe('Create New Safe', () => {
     expect(await getInnerText(createSafePage.get_owner_address_field(secondOwnerIndex), gnosisPage)).toBe(
       secondOwnerAddress,
     )
-    await assertElementPresent(
-      createSafePage.get_valid_address_check_icon(secondOwnerIndex),
-      gnosisPage,
-      secondOwnerAddress,
-    )
+    await assertElementPresent(createSafePage.get_valid_address_check_icon(secondOwnerIndex), gnosisPage)
 
     // required owner address error, we add a empty owner and click on next btn
     console.log('Shows a "required" error if a owner address is empty')
