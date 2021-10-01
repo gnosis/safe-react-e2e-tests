@@ -35,7 +35,7 @@
 14. Loads a owner address with a valid ENS address  
 15. Selects a custom Threshold for the new Safe  
 16. Removes a owner  
-17. you can not set more confirmations than owners  
+17. sets less confirmations than owners, see [#2733](https://github.com/gnosis/safe-react/issues/2733)  
 18. Shows Review Safe step  
 19. Checks the name of the new Safe  
 20. Checks the threshold of the new Safe  
