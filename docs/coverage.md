@@ -35,14 +35,15 @@
 14. Loads a owner address with a valid ENS address  
 15. Selects a custom Threshold for the new Safe  
 16. Removes a owner  
-17. Shows Review Safe step  
-18. Checks the name of the new Safe  
-19. Checks the threshold of the new Safe  
-20. Checks owners of the new Safe  
-21. Submits the Create Safe Form  
-22. Checks "block explorer" and "back" button during the safe creation  
-23. Checks if the Safe Created popup is showed  
-24. Checks safe name on the sidebar once the safe is loaded  
+17. you can not set more confirmations than owners  
+18. Shows Review Safe step  
+19. Checks the name of the new Safe  
+20. Checks the threshold of the new Safe  
+21. Checks owners of the new Safe  
+22. Submits the Create Safe Form  
+23. Checks "block explorer" and "back" button during the safe creation  
+24. Checks if the Safe Created popup is showed  
+25. Checks safe name on the sidebar once the safe is loaded  
   
 #### [Load safe](./../src/load_safe.test.js)
 1. Enters into the load form with the Load button component  

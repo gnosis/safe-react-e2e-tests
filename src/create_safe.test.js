@@ -211,9 +211,7 @@ describe('Create New Safe', () => {
 
     // updates the threshold value to make sure that you can not set more confirmations than owners
     // see https://github.com/gnosis/safe-react/issues/2733
-    console.log(
-      'you can not set more confirmations than owners see https://github.com/gnosis/safe-react/issues/2733 for more info',
-    )
+    console.log('you can not set more confirmations than owners')
     expect(await getInnerText(createSafePage.threshold_hidden_input, gnosisPage)).toBe('2')
 
     // goes to the last review safe step
