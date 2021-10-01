@@ -18,6 +18,12 @@
 7. Exports a file (no validations)
 8. Imports a file. checks new expected name to be in the entries list
 
+#### [Footer exists in the Welcome page and Settings](./../src/app_layout.test.js)
+1. Footer is present in the Welcome page
+2. Footer is not present in the Balances page
+3. Footer is not present in the Address Book page
+4. Footer is present in the Settings pages
+
 #### [Create safe](./../src/create_safe.test.js)
 1. Enters into the create safe form with the Create button
 2. Type a name for the safe
