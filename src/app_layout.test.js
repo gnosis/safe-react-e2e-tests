@@ -23,6 +23,8 @@ afterAll(async () => {
 
 describe('Application Layout', () => {
   test('Footer exists in the Welcome page and Settings', async () => {
+    console.log('Footer exists in the Welcome page and Settings')
+
     const footerSelector = appLayout.footer.selector
 
     console.log('Footer is present in the Welcome page')
