@@ -1,4 +1,6 @@
 import { approveAndExecuteWithOwner } from '../utils/actions/approveAndExecuteWithOwner'
+import { verifySuccessfulExecution } from '../utils/actions/verifySuccesfulExecution'
+
 import {
   assertElementPresent,
   assertTextPresent,
@@ -83,16 +85,7 @@ describe('Change Policies', () => {
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Pending', gnosisPage)
     // waiting for the queue list to be empty and the executed tx to be on the history tab
     await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
-    await clickByText('button > span > p', 'History', gnosisPage)
-    // Wating for the new tx to show in the history, looking for the nonce
-    await gnosisPage.waitForFunction(
-      (selector, nonce) =>
-        // I have to keep asking if the tx with the nonce is in the history tab, assuring the tx was executed
-        document.querySelector(selector).innerText.includes(nonce),
-      { timeout: 0 },
-      transactionsTab.tx_nonce,
-      firsTransactionNonce,
-    )
+    await verifySuccessfulExecution(gnosisPage, firsTransactionNonce)
     await clickElement(transactionsTab.tx_type, gnosisPage)
     const changeConfirmationText = await getInnerText({ selector: 'div.tx-details > p', type: 'css' }, gnosisPage)
     expect(changeConfirmationText).toBe('Change required confirmations:')
@@ -119,16 +112,10 @@ describe('Change Policies', () => {
     // Verifying the rollback
     await gnosisPage.bringToFront()
     await gnosisPage.waitForTimeout(2000)
-    await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the tx execution notification, history should update after
     await isTextPresent('body', 'Transaction successfully executed', gnosisPage)
     const secondTransactionNonce = firsTransactionNonce + 1
-    await gnosisPage.waitForFunction(
-      (selector, nonce) => document.querySelector(selector).innerText.includes(nonce),
-      { timeout: 0 },
-      transactionsTab.tx_nonce,
-      secondTransactionNonce,
-    )
+    await verifySuccessfulExecution(gnosisPage, secondTransactionNonce)
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'policies', gnosisPage)

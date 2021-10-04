@@ -42,7 +42,7 @@ export const clearInput = async function ({ selector, type = 'Xpath' }, page) {
 }
 
 export const assertElementPresent = async function ({ selector, type = 'Xpath' }, page) {
-  const element = await elementSelector(selector, page, type, 90000)
+  const element = await elementSelector(selector, page, type, 120000)
   const expectHandler = expect(element)
   type !== 'Xpath' ? expectHandler.not.toBeNull() : expectHandler.toBeDefined() // for Css there is a different condition to make
   return element
