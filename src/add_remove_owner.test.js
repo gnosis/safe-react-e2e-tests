@@ -78,7 +78,10 @@ describe('Adding and removing owners', () => {
     await clearInput(settingsPage.add_owner_address_input, gnosisPage)
 
     console.log('Input valid owner name and address')
-    await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress)
+    // validating checksum
+    await clickAndType(settingsPage.add_owner_address_input, gnosisPage, newOwnerAddress.toUpperCase())
+    const newOwnerAddressChecksummed = await getInnerText(settingsPage.add_owner_address_input, gnosisPage)
+    expect(newOwnerAddressChecksummed).toEqual(newOwnerAddress)
     await clickElement(settingsPage.add_owner_next_btn, gnosisPage)
 
     console.log('Checks them in review step and submits, confirms and executes')
