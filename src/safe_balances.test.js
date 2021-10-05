@@ -5,7 +5,7 @@ import { safeBalancesPage } from '../utils/selectors/safeBalancesPage'
 
 /*
 Safe Balances
--- Enters into the Safe Balances component
+-- Enters the Safe Balances page
 -- check the currency dropdown
 */
 
