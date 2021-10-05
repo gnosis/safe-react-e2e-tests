@@ -31,36 +31,30 @@ describe('Safe Balances', () => {
   test('Safe Balances', async () => {
     console.log('Safe Balances')
 
-    // goes to the Safe Balance page
-    console.log('Enters into the Safe Balances component')
+    console.log('Enters the Safe Balances page')
     const safeBalancesUrl = `${getEnvUrl()}app/rinkeby/safes/${TESTING_SAFE_ADDRESS}/balances`
     await gnosisPage.goto(safeBalancesUrl)
 
-    // USD currency by default
     console.log('USD currency by default')
     const defaultSelectedCurrency = 'USD'
     await assertTextPresent(safeBalancesPage.selected_currency_label, defaultSelectedCurrency, gnosisPage)
 
-    // Safe Balances table shows the amounts in USD
     console.log('Safe Balances table shows the amounts in USD')
     const amountShowed = await getInnerText(safeBalancesPage.currency_showed_balances_table, gnosisPage)
     const currencyShowed = amountShowed.split(' ')[1]
     expect(currencyShowed).toBe(defaultSelectedCurrency)
 
-    // selects a new currency
     console.log('selects a new default currency')
     const newSelectedCurrency = 'EUR'
     await clickSomething(safeBalancesPage.currency_dropdown_btn.selector, gnosisPage, 'css')
     await clickElement(safeBalancesPage.currency_item_label(newSelectedCurrency), gnosisPage)
     await assertTextPresent(safeBalancesPage.selected_currency_label, newSelectedCurrency, gnosisPage)
 
-    // Safe Balances table shows the amounts in the new selected currency
     console.log('Safe Balances table shows the amounts in the new selected currency')
     const newAmountShowed = await getInnerText(safeBalancesPage.currency_showed_balances_table, gnosisPage)
     const newCurrencyShowed = newAmountShowed.split(' ')[1]
     expect(newCurrencyShowed).toBe(newSelectedCurrency)
 
-    // updates the localStorage
     console.log('updates the new selected currency in the localStorage')
     const selectedCurrencyFromStorage = await gnosisPage.evaluate(() => {
       const selectedCurrencyLocalStorageKey = 'SAFE__currencyValues.selectedCurrency'
@@ -68,7 +62,6 @@ describe('Safe Balances', () => {
     })
     expect(selectedCurrencyFromStorage).toBe(JSON.stringify(newSelectedCurrency))
 
-    // refresh the page should keep the selected value
     console.log('refresh the page should keep the selected value')
     await gnosisPage.goto(safeBalancesUrl)
     await assertTextPresent(safeBalancesPage.selected_currency_label, newSelectedCurrency, gnosisPage)

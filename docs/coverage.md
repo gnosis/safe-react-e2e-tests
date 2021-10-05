@@ -69,7 +69,7 @@
 6. Checks status success of executed tx
 
 #### [Safe Balances](./../src/safe_balances.test.js)
-1. Enters into the Safe Balances component
+1. Enters the Safe Balances page
 2. USD currency by default
 3. Safe Balances table shows the amounts in USD
 4. selects a new default currency
