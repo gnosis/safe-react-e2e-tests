@@ -7,7 +7,7 @@ const fileNames = fs.readdirSync(directoryPath, 'utf8')
 
 const commentStart = 'console.log(\''
 const commentEnd = '\')'
-fileNames.forEach((fileName)=>{
+fileNames.sort().forEach((fileName)=>{
   const data = fs.readFileSync(path.join(directoryPath, fileName), 'utf8')
   let fileText = data
   let lineCount = 0
@@ -20,11 +20,11 @@ fileNames.forEach((fileName)=>{
     logEnding = fileText.indexOf(commentEnd, logIndex)
     comment = comment.replace(commentStart, '').replace(commentEnd, '')
     if(lineCount > 0){
-      console.log(`${lineCount}. ${comment}  `)
+      console.log(`${lineCount}. ${comment}`)
     } else {
       console.log(`#### [${comment}](./../src/${fileName})`)
     }
     lineCount ++
   }
-  console.log('  ')
+  console.log('')
 })

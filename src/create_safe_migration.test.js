@@ -57,7 +57,6 @@ describe('Create New Safe Migration', () => {
     const firstOwnerIndex = 0
     const secondOwnerIndex = 1
 
-    // TODO: import getEnvUrl manually from ../utils/testSetup until footer PR merged
     const migrationUrl = `${getEnvUrl()}app/rinkeby/open?name=${newSafeName}&threshold=${customThresholdValue}&owneraddresses=${firstOwnerAddress},${secondOwnerAddress}&ownernames=${firstOwnerName},${secondOwnerName}`
 
     await gnosisPage.goto(migrationUrl)
@@ -78,7 +77,7 @@ describe('Create New Safe Migration', () => {
     console.log('Check the name of the safe')
     expect(await getInnerText(createSafePage.safe_name_field, gnosisPage)).toBe(newSafeName)
 
-    await clickElement(generalInterface.submit_btn, gnosisPage)
+    await clickSomething(generalInterface.submit_btn.selector, gnosisPage, 'css')
 
     // [Step 3] Owners and Confirmations
     console.log('Shows Owners and Confirmations step')

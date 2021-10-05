@@ -128,7 +128,11 @@ describe('Create New Safe', () => {
     // filling name field
     await clickAndType(createSafePage.get_owner_name_field(secondOwnerIndex), gnosisPage, secondOwnerName)
     // filling address field
-    await clickAndType(createSafePage.get_owner_address_field(secondOwnerIndex), gnosisPage, secondOwnerAddress)
+    await clickAndType(
+      createSafePage.get_owner_address_field(secondOwnerIndex),
+      gnosisPage,
+      secondOwnerAddress.toUpperCase(),
+    )
     // expects a valid second owner values
     expect(await getInnerText(createSafePage.get_owner_name_field(secondOwnerIndex), gnosisPage)).toBe(secondOwnerName)
     expect(await getInnerText(createSafePage.get_owner_address_field(secondOwnerIndex), gnosisPage)).toBe(

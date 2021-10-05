@@ -161,12 +161,16 @@ describe('Add an existing safe', () => {
     await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
     await assertTextPresent(loadSafeForm.valid_safe_name, 'Safe name', gnosisPage)
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
-    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
+    await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS.toUpperCase())
+    // validating checksum
+    const safeAddressChecksummed = await getInnerText(loadSafeForm.safe_address_field, gnosisPage)
+    expect(safeAddressChecksummed).toEqual(TESTING_SAFE_ADDRESS)
     await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
     await clickElement(generalInterface.submit_btn, gnosisPage)
 
     // [Step 3] Owners
     // Add Safe owner step edition
+    await gnosisPage.waitForTimeout(2000)
     await assertElementPresent(loadSafeForm.safe_owners_step, gnosisPage)
     console.log('Enters the name of the 1st owner in the list')
     await clearInput(loadSafeForm.owner_name(), gnosisPage)
