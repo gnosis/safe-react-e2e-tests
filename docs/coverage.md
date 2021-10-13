@@ -26,14 +26,46 @@
 
 #### [Create safe](./../src/create_safe.test.js)
 1. Enters into the create safe form with the Create button
-2. Type a name for the safe
-3. Adds a new owner row
-4. Type names and addresses only for "owner2"
-5. Check that owner names and addresses are required when clicking submit
-6. Checks that the policies selector matches the amount of owners
-7. Checks in review step the name of the safe, name and address of owner2
-8. Checks "block explorer" and "back" button during the safe creation
-9. Checks safe name on the sidebar once the safe is loaded
+2. Shows Connect wallet & select network step
+3. Switches the network and connect your wallet
+4. Shows naming the Safe step
+5. Type a name for the safe
+6. Shows Owners and Confirmations step
+7. Adds the current user address as default owner
+8. Adds a new owner row with a valid address
+9. Shows a "required" error if a owner address is empty
+10. Shows a "Address already introduced" error if a owner address is duplicated
+11. Loads a owner address with a QR code
+12. Shows an error if it is an invalid address
+13. Shows an error if the ENS Name Domain is not registered
+14. Loads a owner address with a valid ENS address
+15. Selects a custom Threshold for the new Safe
+16. Removes a owner
+17. sets less confirmations than owners, see [#2733](https://github.com/gnosis/safe-react/issues/2733)
+18. Shows Review Safe step
+19. Checks the name of the new Safe
+20. Checks the threshold of the new Safe
+21. Checks owners of the new Safe
+22. Submits the Create Safe Form
+23. Checks "block explorer" and "back" button during the safe creation
+24. Checks if the Safe Created popup is showed
+25. Checks safe name on the sidebar once the safe is loaded
+
+#### [Create Safe with a Old MultiSig migration](./../src/create_safe_migration.test.js)
+1. Shows Connect wallet & select network step
+2. Shows naming the Safe step
+3. Check the name of the safe
+4. Shows Owners and Confirmations step
+5. Shows Owners from migration URL
+6. Selects the custom Threshold from the migration URL
+7. Shows Review Safe step
+8. Checks the name of the new Safe
+9. Checks the threshold of the new Safe
+10. Checks owners of the new Safe
+11. Submits the Create Safe Form
+12. Checks "block explorer" and "back" button during the safe creation
+13. Checks if the Safe Created popup is showed
+14. Checks safe name on the sidebar once the safe is loaded
 
 
 #### [Load safe](./../src/load_safe.test.js)
