@@ -1,4 +1,5 @@
 import { approveAndExecuteWithOwner } from '../utils/actions/approveAndExecuteWithOwner'
+import { verifySuccessfulExecution } from '../utils/actions/verifySuccesfulExecution'
 import {
   assertElementPresent,
   assertTextPresent,
@@ -52,7 +53,6 @@ afterAll(async () => {
 describe('Send funds and sign with two owners', () => {
   let currentEthFunds = ''
   let currentEthFundsOnText = ''
-  let currentNonce = ''
 
   test('Send funds and return the funds', async () => {
     console.log('Send funds')
@@ -128,7 +128,7 @@ describe('Send funds and sign with two owners', () => {
     // Approving and executing the transaction with owner 2
     await gnosisPage.bringToFront()
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
-    currentNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
+    const sendFundsTxNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     // We approve and execute with account 1
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Check that transaction was successfully executed
@@ -138,11 +138,8 @@ describe('Send funds and sign with two owners', () => {
     // waiting for the queue list to be empty and the executed tx to be on the history tab
     await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
     console.log('Goes to history tx tab, checks tx amount sent and receiver address')
-    await clickByText('button > span > p', 'History', gnosisPage)
     // Wating for the new tx to show in the history, looking for the nonce
-    await gnosisPage.waitForTimeout(2000)
-    const nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
-    expect(nonce).toBe(currentNonce)
+    await verifySuccessfulExecution(gnosisPage, sendFundsTxNonce)
     const sentAmount = await getInnerText({ selector: transactionsTab.tx_info, type: 'css' }, gnosisPage)
     expect(sentAmount).toBe(`-${TOKEN_AMOUNT.toString()} ETH`)
     await clickElement(transactionsTab.tx_type, gnosisPage)
