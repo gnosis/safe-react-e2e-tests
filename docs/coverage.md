@@ -38,11 +38,20 @@
 
 #### [Load safe](./../src/load_safe.test.js)
 1. Enters into the load form with the Load button component
-2. Types name and address for the safe
-3. Enters the name of the 1st owner in the list
-4. Checks in the 3rd step that the safe name and owner name are the ones set before
-5. Loads the safe
-6. Opens the QR code for the safe on the sidebar and checks the safe name again
+2. Shows the select network step
+3. Switches the network
+4. Types name and address for the safe
+5. Loads a Safe address with a QR code
+6. Shows an error if it is an invalid address
+7. Shows an error if it is an invalid Safe address
+8. Shows an error if the ENS Name Domain is not registered
+9. Shows an error if it is an invalid Safe address From a valid ENS Name Domain
+10. Gets the Safe address From a valid ENS Name Domain
+11. Types name and address for the safe
+12. Enters the name of the 1st owner in the list
+13. Checks in the 3rd step that the safe name and owner name are the ones set before
+14. Loads the safe
+15. Opens the QR code for the safe on the sidebar and checks the safe name again
 
 
 #### [Modify policies](./../src/modify_policies.test.js)
