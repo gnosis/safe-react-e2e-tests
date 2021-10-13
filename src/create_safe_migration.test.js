@@ -57,7 +57,7 @@ describe('Create New Safe Migration', () => {
     const firstOwnerIndex = 0
     const secondOwnerIndex = 1
 
-    const migrationUrl = `${getEnvUrl()}app/rinkeby/open?name=${newSafeName}&threshold=${customThresholdValue}&owneraddresses=${firstOwnerAddress},${secondOwnerAddress}&ownernames=${firstOwnerName},${secondOwnerName}`
+    const migrationUrl = `${getEnvUrl()}app/open?name=${newSafeName}&threshold=${customThresholdValue}&owneraddresses=${firstOwnerAddress},${secondOwnerAddress}&ownernames=${firstOwnerName},${secondOwnerName}`
 
     await gnosisPage.goto(migrationUrl)
 
