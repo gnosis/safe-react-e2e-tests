@@ -32,7 +32,7 @@ describe('Safe Balances', () => {
     console.log('Safe Balances')
 
     console.log('Enters the Safe Balances page')
-    const safeBalancesUrl = `${getEnvUrl()}app/rinkeby/safes/${TESTING_SAFE_ADDRESS}/balances`
+    const safeBalancesUrl = `${getEnvUrl()}app/rin:${TESTING_SAFE_ADDRESS}/balances`
     await gnosisPage.goto(safeBalancesUrl)
 
     console.log('USD currency by default')
