@@ -115,17 +115,20 @@
 3. Opens a Safe App
 4. Shows Disclaimer and clicks on accept
 5. Loads Safe Apps in an iframe
-6. Bookmarks Safe Apps
-7. Searches by Safe App Title and Description
-8. Shows the add custom Safe Apps form
-9. Populates the custom the Safe App url and name
-10. "Add Custom Safe App" button should be disabled if the checkbox is unchecked
-11. Adds a custom Safe Apps
-12. Loads the Custom App in an iframe
-13. Shows the Custom Safe App in the Apps List
-14. Validates the custom Safe App Url
-15. Validates if the Custom Safe App was already added
-16. Removes a Custom Safe App
+6. Pins Safe Apps
+7. Refresh the page should keep the Bookmarked Safe Apps
+8. Unpins Safe Apps
+9. Searches by Safe App Title
+10. Searches by Safe App Description
+11. Shows the add custom Safe Apps form
+12. Populates the custom the Safe App url and name
+13. "Add Custom Safe App" button should be disabled if the checkbox is unchecked
+14. Adds a custom Safe Apps
+15. Loads the Custom App in an iframe
+16. Shows the Custom Safe App in the Apps List
+17. Validates the custom Safe App Url
+18. Validates if the Custom Safe App was already added
+19. Removes a Custom Safe App
 
 #### [Send funds](./../src/send_funds.test.js)
 1. Open the send funds form

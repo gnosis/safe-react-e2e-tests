@@ -41,8 +41,9 @@ afterAll(async () => {
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     console.log('Safe Apps List')
+    const safeAppsListUrl = `${getEnvUrl()}#/safes/${TESTING_SAFE_ADDRESS}/apps`
 
-    await gnosisPage.goto(`${getEnvUrl()}#/safes/${TESTING_SAFE_ADDRESS}/apps`)
+    await gnosisPage.goto(safeAppsListUrl)
 
     console.log('Shows Bookmarked Apps Section')
     await assertTextPresent(safeAppsList.bookmarkedSafeAppsSection, 'BOOKMARKED APPS', gnosisPage)
@@ -51,7 +52,7 @@ describe('Safe Apps List', () => {
     await assertElementPresent(safeAppsList.allSafeAppsSection, gnosisPage)
 
     console.log('Opens a Safe App')
-    await clickElement(safeAppsList.walletConnectSafeAppLogo, gnosisPage)
+    await clickElement(safeAppsList.getSafeAppByTitle('WalletConnect'), gnosisPage)
 
     console.log('Shows Disclaimer and clicks on accept')
     await assertElementPresent(safeAppsList.disclaimerTitleSafeAppPopUp, gnosisPage)
@@ -61,19 +62,43 @@ describe('Safe Apps List', () => {
     console.log('Loads Safe Apps in an iframe')
     await assertElementPresent(safeAppsList.getSafeAppIframeByTitle('WalletConnect'), gnosisPage)
 
-    await gnosisPage.goto(`${getEnvUrl()}#/safes/${TESTING_SAFE_ADDRESS}/apps`)
+    await gnosisPage.goto(safeAppsListUrl)
 
-    console.log('Bookmarks Safe Apps')
+    console.log('Pins Safe Apps')
     // WalletConnect Safe App is not bookmarked
     await assertElementNotPresent(safeAppsList.getBookmarkedSafeApp('WalletConnect'), gnosisPage)
     // we add WalletConnect Safe App to bookmarked section
     await clickElement(safeAppsList.getPinSafeAppButton('WalletConnect'), gnosisPage)
     await assertElementPresent(safeAppsList.getBookmarkedSafeApp('WalletConnect'), gnosisPage)
 
-    // TODO: Search feature
-    console.log('Searches by Safe App Title and Description')
+    console.log('Refresh the page should keep the Bookmarked Safe Apps')
+    await gnosisPage.goto(safeAppsListUrl)
+    await assertElementPresent(safeAppsList.getBookmarkedSafeApp('WalletConnect'), gnosisPage)
+
+    console.log('Unpins Safe Apps')
+    await clickElement(safeAppsList.getUnpinSafeAppButton('WalletConnect'), gnosisPage)
+    await assertElementNotPresent(safeAppsList.getBookmarkedSafeApp('WalletConnect'), gnosisPage)
+
+    console.log('Searches by Safe App Title')
     await assertElementPresent(safeAppsList.searchInput, gnosisPage)
-    // Search by Safe Apps title and description
+    await assertElementPresent(safeAppsList.getSafeAppByTitle('WalletConnect'), gnosisPage)
+    await assertElementPresent(safeAppsList.getSafeAppByTitle('Compound'), gnosisPage)
+    const searchByAppTitle = 'walletCon'
+    await clickAndType(safeAppsList.searchInput, gnosisPage, searchByAppTitle)
+    await assertElementPresent(safeAppsList.getSafeAppByTitle('WalletConnect'), gnosisPage)
+    await assertElementNotPresent(safeAppsList.getSafeAppByTitle('Compound'), gnosisPage)
+
+    console.log('Searches by Safe App Description')
+    await clearInput(safeAppsList.searchInput, gnosisPage)
+    await assertElementPresent(safeAppsList.getSafeAppByTitle('WalletConnect'), gnosisPage)
+    await assertElementPresent(safeAppsList.getSafeAppByTitle('Compound'), gnosisPage)
+    const searchByAppDescription = 'Allows your Gnosis Safe Multisig'
+    await clickAndType(safeAppsList.searchInput, gnosisPage, searchByAppDescription)
+    await assertElementPresent(safeAppsList.getSafeAppByTitle('WalletConnect'), gnosisPage)
+    await assertElementNotPresent(safeAppsList.getSafeAppByTitle('Compound'), gnosisPage)
+
+    // clear input to show all sections again
+    await clearInput(safeAppsList.searchInput, gnosisPage)
 
     console.log('Shows the add custom Safe Apps form')
     await clickByText(safeAppsList.addCustomSafeAppButton.selector, 'Add custom app', gnosisPage)

@@ -2,7 +2,10 @@ export const safeAppsList = {
   bookmarkedSafeAppsSection: { selector: 'div[role="button"]:nth-of-type(1)', type: 'css' },
   allSafeAppsSection: { selector: 'div[data-testid="safe_apps__all-apps-container"]', type: 'css' },
 
-  walletConnectSafeAppLogo: { selector: 'img[alt="WalletConnect Logo"]', type: 'css' },
+  getSafeAppByTitle: (safeAppTitle) => ({
+    selector: `div[data-testid="safe_apps__all-apps-container"] img[alt="${safeAppTitle} Logo"]`,
+    type: 'css',
+  }),
 
   searchInput: { selector: 'input[aria-label="search"]', type: 'css' },
 
@@ -31,7 +34,10 @@ export const safeAppsList = {
   customSafeAppLogo: { selector: 'img[alt="Safe Test App Logo"]', type: 'css' },
   removeCustomSafeAppButton: { selector: 'button[aria-label="Remove an app"]', type: 'css' },
   removeCustomSafeAppPopup: { selector: 'div[aria-describedby="Confirm for the app removal"]', type: 'css' },
-  confirmRemoveCustomSafeAppButton: { selector: 'div[aria-describedby="Confirm for the app removal"] div.modal-footer button:nth-child(2)', type: 'css' },
+  confirmRemoveCustomSafeAppButton: {
+    selector: 'div[aria-describedby="Confirm for the app removal"] div.modal-footer button:nth-child(2)',
+    type: 'css',
+  },
 
   disclaimerTitleSafeAppPopUp: { selector: 'h5', type: 'css' },
   acceptDisclaimerButton: { selector: 'button[type="button"].contained', type: 'css' },
