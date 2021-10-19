@@ -109,6 +109,24 @@
 5. Signs and executes
 6. Checks status success of executed tx
 
+#### [Safe Apps List](./../src/safe_apps_list.test.js)
+1. Shows Bookmarked Apps Section
+2. Shows All Apps Section
+3. Opens a Safe App
+4. Shows Disclaimer and clicks on accept
+5. Loads Safe Apps in an iframe
+6. Bookmarks Safe Apps
+7. Searches by Safe App Title and Description
+8. Shows the add custom Safe Apps form
+9. Populates the custom the Safe App url and name
+10. "Add Custom Safe App" button should be disabled if the checkbox is unchecked
+11. Adds a custom Safe Apps
+12. Loads the Custom App in an iframe
+13. Shows the Custom Safe App in the Apps List
+14. Validates the custom Safe App Url
+15. Validates if the Custom Safe App was already added
+16. Removes a Custom Safe App
+
 #### [Send funds](./../src/send_funds.test.js)
 1. Open the send funds form
 2. Types a receiver address
