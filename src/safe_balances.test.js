@@ -12,7 +12,7 @@ Safe Balances
 let browser
 let gnosisPage
 
-const { TESTING_SAFE_ADDRESS } = config
+const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX } = config
 
 beforeAll(async () => {
   const context = await initWithWalletConnected(true)
@@ -27,12 +27,17 @@ afterAll(async () => {
   await browser.close()
 })
 
+function getCurrencyChar(amountShowed) {
+  // amount format is "XXX $"
+  return amountShowed.split(' ')[1]
+}
+
 describe('Safe Balances', () => {
   test('Safe Balances', async () => {
     console.log('Safe Balances')
 
     console.log('Enters the Safe Balances page')
-    const safeBalancesUrl = `${getEnvUrl()}app/rin:${TESTING_SAFE_ADDRESS}/balances`
+    const safeBalancesUrl = `${getEnvUrl()}app/${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`
     await gnosisPage.goto(safeBalancesUrl)
 
     console.log('USD currency by default')
@@ -41,7 +46,7 @@ describe('Safe Balances', () => {
 
     console.log('Safe Balances table shows the amounts in USD')
     const amountShowed = await getInnerText(safeBalancesPage.currency_showed_balances_table, gnosisPage)
-    const currencyShowed = amountShowed.split(' ')[1]
+    const currencyShowed = getCurrencyChar(amountShowed)
     expect(currencyShowed).toBe(defaultSelectedCurrency)
 
     console.log('selects a new default currency')
