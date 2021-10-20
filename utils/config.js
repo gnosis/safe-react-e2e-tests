@@ -26,6 +26,10 @@ const config = {
   NON_OWNER_ADDRESS: process.env.NON_OWNER_ADDRESS || '0xc8b99Dc2414fAA46E195a8f3EC69DD222EF1744F',
   PUPPETEER_EXEC_PATH: process.env.PUPPETEER_EXEC_PATH,
   QR_CODE_ADDRESS: '0x57CB13cbef735FbDD65f5f2866638c546464E45F',
+
+  // network
+  NETWORK_NAME: process.env.NETWORK_NAME || 'Rinkeby',
+  NETWORK_ADDRESS_PREFIX: process.env.NETWORK_ADDRESS_PREFIX || 'rin',
 }
 
 export default config

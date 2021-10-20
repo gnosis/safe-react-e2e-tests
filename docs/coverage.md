@@ -109,6 +109,15 @@
 5. Signs and executes
 6. Checks status success of executed tx
 
+#### [Safe Balances](./../src/safe_balances.test.js)
+1. Enters the Safe Balances page
+2. USD currency by default
+3. Safe Balances table shows the amounts in USD
+4. selects a new default currency
+5. Safe Balances table shows the amounts in the new selected currency
+6. updates the new selected currency in the localStorage
+7. refresh the page should keep the selected value
+
 #### [Send funds](./../src/send_funds.test.js)
 1. Open the send funds form
 2. Types a receiver address
