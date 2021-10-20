@@ -26,7 +26,7 @@ let browser
 let metamask
 let gnosisPage
 
-const { TESTING_SAFE_ADDRESS } = config
+const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX } = config
 
 beforeAll(async () => {
   ;[browser, metamask, gnosisPage] = await initWithWalletConnected()
@@ -41,7 +41,7 @@ afterAll(async () => {
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     console.log('Safe Apps List')
-    const safeAppsListUrl = `${getEnvUrl()}#/safes/${TESTING_SAFE_ADDRESS}/apps`
+    const safeAppsListUrl = `${getEnvUrl()}app/${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
 
     await gnosisPage.goto(safeAppsListUrl)
 
@@ -124,7 +124,7 @@ describe('Safe Apps List', () => {
     await assertElementPresent(safeAppsList.getSafeAppIframeByUrl(customAppUrl), gnosisPage)
 
     console.log('Shows the Custom Safe App in the Apps List')
-    await gnosisPage.goto(`${getEnvUrl()}#/safes/${TESTING_SAFE_ADDRESS}/apps`)
+    await gnosisPage.goto(safeAppsListUrl)
     await assertElementPresent(safeAppsList.customSafeAppLogo, gnosisPage)
 
     console.log('Validates the custom Safe App Url')
