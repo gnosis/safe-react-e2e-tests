@@ -109,6 +109,27 @@
 5. Signs and executes
 6. Checks status success of executed tx
 
+#### [Safe Apps List](./../src/safe_apps_list.test.js)
+1. Shows Bookmarked Apps Section
+2. Shows All Apps Section
+3. Opens a Safe App
+4. Shows Disclaimer and clicks on accept
+5. Loads Safe Apps in an iframe
+6. Pins Safe Apps
+7. Refresh the page should keep the Bookmarked Safe Apps
+8. Unpins Safe Apps
+9. Searches by Safe App Title
+10. Searches by Safe App Description
+11. Shows the add custom Safe Apps form
+12. Populates the custom the Safe App url and name
+13. "Add Custom Safe App" button should be disabled if the checkbox is unchecked
+14. Adds a custom Safe Apps
+15. Loads the Custom App in an iframe
+16. Shows the Custom Safe App in the Apps List
+17. Validates the custom Safe App Url
+18. Validates if the Custom Safe App was already added
+19. Removes a Custom Safe App
+
 #### [Safe Balances](./../src/safe_balances.test.js)
 1. Enters the Safe Balances page
 2. USD currency by default
