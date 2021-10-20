@@ -1,11 +1,12 @@
 # Gnosis Safe e2e tests
 
-This repository contains the code to run e2e tests in Gnosis Safe web interface [https://github.com/gnosis/safe-react/]
+This repository contains the code to run e2e tests in [Gnosis Safe web interface](https://github.com/gnosis/safe-react/)
 
 For technical information please refer to the [Gnosis Developer Portal](https://docs.gnosis.io/safe/).
 
 For support requests, please open up a [bug issue](https://github.com/gnosis/safe-react/issues/new?template=bug-report.md) or reach out via [Discord](https://discordapp.com/invite/FPMRAwK).
 
+### 👷 [Coverage overview](docs/coverage.md)
 
 ## Getting Started
 

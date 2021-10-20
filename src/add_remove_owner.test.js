@@ -1,4 +1,5 @@
 import { approveAndExecuteWithOwner } from '../utils/actions/approveAndExecuteWithOwner'
+import { verifySuccessfulExecution } from '../utils/actions/verifySuccesfulExecution'
 import {
   assertElementPresent,
   clearInput,
@@ -9,6 +10,7 @@ import {
   getNumberInString,
   assertTextPresent,
   openDropdown,
+  isTextPresent,
 } from '../utils/selectorsHelpers'
 import { accountsSelectors } from '../utils/selectors/accounts'
 import { settingsPage } from '../utils/selectors/settings'
@@ -50,7 +52,6 @@ afterAll(async () => {
 describe('Adding and removing owners', () => {
   const newOwnerName = accountsSelectors.otherAccountNames.owner6_name
   const newOwnerAddress = NON_OWNER_ADDRESS
-  let currentNonce = ''
 
   test('Add and remove an owner', async () => {
     console.log('Add/remove Owners')
@@ -105,16 +106,17 @@ describe('Adding and removing owners', () => {
     // Approving and executing the transaction with owner 2
     await gnosisPage.bringToFront()
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
-    currentNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
+    const addOwnerTxNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     await approveAndExecuteWithOwner(1, gnosisPage, metamask)
     // Deleting owner form filling and tx creation
     await gnosisPage.bringToFront()
     await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
+    await verifySuccessfulExecution(gnosisPage, addOwnerTxNonce)
     await clickByText(generalInterface.sidebar + ' span', 'settings', gnosisPage)
     await clickByText(generalInterface.sidebar + ' span', 'owners', gnosisPage)
     await assertElementPresent({ selector: "[data-testid='remove-owner-btn']", type: 'css' }, gnosisPage)
-    await gnosisPage.waitForTimeout(1000)
-    // the new owner takes a moment to show up, if we don't wait then OwnerList will have the list of owners without the new one added
+    // Ask for the new owner to be present in the owners table
+    await isTextPresent('[aria-labelledby="Owners"]', newOwnerAddress, gnosisPage)
     const ownersList = await gnosisPage.evaluate(() =>
       Array.from(document.querySelectorAll("[data-testid='owners-row'] p"), (element) => element.textContent),
     )
@@ -143,15 +145,10 @@ describe('Adding and removing owners', () => {
     // Executing the owner deletion with owner 2
     await gnosisPage.bringToFront()
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Needs confirmations', gnosisPage)
-    currentNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
+    const deleteOwnerTxNonce = await getNumberInString({ selector: 'div.tx-nonce > p', type: 'css' }, gnosisPage)
     await approveAndExecuteWithOwner(2, gnosisPage, metamask)
     // Verifying owner deletion
     await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
-    await clickByText('button > span > p', 'History', gnosisPage)
-    await gnosisPage.waitForTimeout(4000)
-    const nonce = await getNumberInString({ selector: transactionsTab.tx_nonce, type: 'css' }, gnosisPage)
-    expect(nonce).toBe(currentNonce)
-    const executedTxStatus = await getInnerText({ selector: transactionsTab.tx_status, type: 'css' }, gnosisPage)
-    expect(executedTxStatus).toBe('Success')
+    await verifySuccessfulExecution(gnosisPage, deleteOwnerTxNonce)
   }, 540000)
 })
