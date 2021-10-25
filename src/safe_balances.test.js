@@ -22,8 +22,6 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await gnosisPage.waitForTimeout(2000)
-  const pages = await browser.pages()
-  await Promise.all(pages.map((page) => page.close()))
   await browser.close()
 })
 

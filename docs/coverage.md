@@ -67,7 +67,6 @@
 13. Checks if the Safe Created popup is showed
 14. Checks safe name on the sidebar once the safe is loaded
 
-
 #### [Load safe](./../src/load_safe.test.js)
 1. Enters into the load form with the Load button component
 2. Shows the select network step

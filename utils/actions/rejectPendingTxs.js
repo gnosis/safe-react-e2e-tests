@@ -10,8 +10,9 @@ export const rejectPendingTxs = async (gnosisPage, metamask) => {
   await gnosisPage.bringToFront()
   await gnosisPage.waitForTimeout(2000)
   await clickByText('span', 'transactions', gnosisPage)
+  await clickByText('span', 'Queue', gnosisPage)
   try {
-    element = await gnosisPage.waitForSelector(transactionsTab.tx_status, { timeout: 10000 })
+    element = await gnosisPage.waitForSelector(transactionsTab.tx_status, { timeout: 5000 })
     elementText = await gnosisPage.evaluate(x => x.innerText, element)
     pendingTx = elementText === statusLabel.needs_confirmations || elementText === statusLabel.awaiting_your_confirmation
   } catch (err) {
@@ -23,7 +24,7 @@ export const rejectPendingTxs = async (gnosisPage, metamask) => {
     // Check if there are pending txs
     await clickByText('button > span > p', 'Queue', gnosisPage)
     try {
-      element = await gnosisPage.waitForSelector(transactionsTab.tx_status, { timeout: 10000 })
+      element = await gnosisPage.waitForSelector(transactionsTab.tx_status, { timeout: 5000 })
       elementText = await gnosisPage.evaluate(x => x.innerText, element)
       pendingTx = elementText === statusLabel.needs_confirmations || elementText === statusLabel.awaiting_your_confirmation
     } catch (err) {

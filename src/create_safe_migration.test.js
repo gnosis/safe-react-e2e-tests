@@ -10,7 +10,6 @@ import { accountsSelectors } from '../utils/selectors/accounts'
 import { createSafePage } from '../utils/selectors/createSafePage'
 import { generalInterface } from '../utils/selectors/generalInterface'
 import { getEnvUrl, initWithWalletConnected } from '../utils/testSetup'
-import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
 import config from '../utils/config'
 
 /*
@@ -38,7 +37,6 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
-  await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
