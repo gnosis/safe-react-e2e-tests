@@ -21,6 +21,7 @@ const {
   ENVIRONMENT,
   MNEMONIC,
   NETWORK_ADDRESS_PREFIX,
+  NETWORK_NAME,
   PRIVATE_KEY_GROUP,
   PASSWORD,
   PUPPETEER_EXEC_PATH,
@@ -120,24 +121,29 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
   const [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected(importMultipleAccounts)
 
   // Open load safe form
-  await clickByText('p', 'Add existing Safe', gnosisPage)
+  await clickByText('a', 'Add existing Safe', gnosisPage)
   await assertElementPresent(loadSafeForm.form, gnosisPage)
+  // First step, we select the desired network
+  await clickByText("div[role='button'] > span", NETWORK_NAME, gnosisPage)
+  await clickElement(generalInterface.submit_btn, gnosisPage)
+  // Second step, select safe address and name
   await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
   await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
+  await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
-  // Second step, review owners
-  await assertElementPresent(loadSafeForm.step_two, gnosisPage)
+  // Third step, review owners
+  await assertElementPresent(loadSafeForm.safe_owners_step, gnosisPage)
   const keys = Object.keys(accountsSelectors.accountNames)
   for (let i = 0; i < 2/* keys.length */; i++) { // only names on the first 2 owners
     const ownerNameInput = loadSafeForm.owner_name(i)
     const name = accountsSelectors.accountNames[keys[i]]
-    await clearInput(ownerNameInput, gnosisPage, 'css')
+    await clearInput(ownerNameInput, gnosisPage)
     await clickAndType(ownerNameInput, gnosisPage, name)
   }
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
-  // Third step, review information and submit
+  // Fourth step, review information and submit
   await assertElementPresent(loadSafeForm.step_three, gnosisPage)
   await gnosisPage.waitForTimeout(2000)
   await clickElement(generalInterface.submit_btn, gnosisPage)
@@ -173,7 +179,6 @@ export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts
 /**
  * This method is for read only tests, were no wallet connection is necessary.
  */
-
 export const initNoWalletConnection = async () => {
   const browser = await dappeteer.launch(puppeteer, {
     executablePath: PUPPETEER_EXEC_PATH,

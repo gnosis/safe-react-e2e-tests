@@ -22,7 +22,7 @@ jobs:
         TESTING_ENV: PR
         PR: ${{ github.event.client_payload.pr_number }}
       with:
-        args: npm run test-ci load_safe
+        args: npm run test-ci read_only
     - name: Format output
       if: ${{ always() }}
       run: npm run format-tests-output
