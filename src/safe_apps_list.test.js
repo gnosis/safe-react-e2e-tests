@@ -41,7 +41,7 @@ afterAll(async () => {
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     console.log('Safe Apps List')
-    const safeAppsListUrl = `${getEnvUrl()}app/${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
+    const safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
 
     await gnosisPage.goto(safeAppsListUrl)
 
