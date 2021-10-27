@@ -51,7 +51,6 @@
 13. Checks if the Safe Created popup is showed
 14. Checks safe name on the sidebar once the safe is loaded
 
-
 #### [Modify policies](./../src/modify_policies.test.js)
 1. Opens modify policies
 2. Opens selector, selects "1" value
