@@ -42,7 +42,6 @@ export const getEnvUrl = () => {
 }
 const envUrl = getEnvUrl()
 
-
 export const init = async () => {
   const browser = await dappeteer.launch(puppeteer, {
     executablePath: PUPPETEER_EXEC_PATH,
@@ -59,9 +58,8 @@ export const init = async () => {
   await metamask.switchNetwork(NETWORK_NAME.toLowerCase())
   const [gnosisPage, MMpage] = await browser.pages() // get a grip on both tabs
   // Reload Gnosis Safe to ensure Metamask info is loaded
-  await gnosisPage.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
   // After l2-ux we have to navigate to the network selection URL to ensure we are in the correct one
-  await gnosisPage.goto(`${envUrl}/${NETWORK_NAME.toLowerCase()}`)
+  await gnosisPage.goto(`${envUrl}${NETWORK_NAME.toLowerCase()}`, { waitUntil: ['networkidle0', 'domcontentloaded'] })
 
   gnosisPage.setDefaultTimeout(600000)
   MMpage.setDefaultTimeout(600000)
@@ -173,7 +171,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
  */
 export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts = false) => {
   const [browser, metamask, gnosisPage] = await initWithWalletConnected(importMultipleAccounts)
-  await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`)
+  await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`, { waitUntil: ['networkidle0', 'domcontentloaded'] })
   await gnosisPage.waitForTimeout(2000)
 
   return [

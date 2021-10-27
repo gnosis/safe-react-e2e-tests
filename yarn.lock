@@ -909,10 +909,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@dasanra/dappeteer@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@dasanra/dappeteer/-/dappeteer-2.2.1.tgz#a95b8b0a47619de9afbc8fe74e159255588b069c"
-  integrity sha512-Uao1r7n6O2vTDhEat9ZO2Ji/UpY90XP4IXVcKGwiTsibacdgxrNdF9pw49SuFEkZx3tc10SsmUW99CK0eRS0BA==
+"@dasanra/dappeteer@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@dasanra/dappeteer/-/dappeteer-2.2.3.tgz#a0e6ecbcda4f1b96955f27df0f26e522326fd13a"
+  integrity sha512-KAp1aT/RYRMMqmXhB1VtWUd1el5yzWJxvn/u/W+//2DT6mxR2t7tclI/mPGzc3879Dm1jF6DoHLOxnE0OXJtPw==
 
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
@@ -1018,7 +1018,7 @@
     slash "^3.0.0"
     strip-ansi "^6.0.0"
 
-"@jest/environment@^27.2.0", "@jest/environment@^27.2.3":
+"@jest/environment@^27.2.3":
   version "27.2.3"
   resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-27.2.3.tgz#3ae328d778a67e027bad27541d1c09ed94312609"
   integrity sha512-xXZk/Uhq6TTRydg4RyNawNZ82lX88r3997t5ykzQBfB3Wd+mqzSyC4XWzw4lTZJISldwn9/FunexTSGBFcvVAg==
@@ -1028,7 +1028,7 @@
     "@types/node" "*"
     jest-mock "^27.2.3"
 
-"@jest/fake-timers@^27.2.0", "@jest/fake-timers@^27.2.3":
+"@jest/fake-timers@^27.2.3":
   version "27.2.3"
   resolved "https://registry.yarnpkg.com/@jest/fake-timers/-/fake-timers-27.2.3.tgz#21cdef9cb9edd30c80026a0176eba58f5fbcaa67"
   integrity sha512-A8+X35briNiabUPcLqYQY+dsvBUozX9DCa7HgJLdvRK/JPAKUpthYHjnI9y6QUYaDTqGZEo4rLf7LXE51MwP3Q==
@@ -1140,7 +1140,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@jest/types@^27.1.1", "@jest/types@^27.2.3":
+"@jest/types@^27.2.3":
   version "27.2.3"
   resolved "https://registry.yarnpkg.com/@jest/types/-/types-27.2.3.tgz#e0242545f442242c2538656d947a147443eee8f2"
   integrity sha512-UJMDg90+W2i/QsS1NIN6Go8O/rSHLFWUkofGqKsUQs54mhmCVyLTiDy1cwKhoNO5fpmr9fctm9L/bRp/YzA1uQ==
@@ -1752,7 +1752,7 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
   integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
 
-caniuse-lite@^1.0.30001254, caniuse-lite@^1.0.30001259:
+caniuse-lite@^1.0.30001259:
   version "1.0.30001261"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001261.tgz#96d89813c076ea061209a4e040d8dcf0c66a1d01"
   integrity sha512-vM8D9Uvp7bHIN0fZ2KQ4wnmYFpJo/Etb4Vwsuc+ka0tfGDHvOPrFm6S/7CCNLSOkAUjenT2HnUPESdOIL91FaA==
@@ -1868,7 +1868,7 @@ color-name@~1.1.4:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-colorette@^1.2.2, colorette@^1.3.0:
+colorette@^1.2.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.4.0.tgz#5190fbb87276259a86ad700bff2c6d6faa3fca40"
   integrity sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==
@@ -2087,7 +2087,7 @@ dotenv@^10.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
-electron-to-chromium@^1.3.830, electron-to-chromium@^1.3.846:
+electron-to-chromium@^1.3.846:
   version "1.3.852"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.852.tgz#04091fd848b38e7248e4eb70c05e1f9befd2671b"
   integrity sha512-vNbdzbbx3d7TStoC0oIVYz6X/tIezHXnreI+4a8I7EqAQ9hpHulz3ar8xChUNcG77A+TtPSKz9B9Xwpt9e1B5w==
@@ -3320,7 +3320,7 @@ jest-message-util@^27.2.3:
     slash "^3.0.0"
     stack-utils "^2.0.3"
 
-jest-mock@^27.1.1, jest-mock@^27.2.3:
+jest-mock@^27.2.3:
   version "27.2.3"
   resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-27.2.3.tgz#f532d2c8c158e8b899f2a0a5bd3077af37619c29"
   integrity sha512-IvgCdUQBU/XDJl9/NLYtKG9o2XlJOQ8hFYDiX7QmNv2195Y1nNGM7hw1H58wT01zz7bohfhJplqwFfULZlrXjg==
@@ -3470,7 +3470,7 @@ jest-snapshot@^27.2.3:
     pretty-format "^27.2.3"
     semver "^7.3.2"
 
-jest-util@^27.2.0, jest-util@^27.2.3:
+jest-util@^27.2.3:
   version "27.2.3"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-27.2.3.tgz#f766354b7c489c1f9ea88cd1d96d044fbd2b5d4d"
   integrity sha512-78BEka2+77lqD7LN4mSzUdZMngHZtVAsmZ5B8+qOWfN4bCYNUmi/eGNLm91jA77gG1QZJSXsDOCWB0qbXDT1Fw==
@@ -3922,7 +3922,7 @@ node-modules-regexp@^1.0.0:
   resolved "https://registry.yarnpkg.com/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
   integrity sha1-jZ2+KJZKSsVxLpExZCEHxx6Q7EA=
 
-node-releases@^1.1.75, node-releases@^1.1.76:
+node-releases@^1.1.76:
   version "1.1.76"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.76.tgz#df245b062b0cafbd5282ab6792f7dccc2d97f36e"
   integrity sha512-9/IECtNr8dXNmPWmFXepT0/7o5eolGesHUa3mtr0KlgnCvnZxwh2qensKL42JJY2vQKC3nIBXetFAqR+PW1CmA==
