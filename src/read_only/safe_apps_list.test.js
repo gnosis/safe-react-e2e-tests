@@ -7,11 +7,10 @@ import {
   clickByText,
   clickElement,
   getInnerText,
-} from '../utils/selectorsHelpers'
-import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
-import { getEnvUrl, initWithWalletConnected } from '../utils/testSetup'
-import config from '../utils/config'
-import { safeAppsList } from '../utils/selectors/safeAppsList'
+} from '../../utils/selectorsHelpers'
+import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
+import config from '../../utils/config'
+import { safeAppsList } from '../../utils/selectors/safeAppsList'
 
 /*
 Safe Apps List
@@ -23,17 +22,15 @@ Safe Apps List
 */
 
 let browser
-let metamask
 let gnosisPage
 
 const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX } = config
 
 beforeAll(async () => {
-  ;[browser, metamask, gnosisPage] = await initWithWalletConnected()
+  ;[browser, , gnosisPage] = await initWithWalletConnected()
 }, 60000)
 
 afterAll(async () => {
-  await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -41,7 +38,7 @@ afterAll(async () => {
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     console.log('Safe Apps List')
-    const safeAppsListUrl = `${getEnvUrl()}app/${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
+    const safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
 
     await gnosisPage.goto(safeAppsListUrl)
 

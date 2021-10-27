@@ -1,14 +1,14 @@
 const path = require('path');
 const fs = require('fs');
 
-const directoryPath = path.join(__dirname, '/../src')
-
-const fileNames = fs.readdirSync(directoryPath, 'utf8')
+const rootDirectoryPath = path.join(__dirname, '/../src')
 
 const commentStart = 'console.log(\''
 const commentEnd = '\')'
-fileNames.sort().forEach((fileName)=>{
-  const data = fs.readFileSync(path.join(directoryPath, fileName), 'utf8')
+
+// Getting the file complete path and the name we try to extract all the console.log in that file
+const getCommentsFromFile = (filePath, fileName) => {
+  const data = fs.readFileSync(path.join(filePath, fileName), 'utf8')
   let fileText = data
   let lineCount = 0
   let logIndex = fileText.indexOf(commentStart)
@@ -22,9 +22,25 @@ fileNames.sort().forEach((fileName)=>{
     if(lineCount > 0){
       console.log(`${lineCount}. ${comment}`)
     } else {
-      console.log(`#### [${comment}](./../src/${fileName})`)
+      console.log(`#### [${comment}](./../${path.relative('.', filePath)}/${fileName})`)
     }
     lineCount ++
   }
   console.log('')
-})
+}
+
+const checkFilesForComments = (filePath) => {
+  const files = fs.readdirSync(filePath, { encoding: 'utf8', withFileTypes: true })
+
+  files.sort().forEach((file) => {
+    if (!file.isDirectory()) {
+      // If it's a file we try to extract the comments
+      getCommentsFromFile(filePath, file.name)
+    } else {
+      // If is a directory we have to step into it to extract the information from the files
+      checkFilesForComments(path.join(filePath, file.name))
+    }
+  })
+}
+
+checkFilesForComments(rootDirectoryPath)

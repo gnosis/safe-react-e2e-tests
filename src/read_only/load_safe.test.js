@@ -9,13 +9,13 @@ import {
   clickElement,
   getInnerText,
   isTextPresent,
-} from '../utils/selectorsHelpers'
-import { accountsSelectors } from '../utils/selectors/accounts'
-import { generalInterface } from '../utils/selectors/generalInterface'
-import { loadSafeForm } from '../utils/selectors/loadSafeForm'
-import { initWithWalletConnected } from '../utils/testSetup'
-import config from '../utils/config'
-import { errorMsg } from '../utils/selectors/errorMsg'
+} from '../../utils/selectorsHelpers'
+import { accountsSelectors } from '../../utils/selectors/accounts'
+import { generalInterface } from '../../utils/selectors/generalInterface'
+import { loadSafeForm } from '../../utils/selectors/loadSafeForm'
+import { initWithWalletConnected } from '../../utils/testSetup'
+import config from '../../utils/config'
+import { errorMsg } from '../../utils/selectors/errorMsg'
 
 /*
 Load safe
@@ -30,8 +30,8 @@ Load safe
 let browser
 let gnosisPage
 
-const { TESTING_SAFE_ADDRESS } = config
-const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../utils/files/safe-address-QR.png'))
+const { NETWORK_NAME, TESTING_SAFE_ADDRESS } = config
+const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../../utils/files/safe-address-QR.png'))
 
 beforeAll(async () => {
   const context = await initWithWalletConnected(true)
@@ -75,7 +75,7 @@ describe('Add an existing safe', () => {
     // selects the Rinkeby network again (this time clicking in the network label)
     await clickByText('p > span', 'Volta', gnosisPage)
     await assertElementPresent(loadSafeForm.select_network_dialog, gnosisPage)
-    await clickByText("div[role='button'] > span", 'Rinkeby', gnosisPage)
+    await clickByText("div[role='button'] > span", NETWORK_NAME, gnosisPage)
 
     await clickElement(generalInterface.submit_btn, gnosisPage)
 

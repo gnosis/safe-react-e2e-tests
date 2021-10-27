@@ -1,5 +1,5 @@
-import { assertElementPresent, isTextPresent, clickByText, clickElement } from '../utils/selectorsHelpers'
-import { initNoWalletConnection } from '../utils/testSetup'
+import { assertElementPresent, isTextPresent, clickByText, clickElement } from '../../utils/selectorsHelpers'
+import { initNoWalletConnection } from '../../utils/testSetup'
 import {
   ADDRESSBOOK_KEY,
   ADDRESSBOOK_VALUES,
@@ -7,7 +7,7 @@ import {
   SAFES_VALUES,
   APPS_KEY,
   APPS_VALUES,
-} from '../utils/files/LocalStorageConstants'
+} from '../../utils/files/localStorageConstants'
 
 /*
 Local Storage
@@ -29,7 +29,7 @@ afterAll(async () => {
   await browser.close()
 })
 
-describe('LocalStorage Populate and validate', () => {
+describe.skip('LocalStorage Populate and validate', () => {
   test('LocalStorage Populate and validate', async () => {
     await assertElementPresent({ selector: '[data-testid = "sidebar"]', type: 'css' }, gnosisPage)
     // Fill the local storage with Safes in the sidebar, Entries in the AB and 2 custom apps

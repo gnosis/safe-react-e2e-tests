@@ -2,7 +2,7 @@ name: Run safe-react e2e tests
 on: 
   push:
     branches:
-      - develop
+      - main
   repository_dispatch:
     types: [run-e2e-from-safe-react]
 env:
@@ -22,4 +22,4 @@ jobs:
         CI: 'true'
         TESTING_ENV: 'rinkeby'
       with:
-        args: npm test load_safe 
+        args: npm test read_only 
