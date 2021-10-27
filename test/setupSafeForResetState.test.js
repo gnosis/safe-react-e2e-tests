@@ -1,7 +1,6 @@
 import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
 
 let browser
-let metamask
 let gnosisPage
 
 beforeAll(async () => {
