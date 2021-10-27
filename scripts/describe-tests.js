@@ -6,6 +6,7 @@ const rootDirectoryPath = path.join(__dirname, '/../src')
 const commentStart = 'console.log(\''
 const commentEnd = '\')'
 
+// Getting the file complete path and the name we try to extract all the console.log in that file
 const getCommentsFromFile = (filePath, fileName) => {
   const data = fs.readFileSync(path.join(filePath, fileName), 'utf8')
   let fileText = data
@@ -33,8 +34,10 @@ const checkFilesForComments = (filePath) => {
 
   files.sort().forEach((file) => {
     if (!file.isDirectory()) {
+      // If it's a file we try to extract the comments
       getCommentsFromFile(filePath, file.name)
     } else {
+      // If is a directory we have to step into it to extract the information from the files
       checkFilesForComments(path.join(filePath, file.name))
     }
   })
