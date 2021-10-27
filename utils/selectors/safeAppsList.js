@@ -27,6 +27,7 @@ export const safeAppsList = {
   addCustomAppForm: { selector: 'form[data-testid="add-apps-form"]', type: 'css' },
   addCustomAppUrlInput: { selector: 'input[placeholder="App URL"]', type: 'css' },
   addCustomAppUrlErrorLabel: { selector: 'label.Mui-error', type: 'css' },
+  addCustomAppLogo: { selector: 'form[data-testid="add-apps-form"] img', type: 'css' },
   addCustomAppNameInput: { selector: 'form[data-testid="add-apps-form"] input[disabled]', type: 'css' },
   addCustomAppFromButton: { selector: 'form[data-testid="add-apps-form"] button[type="submit"]', type: 'css' },
   addCustomAppCheckbox: { selector: 'form[data-testid="add-apps-form"] input[type="checkbox"]', type: 'css' },

@@ -59,7 +59,7 @@ describe('Safe Apps List', () => {
     console.log('Loads Safe Apps in an iframe')
     await assertElementPresent(safeAppsList.getSafeAppIframeByTitle('WalletConnect'), gnosisPage)
 
-    await gnosisPage.goto(safeAppsListUrl)
+    await gnosisPage.goto(safeAppsListUrl, { waitUntil: ['networkidle0', 'domcontentloaded'] })
 
     console.log('Pins Safe Apps')
     // WalletConnect Safe App is not bookmarked
@@ -69,7 +69,7 @@ describe('Safe Apps List', () => {
     await assertElementPresent(safeAppsList.getBookmarkedSafeApp('WalletConnect'), gnosisPage)
 
     console.log('Refresh the page should keep the Bookmarked Safe Apps')
-    await gnosisPage.goto(safeAppsListUrl)
+    await gnosisPage.goto(safeAppsListUrl, { waitUntil: ['networkidle0', 'domcontentloaded'] })
     await assertElementPresent(safeAppsList.getBookmarkedSafeApp('WalletConnect'), gnosisPage)
 
     console.log('Unpins Safe Apps')
@@ -89,7 +89,7 @@ describe('Safe Apps List', () => {
     await clearInput(safeAppsList.searchInput, gnosisPage)
     await assertElementPresent(safeAppsList.getSafeAppByTitle('WalletConnect'), gnosisPage)
     await assertElementPresent(safeAppsList.getSafeAppByTitle('Compound'), gnosisPage)
-    const searchByAppDescription = 'Allows your Gnosis Safe Multisig'
+    const searchByAppDescription = 'Connect your Safe to any dApp'
     await clickAndType(safeAppsList.searchInput, gnosisPage, searchByAppDescription)
     await assertElementPresent(safeAppsList.getSafeAppByTitle('WalletConnect'), gnosisPage)
     await assertElementNotPresent(safeAppsList.getSafeAppByTitle('Compound'), gnosisPage)
@@ -105,7 +105,8 @@ describe('Safe Apps List', () => {
     const customAppUrl = 'https://ipfs.io/ipfs/QmfMq8NgxdDfai1qKv7bGbT8DegYX4mNzmpi9AkY1VJZBS/'
     const customAppName = 'Safe Test App'
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
-    await gnosisPage.waitForTimeout(5000) // this can be improved
+    await assertElementPresent(safeAppsList.addCustomAppLogo, gnosisPage)
+    await gnosisPage.waitForTimeout(2000) // this can be improved
     expect(await getInnerText(safeAppsList.addCustomAppNameInput, gnosisPage)).toBe(customAppName)
 
     console.log('"Add Custom Safe App" button should be disabled if the checkbox is unchecked')

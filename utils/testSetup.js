@@ -56,10 +56,12 @@ export const init = async () => {
     password: PASSWORD
   })
 
-  await metamask.switchNetwork('rinkeby')
+  await metamask.switchNetwork(NETWORK_NAME.toLowerCase())
   const [gnosisPage, MMpage] = await browser.pages() // get a grip on both tabs
   // Reload Gnosis Safe to ensure Metamask info is loaded
   await gnosisPage.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
+  // After l2-ux we have to navigate to the network selection URL to ensure we are in the correct one
+  await gnosisPage.goto(`${envUrl}/${NETWORK_NAME.toLowerCase()}`)
 
   gnosisPage.setDefaultTimeout(60000)
   MMpage.setDefaultTimeout(60000)
@@ -124,7 +126,7 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
  * if more than one account is needed this parameter should be used with `true`
  */
 export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
-  const { browser, metamask, gnosisPage, MMpage } = await initWithWalletConnected(importMultipleAccounts)
+  const [ browser, metamask, gnosisPage, MMpage ] = await initWithWalletConnected(importMultipleAccounts)
 
   // Open load safe form
   await clickByText('a', 'Add existing Safe', gnosisPage)
