@@ -64,12 +64,12 @@ export const init = async () => {
   gnosisPage.setDefaultTimeout(60000)
   MMpage.setDefaultTimeout(60000)
 
-  return [
+  return {
     browser,
     metamask,
     gnosisPage,
     MMpage
-  ]
+  }
 }
 
 /**
@@ -79,35 +79,41 @@ export const init = async () => {
  * if more than one account is needed this parameter should be used with `true`
  */
 export const initWithWalletConnected = async (importMultipleAccounts = false) => {
-  const [browser, metamask, gnosisPage, MMpage] = await init()
+  const { browser, metamask, gnosisPage, MMpage } = await init()
 
-  if (importMultipleAccounts) {
-    await importAccounts(metamask, PRIVATE_KEY_GROUP)
-    await MMpage.waitForTimeout(1000)
+  try {
+    if (importMultipleAccounts) {
+      await importAccounts(metamask, PRIVATE_KEY_GROUP)
+      await MMpage.waitForTimeout(1000)
+    }
+
+    await gnosisPage.bringToFront()
+    await clickElement(homePage.accept_cookies, gnosisPage)
+    await clickElement(topBar.not_connected_network, gnosisPage)
+    await clickElement(topBar.connect_btn, gnosisPage)
+    await clickElement(homePage.metamask_option, gnosisPage) // Clicking the MM icon in the onboardjs
+
+    // FIXME remove MMpage.reload() when updated version of dappeteer
+    await MMpage.reload()
+    // --- end of FIXME
+    await metamask.approve({ allAccounts: true })
+    await gnosisPage.bringToFront()
+
+    await assertElementPresent(topBar.connected_network, gnosisPage)
+
+    return [
+      browser,
+      metamask,
+      gnosisPage,
+      MMpage
+    ]
+  } catch {
+    // There was a problem initializing the environment
+    // we weren't able to connect the wallet
+    // This is specially useful to avoid infinite testing in CI when having problems in this step
+    browser.close()
+    throw new Error('Error trying to initWithWalletConnected')
   }
-
-  await gnosisPage.bringToFront()
-  // if (ENV !== ENVIRONMENT.local) { // for local env there is no Cookies to accept
-  await clickElement(homePage.accept_cookies, gnosisPage)
-  // }
-  await clickElement(topBar.not_connected_network, gnosisPage)
-  await clickElement(topBar.connect_btn, gnosisPage)
-  await clickElement(homePage.metamask_option, gnosisPage) // Clicking the MM icon in the onboardjs
-
-  // FIXME remove MMpage.reload() when updated version of dappeteer
-  await MMpage.reload()
-  // --- end of FIXME
-  await metamask.approve({ allAccounts: true })
-  await gnosisPage.bringToFront()
-
-  await assertElementPresent({selector: topBar.connected_network.selector, type: 'css'}, gnosisPage)
-
-  return [
-    browser,
-    metamask,
-    gnosisPage,
-    MMpage
-  ]
 }
 
 /**
@@ -118,7 +124,7 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
  * if more than one account is needed this parameter should be used with `true`
  */
 export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
-  const [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected(importMultipleAccounts)
+  const { browser, metamask, gnosisPage, MMpage } = await initWithWalletConnected(importMultipleAccounts)
 
   // Open load safe form
   await clickByText('a', 'Add existing Safe', gnosisPage)

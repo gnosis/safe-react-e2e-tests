@@ -9,7 +9,7 @@ jobs:
     name: Run e2e tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
@@ -22,10 +22,10 @@ jobs:
         TESTING_ENV: PR
         PR: ${{ github.event.client_payload.pr_number }}
       with:
-        args: npm run test-ci read_only
+        args: yarn run test-ci read_only
     - name: Format output
       if: ${{ always() }}
-      run: npm run format-tests-output
+      run: yarn run format-tests-output
     - name: Set env variable
       if: ${{ always() }}
       id: format
