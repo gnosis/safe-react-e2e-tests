@@ -63,8 +63,8 @@ export const init = async () => {
   // After l2-ux we have to navigate to the network selection URL to ensure we are in the correct one
   await gnosisPage.goto(`${envUrl}/${NETWORK_NAME.toLowerCase()}`)
 
-  gnosisPage.setDefaultTimeout(60000)
-  MMpage.setDefaultTimeout(60000)
+  gnosisPage.setDefaultTimeout(600000)
+  MMpage.setDefaultTimeout(600000)
 
   return {
     browser,
@@ -172,15 +172,14 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
  * if more than one account is needed this parameter should be used with `true`
  */
 export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts = false) => {
-  const [browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected(importMultipleAccounts)
+  const [browser, metamask, gnosisPage] = await initWithWalletConnected(importMultipleAccounts)
   await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`)
   await gnosisPage.waitForTimeout(2000)
 
   return [
     browser,
     metamask,
-    gnosisPage,
-    MMpage
+    gnosisPage
   ]
 }
 

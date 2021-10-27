@@ -87,5 +87,5 @@ describe.skip('LocalStorage Populate and validate', () => {
     await assertElementPresent({ selector: 'span[color="primary"]', type: 'css' }, gnosisPage)
     await isTextPresent('body', 'Gnosis Safe App Recorder', gnosisPage)
     await isTextPresent('body', 'ETH Wrapper', gnosisPage)
-  }, 3000000)
+  }, 180000)
 })
