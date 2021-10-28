@@ -106,7 +106,6 @@ describe('Safe Apps List', () => {
     const customAppName = 'Safe Test App'
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
     await assertElementPresent(safeAppsList.addCustomAppLogo, gnosisPage)
-    await gnosisPage.waitForTimeout(5000) // this can be improved
     expect(await getInnerText(safeAppsList.addCustomAppNameInput, gnosisPage)).toBe(customAppName)
 
     console.log('"Add Custom Safe App" button should be disabled if the checkbox is unchecked')
@@ -137,6 +136,7 @@ describe('Safe Apps List', () => {
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
     await assertTextPresent(safeAppsList.addCustomAppUrlErrorLabel, alreadyAddedSafeAppError, gnosisPage)
     await clickElement(safeAppsList.closePopupIcon, gnosisPage)
+    await assertElementNotPresent(safeAppsList.addCustomAppForm, gnosisPage)
 
     console.log('Removes a Custom Safe App')
     await clickElement(safeAppsList.removeCustomSafeAppButton, gnosisPage)
