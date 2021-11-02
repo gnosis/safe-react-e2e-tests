@@ -106,6 +106,7 @@ describe('Safe Apps List', () => {
     const customAppName = 'Safe Test App'
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
     await assertElementPresent(safeAppsList.addCustomAppLogo, gnosisPage)
+    await gnosisPage.waitForTimeout(2000) // We have some lag issues in this step for CI
     expect(await getInnerText(safeAppsList.addCustomAppNameInput, gnosisPage)).toBe(customAppName)
 
     console.log('"Add Custom Safe App" button should be disabled if the checkbox is unchecked')
@@ -139,6 +140,7 @@ describe('Safe Apps List', () => {
     await assertElementNotPresent(safeAppsList.addCustomAppForm, gnosisPage)
 
     console.log('Removes a Custom Safe App')
+    await gnosisPage.waitForTimeout(2000) // In CI we try to click before button can be clicked
     await clickElement(safeAppsList.removeCustomSafeAppButton, gnosisPage)
     // shows the confirmation popup
     await assertElementPresent(safeAppsList.removeCustomSafeAppPopup, gnosisPage)

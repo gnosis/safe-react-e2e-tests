@@ -36,7 +36,7 @@ export const rejectNextTx = async (gnosisPage, metamask) => {
   )
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
-  await gnosisPage.waitForTimeout(4000)
+  await gnosisPage.waitForTimeout(2000)
   await metamask.signTransaction()
   await gnosisPage.bringToFront()
   await assertElementPresent(transactionsTab.on_chain_rejection_type, gnosisPage)
