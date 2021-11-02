@@ -55,7 +55,7 @@ describe('Safe Balances', () => {
 
     console.log('Safe Balances table shows the amounts in the new selected currency')
     const newAmountShowed = await getInnerText(safeBalancesPage.currency_showed_balances_table, gnosisPage)
-    const newCurrencyShowed = newAmountShowed.split(' ')[1]
+    const newCurrencyShowed = getCurrencyChar(newAmountShowed)
     expect(newCurrencyShowed).toBe(newSelectedCurrency)
 
     console.log('updates the new selected currency in the localStorage')

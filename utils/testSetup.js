@@ -11,7 +11,8 @@ import { assertElementPresent, clearInput, clickAndType, clickByText, clickEleme
 
 const importAccounts = async (metamask, privateKeys) => {
   console.log('<<Importing accounts>>')
-  for (let i = 0; i < 1; i++) { // forEach doesn't work with async functions, you have to use a regular for()
+  for (let i = 0; i < 1; i++) {
+    // forEach doesn't work with async functions, you have to use a regular for()
     await metamask.importPK(privateKeys[i])
   }
 }
@@ -26,7 +27,7 @@ const {
   PASSWORD,
   PUPPETEER_EXEC_PATH,
   TESTING_ENV,
-  TESTING_SAFE_ADDRESS
+  TESTING_SAFE_ADDRESS,
 } = config
 
 export const getEnvUrl = () => {
@@ -47,12 +48,12 @@ export const init = async () => {
     executablePath: PUPPETEER_EXEC_PATH,
     defaultViewport: null, // this extends the page to the size of the browser
     slowMo: SLOWMO, // Miliseconds it will wait for every action performed. It's 1 by default. change it in the .env file
-    args: ['--no-sandbox', '--start-maximized', envUrl] // maximized browser, URL for the base page
+    args: ['--no-sandbox', '--start-maximized', envUrl], // maximized browser, URL for the base page
   })
 
   const metamask = await dappeteer.getMetamask(browser, {
     seed: MNEMONIC,
-    password: PASSWORD
+    password: PASSWORD,
   })
 
   await metamask.switchNetwork(NETWORK_NAME.toLowerCase())
@@ -62,13 +63,12 @@ export const init = async () => {
   await gnosisPage.goto(`${envUrl}${NETWORK_NAME.toLowerCase()}`, { waitUntil: ['networkidle0', 'domcontentloaded'] })
 
   gnosisPage.setDefaultTimeout(600000)
-  MMpage.setDefaultTimeout(600000)
 
   return {
     browser,
     metamask,
     gnosisPage,
-    MMpage
+    MMpage,
   }
 }
 
@@ -101,12 +101,7 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
 
     await assertElementPresent(topBar.connected_network, gnosisPage)
 
-    return [
-      browser,
-      metamask,
-      gnosisPage,
-      MMpage
-    ]
+    return [browser, metamask, gnosisPage]
   } catch {
     // There was a problem initializing the environment
     // we weren't able to connect the wallet
@@ -124,7 +119,7 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
  * if more than one account is needed this parameter should be used with `true`
  */
 export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
-  const [ browser, metamask, gnosisPage, MMpage ] = await initWithWalletConnected(importMultipleAccounts)
+  const [browser, metamask, gnosisPage] = await initWithWalletConnected(importMultipleAccounts)
 
   // Open load safe form
   await clickByText('a', 'Add existing Safe', gnosisPage)
@@ -141,7 +136,8 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
   // Third step, review owners
   await assertElementPresent(loadSafeForm.safe_owners_step, gnosisPage)
   const keys = Object.keys(accountsSelectors.accountNames)
-  for (let i = 0; i < 2/* keys.length */; i++) { // only names on the first 2 owners
+  for (let i = 0; i < 2 /* keys.length */; i++) {
+    // only names on the first 2 owners
     const ownerNameInput = loadSafeForm.owner_name(i)
     const name = accountsSelectors.accountNames[keys[i]]
     await clearInput(ownerNameInput, gnosisPage)
@@ -154,12 +150,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
   await gnosisPage.waitForTimeout(2000)
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
-  return [
-    browser,
-    metamask,
-    gnosisPage,
-    MMpage
-  ]
+  return [browser, metamask, gnosisPage]
 }
 
 /**
@@ -171,14 +162,12 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
  */
 export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts = false) => {
   const [browser, metamask, gnosisPage] = await initWithWalletConnected(importMultipleAccounts)
-  await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`, { waitUntil: ['networkidle0', 'domcontentloaded'] })
+  await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  })
   await gnosisPage.waitForTimeout(2000)
 
-  return [
-    browser,
-    metamask,
-    gnosisPage
-  ]
+  return [browser, metamask, gnosisPage]
 }
 
 /**
@@ -189,7 +178,7 @@ export const initNoWalletConnection = async () => {
     executablePath: PUPPETEER_EXEC_PATH,
     defaultViewport: null, // this extends the page to the size of the browser
     slowMo: SLOWMO, // Miliseconds it will wait for every action performed. It's 1 by default. change it in the .env file
-    args: ['--no-sandbox', '--start-maximized', envUrl] // maximized browser, URL for the base page
+    args: ['--no-sandbox', '--start-maximized', envUrl], // maximized browser, URL for the base page
   })
 
   const [gnosisPage] = await browser.pages() // get a grip on the current tab
@@ -199,8 +188,5 @@ export const initNoWalletConnection = async () => {
 
   gnosisPage.setDefaultTimeout(60000)
 
-  return [
-    browser,
-    gnosisPage,
-  ]
+  return [browser, gnosisPage]
 }

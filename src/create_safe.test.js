@@ -34,14 +34,13 @@ Create safe
 let browser
 let metamask
 let gnosisPage
-let MMpage
 
 const { FUNDS_RECEIVER_ADDRESS, QR_CODE_ADDRESS } = config
 
 const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../utils/files/safe-address-QR.png'))
 
 beforeAll(async () => {
-  ;[browser, metamask, gnosisPage, MMpage] = await initWithWalletConnected()
+  ;[browser, metamask, gnosisPage] = await initWithWalletConnected()
 }, 60000)
 
 afterAll(async () => {
@@ -240,8 +239,7 @@ describe('Create New Safe', () => {
 
     console.log('Submits the Create Safe Form')
     await clickSomething(generalInterface.submit_btn.selector, gnosisPage, 'css')
-    await MMpage.bringToFront()
-    await MMpage.waitForTimeout(2000)
+    await gnosisPage.waitForTimeout(2000)
     await metamask.confirmTransaction()
 
     // Assert Safe Creation
