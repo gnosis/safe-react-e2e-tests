@@ -14,11 +14,10 @@ jobs:
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
     - name: Read only tests
-      uses: beemi/puppeteer-headful@master
+      uses: mujo-code/puppeteer-headful@master
       id: test-code
       env:
         CI: 'true'
-        DISPLAY: :99
         TESTING_ENV: PR
         PR: ${{ github.event.client_payload.pr_number }}
       with:

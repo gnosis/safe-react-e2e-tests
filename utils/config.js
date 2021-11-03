@@ -8,7 +8,7 @@ const config = {
     rinkeby: 'https://rinkeby.gnosis-safe.io/app/',
     dev: 'https://safe-team.dev.gnosisdev.com/app/',
     PR: (id) => `https://pr${id}--safereact.review-safe.gnosisdev.com/app/`,
-    stg: 'https://safe-team-rinkeby.staging.gnosisdev.com/app/',
+    stg: 'https://safe-team.staging.gnosisdev.com/app/',
     local: 'http://localhost:3000/',
   },
   MNEMONIC: process.env.MNEMONIC || 'range smoke crisp install cross shine hold grief ripple cabin sudden special', // it imports the wallet with "acc1" as owner
