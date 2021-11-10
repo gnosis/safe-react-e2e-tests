@@ -7,9 +7,7 @@ import { safeAppsList } from '../../utils/selectors/safeAppsList'
 Working Apps
 -- Shows the Safe Apps List
 -- Opens the different apps and test:
-  - Check that the app is loading  
-  - Check that we can find the Safe address somewhere in the interface (so we assume it's connected) We should check complete or partial match in the first approach
-  - We will need some way to report which specific app is failing
+  - Check that the app is loading
   - Add a Github action job that checks the list. We can schedule it once a day
   - We should report to a slack channel the result of this check
 */

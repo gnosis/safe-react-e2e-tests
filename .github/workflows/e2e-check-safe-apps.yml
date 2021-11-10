@@ -1,0 +1,21 @@
+name: Run safe-react e2e tests
+on:
+  pull_request:
+env:
+  PUPPETEER_EXEC_PATH: 'google-chrome-stable'
+jobs:
+  runE2eTests:
+    name: Run e2e testing safe apps liveness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test Code
+        uses: mujo-code/puppeteer-headful@master
+        env:
+          CI: 'true'
+          TESTING_ENV: 'rinkeby'
+        with:
+          args: yarn test working_apps
