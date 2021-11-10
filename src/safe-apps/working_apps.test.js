@@ -47,6 +47,7 @@ describe('Safe Apps List', () => {
     await clickByText('button', 'Confirm', gnosisPage)
     await gnosisPage.goBack()
 
+    console.log('Test apps sequentially')
     for (const safeApp of safeApps.splice(1)) {
       try {
         console.log(`Testing ${safeApp.title}`)
@@ -65,6 +66,7 @@ describe('Safe Apps List', () => {
       }
     }
 
+    console.log('Check failing apps')
     expect(failingToLoadApps).toEqual([])
   })
 })

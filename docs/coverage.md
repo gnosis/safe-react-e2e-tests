@@ -142,6 +142,8 @@
 1. Open Safe Apps List
 2. Get all apps
 3. Accept disclaimer
+4. Test apps sequentially
+5. Check failing apps
 
 #### [Send funds](./../src/send_funds.test.js)
 1. Open the send funds form
