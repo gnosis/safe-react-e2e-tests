@@ -55,7 +55,6 @@ export const init = async () => {
       '--disable-features=IsolateOrigins,site-per-process',
       envUrl,
     ], // maximized browser, URL for the base page
-    devtools: true,
   })
 
   const metamask = await dappeteer.getMetamask(browser, {
