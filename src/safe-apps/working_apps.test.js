@@ -1,4 +1,4 @@
-import { assertElementPresent, clickByText, isTextPresent } from '../../utils/selectorsHelpers'
+import { getAllAppTitles, clickByText, isSafeAppLoaded, isTextPresent } from '../../utils/selectorsHelpers'
 import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
 import config from '../../utils/config'
 import { safeAppsList } from '../../utils/selectors/safeAppsList'
@@ -30,33 +30,18 @@ afterAll(async () => {
 
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
-    const notLoadingApps = []
-    const catchErrorApps = []
+    const failingToLoadApps = []
+
     console.log('Safe Apps liveness')
-    console.log('Safe Apps List')
 
+    console.log('Open Safe Apps List')
     const safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
-
     await gnosisPage.goto(safeAppsListUrl)
-
-    console.log('Shows All Apps Section')
-    await assertElementPresent(safeAppsList.allSafeAppsSection, gnosisPage)
-
-    console.log('Get all apps')
     await gnosisPage.waitForSelector(safeAppsList.allSafeAppsTitles.selector)
 
-    const safeApps = await gnosisPage.evaluate((selector) => {
-      const elements = Array.from(document.querySelectorAll(selector))
-      return elements.map((element, index) => {
-        console.log(element)
-        return {
-          title: element.innerText,
-          index,
-        }
-      })
-    }, safeAppsList.allSafeAppsTitles.selector)
+    console.log('Get all apps')
+    const safeApps = await getAllAppTitles(safeAppsList.allSafeAppsTitles.selector, gnosisPage)
 
-    await gnosisPage.$$(safeAppsList.allSafeAppsTitles.selector)
     console.log('Accept disclaimer')
     await clickByText('h5', safeApps[0].title, gnosisPage)
     await clickByText('button', 'Confirm', gnosisPage)
@@ -64,56 +49,22 @@ describe('Safe Apps List', () => {
 
     for (const safeApp of safeApps.splice(1)) {
       try {
+        console.log(`Testing ${safeApp.title}`)
         await isTextPresent('body', 'Add custom app', gnosisPage)
         await clickByText('h5', safeApp.title, gnosisPage)
-        const jsHandle = await Promise.race([
-          // gnosisPage.waitForSelector('[name=safe-app-iframe]'),
-          gnosisPage.waitForFunction(() => {
-            const iframe = document.querySelector('[name=safe-app-iframe]')
-            console.log(iframe)
-            if (
-              iframe &&
-              iframe.contentDocument &&
-              iframe.contentDocument.body &&
-              iframe.contentDocument.body.querySelector &&
-              iframe.contentDocument.body.querySelector('#root') !== null
-            ) {
-              console.log(iframe.contentDocument.body, 'loaded')
-              return 'loaded'
-            }
+        const isLoaded = await isSafeAppLoaded(gnosisPage)
 
-            if (
-              iframe &&
-              iframe.contentDocument &&
-              iframe.contentDocument.body &&
-              iframe.contentDocument.body.querySelector &&
-              iframe.contentDocument.body.querySelector('#main-frame-error') !== null
-            ) {
-              console.log(iframe.contentDocument.body, 'error')
-              return true
-            }
-
-            return false
-          }),
-          isTextPresent('body', 'Something went wrong, please try again', gnosisPage),
-        ])
-        const value = await jsHandle.evaluate((value) => value)
-
-        if (value === true) {
-          notLoadingApps.push(safeApp.title)
-          await gnosisPage.goto(safeAppsListUrl)
-        } else if (value === 'loaded') {
+        if (isLoaded) {
           await gnosisPage.goBack()
         } else {
-          notLoadingApps.push(safeApp.title)
-          await gnosisPage.goBack()
+          failingToLoadApps.push(safeApp.title)
+          await gnosisPage.goto(safeAppsListUrl)
         }
       } catch (e) {
-        catchErrorApps.push(safeApp.title)
         await gnosisPage.goBack()
       }
     }
 
-    expect(notLoadingApps).toEqual([])
+    expect(failingToLoadApps).toEqual([])
   })
 })

@@ -139,10 +139,9 @@
 6. Checks status success of executed tx
 
 #### [Safe Apps liveness](./../src/safe-apps/working_apps.test.js)
-1. Safe Apps List
-2. Shows All Apps Section
-3. Get all apps
-4. Accept disclaimer
+1. Open Safe Apps List
+2. Get all apps
+3. Accept disclaimer
 
 #### [Send funds](./../src/send_funds.test.js)
 1. Open the send funds form

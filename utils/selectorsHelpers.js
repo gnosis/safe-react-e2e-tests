@@ -105,3 +105,46 @@ export const isTextPresent = async (selector, text, page, timeout = 60000) =>
     selector,
     text,
   )
+
+export const isSafeAppLoaded = async function (gnosisPage) {
+  const jsHandle = await Promise.race([
+    gnosisPage.waitForFunction(() => {
+      const iframe = document.querySelector('iframe[id^="iframe-"]')
+
+      // Check if root from create-react-app is present
+      if (iframe?.contentDocument?.body?.querySelector('#root')) {
+        return 'loaded'
+      }
+
+      // Check for errored iframe for cross origin issues
+      if (iframe?.contentDocument?.body?.querySelector('#main-frame-error')) {
+        return 'error'
+      }
+
+      return false
+    }),
+    isTextPresent('body', 'Something went wrong, please try again', gnosisPage),
+  ])
+
+  // Unwrap JSHandle
+  const value = await jsHandle.evaluate((value) => value)
+
+  if (value === 'loaded') {
+    return true
+  }
+
+  return false
+}
+
+export const getAllAppTitles = async function (selector, gnosisPage) {
+  return await gnosisPage.evaluate((selector) => {
+    const elements = Array.from(document.querySelectorAll(selector))
+    return elements.map((element, index) => {
+      console.log(element)
+      return {
+        title: element.innerText,
+        index,
+      }
+    })
+  }, selector)
+}
