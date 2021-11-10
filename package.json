@@ -16,6 +16,7 @@
     "test-ci": "jest --detectOpenHandles --json --outputFile=output.json",
     "test-local": "cross-env TESTING_ENV=local yarn test",
     "test-pr": "cross-env TESTING_ENV=PR yarn test",
+    "debug-local": "npx ndb yarn test-local",
     "format-tests-output": "node ./scripts/format-output.js > output.txt",
     "write-tests-description": "node ./scripts/describe-tests.js > docs/coverage.md",
     "prepare": "husky install"
