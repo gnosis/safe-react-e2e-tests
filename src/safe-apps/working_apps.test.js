@@ -1,5 +1,6 @@
 import { getAllAppTitles, clickByText, isSafeAppLoaded, isTextPresent } from '../../utils/selectorsHelpers'
 import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
+import { sendSlackMessage } from '../../utils/slack'
 import config from '../../utils/config'
 import { safeAppsList } from '../../utils/selectors/safeAppsList'
 
@@ -15,7 +16,8 @@ Working Apps
 let browser
 let gnosisPage
 
-const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX } = config
+const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX, SLACK_WEBHOOK_URL } = config
+const failingToLoadApps = []
 
 beforeAll(async () => {
   ;[browser, , gnosisPage] = await initWithWalletConnected()
@@ -24,12 +26,11 @@ beforeAll(async () => {
 afterAll(async () => {
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
+  await sendSlackMessage(SLACK_WEBHOOK_URL, failingToLoadApps)
 })
 
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
-    const failingToLoadApps = []
-
     console.log('Safe Apps liveness')
 
     console.log('Open Safe Apps List')
@@ -52,7 +53,6 @@ describe('Safe Apps List', () => {
         await isTextPresent('body', 'Add custom app', gnosisPage)
         await clickByText('h5', safeApp.title, gnosisPage)
         const isLoaded = await isSafeAppLoaded(gnosisPage)
-
         if (isLoaded) {
           await gnosisPage.goBack()
         } else {
@@ -65,6 +65,8 @@ describe('Safe Apps List', () => {
     }
 
     console.log('Check failing apps')
+    await sendSlackMessage(process.env.SLACK_WEBHOOCK_URL, failingToLoadApps)
+
     expect(failingToLoadApps).toEqual([])
-  })
+  }, 360000)
 })

@@ -30,6 +30,7 @@ const config = {
   // network
   NETWORK_NAME: process.env.NETWORK_NAME || 'Rinkeby',
   NETWORK_ADDRESS_PREFIX: process.env.NETWORK_ADDRESS_PREFIX || 'rin',
+  SLACK_WEBHOOK_URL: process.env.SLACK_WEBHOOK_URL,
 }
 
 export default config

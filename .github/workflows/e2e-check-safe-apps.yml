@@ -17,5 +17,6 @@ jobs:
         env:
           CI: 'true'
           TESTING_ENV: 'stg'
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           args: yarn test working_apps
