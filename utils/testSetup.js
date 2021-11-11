@@ -184,7 +184,7 @@ export const initNoWalletConnection = async () => {
     executablePath: PUPPETEER_EXEC_PATH,
     defaultViewport: null, // this extends the page to the size of the browser
     slowMo: SLOWMO, // Miliseconds it will wait for every action performed. It's 1 by default. change it in the .env file
-    args: ['--no-sandbox', '--start-maximized', '--disable-web-security', envUrl], // maximized browser, URL for the base page
+    args: ['--no-sandbox', '--start-maximized', envUrl], // maximized browser, URL for the base page
   })
 
   const [gnosisPage] = await browser.pages() // get a grip on the current tab

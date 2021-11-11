@@ -1,4 +1,4 @@
-name: Run safe-react e2e tests
+name: Run e2e test for check safe apps liveness
 on:
   pull_request:
 env:
