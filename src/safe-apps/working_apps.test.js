@@ -48,18 +48,16 @@ describe('Safe Apps List', () => {
 
     console.log('Test apps sequentially')
     for (const safeApp of safeApps.splice(1)) {
-      try {
-        console.log(`Testing ${safeApp.title}`)
-        await isTextPresent('body', 'Add custom app', gnosisPage)
-        await clickByText('h5', safeApp.title, gnosisPage)
-        const isLoaded = await isSafeAppLoaded(gnosisPage)
-        if (isLoaded) {
-          await gnosisPage.goBack()
-        } else {
-          failingToLoadApps.push(safeApp.title)
-          await gnosisPage.goto(safeAppsListUrl)
-        }
-      } catch (e) {
+      console.log(`Testing ${safeApp.title}`)
+      await isTextPresent('body', 'Add custom app', gnosisPage)
+      await clickByText('h5', safeApp.title, gnosisPage)
+      const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, gnosisPage)
+
+      console.log(loadResult)
+      if (loadResult?.status === 'error') {
+        failingToLoadApps.push({ title: safeApp.title, ...loadResult })
+        await gnosisPage.goto(safeAppsListUrl)
+      } else {
         await gnosisPage.goBack()
       }
     }

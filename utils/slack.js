@@ -5,7 +5,9 @@ export async function sendSlackMessage(url, apps) {
     channel: '#test-incomming-webhooks',
     username: 'Safe Apps  Bot',
     text: apps.length
-      ? `Heads up! there are some safe apps not loading properly:\n${apps.join()}`
+      ? `Heads up! there are some safe apps not loading properly:\n${apps
+          .map((app) => `- ${app.title}: ${app.description}`)
+          .join('\n')}`
       : 'All safe apps seems to be working fine',
     icon_emoji: apps.length ? ':cry' : ':ghost',
   }

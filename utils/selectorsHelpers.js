@@ -106,34 +106,45 @@ export const isTextPresent = async (selector, text, page, timeout = 60000) =>
     text,
   )
 
-export const isSafeAppLoaded = async function (gnosisPage) {
+export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
   const jsHandle = await Promise.race([
-    gnosisPage.waitForFunction(() => {
-      const iframe = document.querySelector('iframe[id^="iframe-"]')
+    gnosisPage.waitForFunction(
+      (safeAddress) => {
+        const iframe = document.querySelector('iframe[id^="iframe-"]')
+        const iframeDocument = iframe?.contentDocument
+        const iframeText = iframeDocument?.documentElement?.textContent
 
-      // Check if root from create-react-app is present
-      if (iframe?.contentDocument?.body?.querySelector('#root')) {
-        return 'loaded'
-      }
+        // Search for last 4 characters in safe address
+        if (safeAddress && iframeText && iframeText.indexOf(safeAddress.substr(safeAddress.length - 4)) !== -1) {
+          return { status: 'loaded', description: 'Safe Address found' }
+        }
 
-      // Check for errored iframe for cross origin issues
-      if (iframe?.contentDocument?.body?.querySelector('#main-frame-error')) {
-        return 'error'
-      }
+        // Check if root from create-react-app is present
+        if (iframeDocument?.body?.querySelector('#root, main')) {
+          return { status: 'loaded', description: 'Selector found' }
+        }
 
-      return false
-    }),
+        // Check for errored iframe for cross origin issues
+        if (iframeDocument?.body?.querySelector('#main-frame-error')) {
+          return { status: 'error', description: 'Unable to load iframe' }
+        }
+
+        return false
+      },
+      { polling: 500 },
+      safeAddress,
+    ),
     isTextPresent('body', 'Something went wrong, please try again', gnosisPage),
   ])
 
   // Unwrap JSHandle
-  const value = await jsHandle.evaluate((value) => value)
+  const appLoadResult = await jsHandle.evaluate((value) => value)
 
-  if (value === 'loaded') {
-    return true
+  if (appLoadResult === true) {
+    return { status: 'error', description: 'Unable to load provider' }
   }
 
-  return false
+  return appLoadResult || { status: 'error', description: 'Unknown' }
 }
 
 export const getAllAppTitles = async function (selector, gnosisPage) {
