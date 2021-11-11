@@ -65,8 +65,5 @@ describe('Safe Apps List', () => {
     }
 
     console.log('Check failing apps')
-    await sendSlackMessage(process.env.SLACK_WEBHOOCK_URL, failingToLoadApps)
-
-    expect(failingToLoadApps).toEqual([])
   }, 360000)
 })
