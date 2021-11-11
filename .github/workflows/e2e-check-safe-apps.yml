@@ -16,6 +16,6 @@ jobs:
         uses: mujo-code/puppeteer-headful@master
         env:
           CI: 'true'
-          TESTING_ENV: 'rinkeby'
+          TESTING_ENV: 'stg'
         with:
           args: yarn test working_apps
