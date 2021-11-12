@@ -1,13 +1,27 @@
 import https from 'https'
 
 export async function sendSlackMessage(url, apps) {
+  const groupByDescription = apps.reduce((acc, { title, description }) => {
+    if (acc[description]) {
+      acc[description] = `${acc[description]},${title}`
+    } else {
+      acc[description] = title
+    }
+
+    return acc
+  }, {})
+
+  let formattedText = ''
+
+  Object.keys(groupByDescription).forEach((description) => {
+    formattedText = `${formattedText} - *${description}*: ${groupByDescription[description]}\n`
+  })
+
   const data = {
     channel: '#test-incomming-webhooks',
     username: 'Safe Apps  Bot',
     text: apps.length
-      ? `Heads up! there are some safe apps not loading properly:\n${apps
-          .map((app) => `- ${app.title}: ${app.description}`)
-          .join('\n')}`
+      ? `Heads up! there are some safe apps not loading properly:\n${formattedText}`
       : 'All safe apps seems to be working fine',
     icon_emoji: apps.length ? ':cry' : ':ghost',
   }
