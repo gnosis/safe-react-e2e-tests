@@ -15,6 +15,7 @@ Working Apps
 
 let browser
 let gnosisPage
+let safeAppsListUrl
 
 const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX, SLACK_WEBHOOK_URL } = config
 const failingToLoadApps = []
@@ -26,7 +27,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
-  await sendSlackMessage(SLACK_WEBHOOK_URL, failingToLoadApps)
+  await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
 })
 
 describe('Safe Apps List', () => {
@@ -34,7 +35,7 @@ describe('Safe Apps List', () => {
     console.log('Safe Apps liveness')
 
     console.log('Open Safe Apps List')
-    const safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
+    safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
     await gnosisPage.goto(safeAppsListUrl)
     await gnosisPage.waitForSelector(safeAppsList.allSafeAppsTitles.selector)
 

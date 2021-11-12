@@ -24,10 +24,10 @@ const getFormattedText = (apps) => {
   return text
 }
 
-export async function sendSlackMessage(url, apps) {
+export async function sendSlackMessage(hookUrl, safeUrl, apps) {
   const formattedText = getFormattedText(groupByDescription(apps))
   const data = {
-    text: apps.length ? `${WARNING_MESSAGE}\n${formattedText}` : SUCCESS_MESSAGE,
+    text: apps.length ? `${WARNING_MESSAGE}\n${formattedText}\n${safeUrl}` : `${SUCCESS_MESSAGE}\n${safeUrl}`,
   }
   const dataString = JSON.stringify(data)
   const options = {
@@ -42,7 +42,7 @@ export async function sendSlackMessage(url, apps) {
   console.log('Test Results (forwarded to slack):', formattedText)
 
   return new Promise((resolve, reject) => {
-    const req = https.request(url, options, (res) => {
+    const req = https.request(hookUrl, options, (res) => {
       if (res.statusCode < 200 || res.statusCode > 299) {
         return reject(new Error(`HTTP status code ${res.statusCode}`))
       }
