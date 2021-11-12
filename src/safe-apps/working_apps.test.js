@@ -27,7 +27,6 @@ beforeAll(async () => {
 afterAll(async () => {
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
-  await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
 })
 
 describe('Safe Apps List', () => {
@@ -55,14 +54,15 @@ describe('Safe Apps List', () => {
       const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, gnosisPage)
 
       console.log(loadResult)
+
       if (loadResult?.status === 'error') {
         failingToLoadApps.push({ title: safeApp.title, ...loadResult })
-        await gnosisPage.goto(safeAppsListUrl)
-      } else {
-        await gnosisPage.goBack()
       }
+
+      await gnosisPage.goto(safeAppsListUrl)
     }
 
-    console.log('Check failing apps')
+    console.log('Send Slack message')
+    await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
   }, 360000)
 })

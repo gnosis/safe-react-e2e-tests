@@ -3,7 +3,7 @@
 2. Get all apps
 3. Accept disclaimer
 4. Test apps sequentially
-5. Check failing apps
+5. Send Slack message
 
 #### [Add/remove Owners](./../src/safe-web/add_remove_owner.test.js)
 1. Enter add owner form

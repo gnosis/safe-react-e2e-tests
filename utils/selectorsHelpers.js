@@ -109,22 +109,19 @@ export const isTextPresent = async (selector, text, page, timeout = 60000) =>
 export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
   const jsHandle = await Promise.race([
     gnosisPage.waitForFunction(
-      (safeAddress) => {
+      async (safeAddress) => {
         const iframe = document.querySelector('iframe[id^="iframe-"]')
         const iframeDocument = iframe?.contentDocument
-        const iframeText = iframeDocument?.documentElement?.textContent
-
-        // Search for last 4 characters in safe address
-        if (safeAddress && iframeText && iframeText.indexOf(safeAddress.substr(safeAddress.length - 4)) !== -1) {
-          return { status: 'loaded', description: 'Safe Address found' }
-        }
 
         // Check if root from create-react-app is present
-        if (iframeDocument?.body?.querySelector('#root, main')) {
+        if (iframeDocument?.body?.querySelector('#root,#app,.app,main')) {
           return { status: 'loaded', description: 'Selector found' }
         }
 
-        // Check for errored iframe for cross origin issues
+        // Wait for a bit and check for standard iframe error
+        const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+        await timeout(1000)
+
         if (iframeDocument?.body?.querySelector('#main-frame-error')) {
           return { status: 'error', description: 'Unable to load iframe' }
         }

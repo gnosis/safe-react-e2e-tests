@@ -39,7 +39,7 @@ export async function sendSlackMessage(hookUrl, safeUrl, apps) {
     timeout: 1000,
   }
 
-  console.log('Test Results (forwarded to slack):', formattedText)
+  console.log(formattedText)
 
   return new Promise((resolve, reject) => {
     const req = https.request(hookUrl, options, (res) => {
