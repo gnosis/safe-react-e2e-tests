@@ -114,7 +114,7 @@ export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
         const iframeDocument = iframe?.contentDocument
 
         // Check if root from create-react-app is present
-        if (iframeDocument?.body?.querySelector('#root,#app,.app,main')) {
+        if (iframeDocument?.body?.querySelector('#root,#app,.app,main,#__next')) {
           return { status: 'loaded', description: 'Selector found' }
         }
 
