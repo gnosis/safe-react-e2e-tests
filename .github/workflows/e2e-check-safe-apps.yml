@@ -21,6 +21,7 @@ jobs:
           CI: 'true'
           TESTING_ENV: 'stg'
           NETWORK_NAME: 'mainnet'
+          NETWORK_ADDRESS_PREFIX: 'eth'
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           args: yarn test working_apps

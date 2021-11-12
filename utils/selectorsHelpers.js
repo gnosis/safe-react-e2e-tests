@@ -141,7 +141,7 @@ export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
   const appLoadResult = await jsHandle.evaluate((value) => value)
 
   if (appLoadResult === true) {
-    return { status: 'error', description: 'Unable to load provider' }
+    return { status: 'error', description: 'There might be a problem with the App provider' }
   }
 
   return appLoadResult || { status: 'error', description: 'Unknown' }
