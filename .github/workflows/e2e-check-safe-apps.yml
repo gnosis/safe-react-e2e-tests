@@ -19,7 +19,7 @@ jobs:
         uses: mujo-code/puppeteer-headful@master
         env:
           CI: 'true'
-          TESTING_ENV: 'stg'
+          TESTING_ENV: 'prod'
           NETWORK_NAME: 'mainnet'
           NETWORK_ADDRESS_PREFIX: 'eth'
           TESTING_SAFE_ADDRESS: ${{ secrets.TESTING_SAFE_ADDRESS }}
