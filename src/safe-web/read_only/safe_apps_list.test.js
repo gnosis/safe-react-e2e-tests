@@ -7,10 +7,10 @@ import {
   clickByText,
   clickElement,
   getInnerText,
-} from '../../utils/selectorsHelpers'
-import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
-import config from '../../utils/config'
-import { safeAppsList } from '../../utils/selectors/safeAppsList'
+} from '../../../utils/selectorsHelpers'
+import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
+import config from '../../../utils/config'
+import { safeAppsList } from '../../../utils/selectors/safeAppsList'
 
 /*
 Safe Apps List

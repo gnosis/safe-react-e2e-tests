@@ -5,12 +5,12 @@ import {
   isTextPresent,
   getInnerText,
   clickSomething,
-} from '../utils/selectorsHelpers'
-import { accountsSelectors } from '../utils/selectors/accounts'
-import { createSafePage } from '../utils/selectors/createSafePage'
-import { generalInterface } from '../utils/selectors/generalInterface'
-import { getEnvUrl, initWithWalletConnected } from '../utils/testSetup'
-import config from '../utils/config'
+} from '../../utils/selectorsHelpers'
+import { accountsSelectors } from '../../utils/selectors/accounts'
+import { createSafePage } from '../../utils/selectors/createSafePage'
+import { generalInterface } from '../../utils/selectors/generalInterface'
+import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
+import config from '../../utils/config'
 
 /*
 Create safe

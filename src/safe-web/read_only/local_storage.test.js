@@ -1,5 +1,5 @@
-import { assertElementPresent, isTextPresent, clickByText, clickElement } from '../../utils/selectorsHelpers'
-import { initNoWalletConnection } from '../../utils/testSetup'
+import { assertElementPresent, isTextPresent, clickByText, clickElement } from '../../../utils/selectorsHelpers'
+import { initNoWalletConnection } from '../../../utils/testSetup'
 import {
   ADDRESSBOOK_KEY,
   ADDRESSBOOK_VALUES,
@@ -7,7 +7,7 @@ import {
   SAFES_VALUES,
   APPS_KEY,
   APPS_VALUES,
-} from '../../utils/files/localStorageConstants'
+} from '../../../utils/files/localStorageConstants'
 
 /*
 Local Storage

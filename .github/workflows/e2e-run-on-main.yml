@@ -22,4 +22,4 @@ jobs:
         CI: 'true'
         TESTING_ENV: 'rinkeby'
       with:
-        args: yarn test read_only
+        args: yarn test safe-web/read_only

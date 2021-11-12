@@ -10,13 +10,13 @@ import {
   getInnerText,
   clickSomething,
   clearInput,
-} from '../utils/selectorsHelpers'
-import { accountsSelectors } from '../utils/selectors/accounts'
-import { createSafePage } from '../utils/selectors/createSafePage'
-import { generalInterface } from '../utils/selectors/generalInterface'
-import { initWithWalletConnected } from '../utils/testSetup'
-import { errorMsg } from '../utils/selectors/errorMsg'
-import config from '../utils/config'
+} from '../../utils/selectorsHelpers'
+import { accountsSelectors } from '../../utils/selectors/accounts'
+import { createSafePage } from '../../utils/selectors/createSafePage'
+import { generalInterface } from '../../utils/selectors/generalInterface'
+import { initWithWalletConnected } from '../../utils/testSetup'
+import { errorMsg } from '../../utils/selectors/errorMsg'
+import config from '../../utils/config'
 
 /*
 Create safe

@@ -1,7 +1,7 @@
-import { assertTextPresent, clickElement, clickSomething, getInnerText } from '../../utils/selectorsHelpers'
-import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
-import config from '../../utils/config'
-import { safeBalancesPage } from '../../utils/selectors/safeBalancesPage'
+import { assertTextPresent, clickElement, clickSomething, getInnerText } from '../../../utils/selectorsHelpers'
+import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
+import config from '../../../utils/config'
+import { safeBalancesPage } from '../../../utils/selectors/safeBalancesPage'
 
 /*
 Safe Balances

@@ -6,12 +6,12 @@ import {
   clickElement,
   getInnerText,
   isTextPresent,
-} from '../../utils/selectorsHelpers'
-import { accountsSelectors } from '../../utils/selectors/accounts'
-import { addressBook } from '../../utils/selectors/addressBook'
-import { initWithDefaultSafe } from '../../utils/testSetup'
-import { generalInterface } from '../../utils/selectors/generalInterface'
-import config from '../../utils/config'
+} from '../../../utils/selectorsHelpers'
+import { accountsSelectors } from '../../../utils/selectors/accounts'
+import { addressBook } from '../../../utils/selectors/addressBook'
+import { initWithDefaultSafe } from '../../../utils/testSetup'
+import { generalInterface } from '../../../utils/selectors/generalInterface'
+import config from '../../../utils/config'
 import path from 'path'
 
 /*
