@@ -129,18 +129,20 @@ describe('Safe Apps List', () => {
     await clickByText(safeAppsList.addCustomSafeAppButton.selector, 'Add custom app', gnosisPage)
     const invalidSafeAppUrl = 'this is an invalid safe app url'
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, invalidSafeAppUrl)
+    await gnosisPage.waitForTimeout(1000)
     await assertTextPresent(safeAppsList.addCustomAppUrlErrorLabel, 'Invalid URL', gnosisPage)
 
     console.log('Validates if the Custom Safe App was already added')
     const alreadyAddedSafeAppError = 'This app is already registered.'
     await clearInput(safeAppsList.addCustomAppUrlInput, gnosisPage)
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
+    await gnosisPage.waitForTimeout(1000)
     await assertTextPresent(safeAppsList.addCustomAppUrlErrorLabel, alreadyAddedSafeAppError, gnosisPage)
     await clickElement(safeAppsList.closePopupIcon, gnosisPage)
     await assertElementNotPresent(safeAppsList.addCustomAppForm, gnosisPage)
 
     console.log('Removes a Custom Safe App')
-    await gnosisPage.waitForTimeout(2000) // In CI we try to click before button can be clicked
+    await gnosisPage.waitForTimeout(1000) // In CI we try to click before button can be clicked
     await clickElement(safeAppsList.removeCustomSafeAppButton, gnosisPage)
     // shows the confirmation popup
     await assertElementPresent(safeAppsList.removeCustomSafeAppPopup, gnosisPage)
