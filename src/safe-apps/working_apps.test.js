@@ -1,5 +1,5 @@
 import { getAllAppTitles, clickByText, isSafeAppLoaded, isTextPresent } from '../../utils/selectorsHelpers'
-import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
+import { getEnvUrl, initNoWalletConnection } from '../../utils/testSetup'
 import { sendSlackMessage } from '../../utils/slack'
 import config from '../../utils/config'
 import { safeAppsList } from '../../utils/selectors/safeAppsList'
@@ -21,7 +21,7 @@ const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX, SLACK_WEBHOOK_URL } = conf
 const failingToLoadApps = []
 
 beforeAll(async () => {
-  ;[browser, , gnosisPage] = await initWithWalletConnected()
+  ;[browser, gnosisPage] = await initNoWalletConnection()
 }, 60000)
 
 afterAll(async () => {

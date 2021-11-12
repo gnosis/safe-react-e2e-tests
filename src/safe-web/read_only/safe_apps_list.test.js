@@ -8,7 +8,7 @@ import {
   clickElement,
   getInnerText,
 } from '../../../utils/selectorsHelpers'
-import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
+import { getEnvUrl, initNoWalletConnection } from '../../../utils/testSetup'
 import config from '../../../utils/config'
 import { safeAppsList } from '../../../utils/selectors/safeAppsList'
 
@@ -27,7 +27,7 @@ let gnosisPage
 const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX } = config
 
 beforeAll(async () => {
-  ;[browser, , gnosisPage] = await initWithWalletConnected()
+  ;[browser, gnosisPage] = await initNoWalletConnection()
 }, 60000)
 
 afterAll(async () => {
