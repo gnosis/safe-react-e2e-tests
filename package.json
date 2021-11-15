@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@dasanra/dappeteer": "^2.2.3",
-    "puppeteer": "^9.1.1",
+    "puppeteer": "^11.0.0",
     "puppeteer-screen-recorder": "^2.0.2"
   },
   "jest": {
