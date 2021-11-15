@@ -105,7 +105,7 @@ export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
   let appLoadResult
 
   try {
-    gnosisPage.waitForTimeout(250)
+    await gnosisPage.waitForTimeout(300)
 
     const jsHandle = await Promise.race([
       gnosisPage.waitForFunction(
