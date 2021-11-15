@@ -39,13 +39,14 @@
     "jest-cli": "^27.2.0",
     "jest-puppeteer": "^5.0.4",
     "lint-staged": "^11.1.2",
+    "ndb": "^1.1.5",
     "pptr-testing-library": "^0.6.5",
-    "prettier": "^2.4.0",
-    "ndb": "^1.1.5"
+    "prettier": "^2.4.0"
   },
   "dependencies": {
     "@dasanra/dappeteer": "^2.2.3",
-    "puppeteer": "^9.1.1"
+    "puppeteer": "^9.1.1",
+    "puppeteer-screen-recorder": "^2.0.2"
   },
   "jest": {
     "preset": "jest-puppeteer",

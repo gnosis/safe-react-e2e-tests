@@ -1,3 +1,4 @@
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { getAllAppTitles, clickByText, isSafeAppLoaded, isTextPresent } from '../../utils/selectorsHelpers'
 import { getEnvUrl, initNoWalletConnection } from '../../utils/testSetup'
 import { sendSlackMessage } from '../../utils/slack'
@@ -29,6 +30,9 @@ afterAll(async () => {
 
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
+    const recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./screenshots/test-safe-apps.mp4')
+
     console.log('Safe Apps liveness')
     const failingToLoadApps = []
     const safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
@@ -51,13 +55,9 @@ describe('Safe Apps List', () => {
     console.log('Test apps sequentially')
     for (const safeApp of safeApps.splice(-4)) {
       console.log(`Testing ${safeApp.title}`)
-      gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}-1.png` })
       await isTextPresent('body', 'Add custom app', gnosisPage)
-      gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}-2.png` })
       await clickByText('h5', safeApp.title, gnosisPage)
-      gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}-3.png` })
       const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, safeApp.title, gnosisPage)
-      gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}-4.png` })
 
       console.log(loadResult)
 
@@ -67,6 +67,8 @@ describe('Safe Apps List', () => {
 
       await gnosisPage.goto(safeAppsListUrl)
     }
+
+    await recorder.stop()
 
     console.log('Send Slack message')
     await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
