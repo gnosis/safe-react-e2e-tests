@@ -65,5 +65,5 @@ describe('Safe Apps List', () => {
 
     console.log('Send Slack message')
     await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
-  }, 1000000)
+  }, 1800000)
 })
