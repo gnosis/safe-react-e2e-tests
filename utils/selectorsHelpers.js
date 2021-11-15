@@ -101,7 +101,7 @@ export const isTextPresent = async (selector, text, page) =>
     text,
   )
 
-export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
+export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
   let appLoadResult
 
   try {
@@ -131,7 +131,7 @@ export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
     // Unwrap JSHandle
     appLoadResult = await jsHandle.evaluate((value) => value)
   } catch (error) {
-    gnosisPage.screenshot({ path: './error.png' })
+    gnosisPage.screenshot({ path: `./screenshots/error-${app}.png` })
     console.log(error)
   }
 

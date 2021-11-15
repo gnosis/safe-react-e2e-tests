@@ -15,6 +15,8 @@ jobs:
       - uses: actions/setup-node@v2
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Create folder
+        run: mkdir -p screenshots
       - name: Test Code
         uses: mujo-code/puppeteer-headful@master
         env:
@@ -26,3 +28,8 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           args: yarn test working_apps
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: screenshots/*
