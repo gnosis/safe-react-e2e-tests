@@ -93,10 +93,10 @@ export const clickByText = async (tag, text, page) =>
     text,
   )
 
-export const isTextPresent = async (selector, text, page, timeout = 60000) =>
+export const isTextPresent = async (selector, text, page) =>
   page.waitForFunction(
     (selector, text) => document.querySelector(selector)?.innerText.includes(text),
-    { timeout },
+    { timeout: 60000 },
     selector,
     text,
   )
@@ -105,8 +105,6 @@ export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
   let appLoadResult
 
   try {
-    await gnosisPage.waitForTimeout(300)
-
     const jsHandle = await Promise.race([
       gnosisPage.waitForFunction(
         async (safeAddress) => {
