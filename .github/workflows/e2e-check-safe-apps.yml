@@ -21,10 +21,10 @@ jobs:
         uses: mujo-code/puppeteer-headful@master
         env:
           CI: 'true'
-          # TESTING_ENV: 'stg'
-          # NETWORK_NAME: 'mainnet'
-          # NETWORK_ADDRESS_PREFIX: 'eth'
-          # TESTING_SAFE_ADDRESS: ${{ secrets.TESTING_SAFE_ADDRESS }}
+          TESTING_ENV: 'stg'
+          NETWORK_NAME: 'mainnet'
+          NETWORK_ADDRESS_PREFIX: 'eth'
+          TESTING_SAFE_ADDRESS: ${{ secrets.TESTING_SAFE_ADDRESS }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           args: yarn test working_apps
