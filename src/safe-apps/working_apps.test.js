@@ -35,6 +35,7 @@ describe('Safe Apps List', () => {
 
     console.log('Open Safe Apps List')
     safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
+
     await gnosisPage.goto(safeAppsListUrl)
     await gnosisPage.waitForSelector(safeAppsList.allSafeAppsTitles.selector)
 
@@ -64,5 +65,5 @@ describe('Safe Apps List', () => {
 
     console.log('Send Slack message')
     await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
-  }, 600000)
+  }, 1000000)
 })
