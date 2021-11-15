@@ -17,12 +17,11 @@ let browser
 let gnosisPage
 let safeAppsListUrl
 
-const { TESTING_ENV, NETWORK_NAME, NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL } = config
+const { NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL } = config
 const failingToLoadApps = []
 
 beforeAll(async () => {
   ;[browser, gnosisPage] = await initNoWalletConnection()
-  console.log('Env: ', TESTING_ENV, NETWORK_NAME, NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL)
 }, 60000)
 
 afterAll(async () => {
@@ -34,8 +33,8 @@ describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     console.log('Safe Apps liveness')
 
-    console.log('Open Safe Apps List ', safeAppsListUrl)
     safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
+    console.log('Open Safe Apps List ', safeAppsListUrl)
     await gnosisPage.goto(safeAppsListUrl)
     await gnosisPage.waitForSelector(safeAppsList.allSafeAppsTitles.selector)
 

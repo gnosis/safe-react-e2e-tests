@@ -1,16 +1,5 @@
-#### [Env: ', TESTING_ENV, NETWORK_NAME, NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL)
-}, 60000)
-
-afterAll(async () => {
-  await gnosisPage.waitForTimeout(2000)
-  await browser.close()
-})
-
-describe('Safe Apps List', () => {
-  test('Safe Apps List', async () => {
-    console.log('Safe Apps liveness](./../src/safe-apps/working_apps.test.js)
+#### [Safe Apps liveness](./../src/safe-apps/working_apps.test.js)
 1. Open Safe Apps List ', safeAppsListUrl)
-    safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
     await gnosisPage.goto(safeAppsListUrl)
     await gnosisPage.waitForSelector(safeAppsList.allSafeAppsTitles.selector)
 
