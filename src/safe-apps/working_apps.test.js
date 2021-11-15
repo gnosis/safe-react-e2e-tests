@@ -33,9 +33,8 @@ describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     console.log('Safe Apps liveness')
 
-    console.log('Open Safe Apps List')
+    console.log('Open Safe Apps List ', safeAppsListUrl)
     safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
-
     await gnosisPage.goto(safeAppsListUrl)
     await gnosisPage.waitForSelector(safeAppsList.allSafeAppsTitles.selector)
 
@@ -48,7 +47,7 @@ describe('Safe Apps List', () => {
     await gnosisPage.goBack()
 
     console.log('Test apps sequentially')
-    for (const safeApp of safeApps.splice(1)) {
+    for (const safeApp of safeApps) {
       console.log(`Testing ${safeApp.title}`)
       await isTextPresent('body', 'Add custom app', gnosisPage)
       await clickByText('h5', safeApp.title, gnosisPage)

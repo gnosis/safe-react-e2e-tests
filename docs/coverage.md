@@ -1,9 +1,13 @@
 #### [Safe Apps liveness](./../src/safe-apps/working_apps.test.js)
-1. Open Safe Apps List
-2. Get all apps
-3. Accept disclaimer
-4. Test apps sequentially
-5. Send Slack message
+1. Open Safe Apps List ', safeAppsListUrl)
+    safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
+    await gnosisPage.goto(safeAppsListUrl)
+    await gnosisPage.waitForSelector(safeAppsList.allSafeAppsTitles.selector)
+
+    console.log('Get all apps
+2. Accept disclaimer
+3. Test apps sequentially
+4. Send Slack message
 
 #### [Add/remove Owners](./../src/safe-web/add_remove_owner.test.js)
 1. Enter add owner form
