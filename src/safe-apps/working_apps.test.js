@@ -42,18 +42,19 @@ describe('Safe Apps List', () => {
 
     console.log('Accept disclaimer')
     await clickByText('h5', safeApps[0].title, gnosisPage)
-    gnosisPage.screenshot({ path: `./screenshots/disclaimer.png` })
     await clickByText('button', 'Confirm', gnosisPage)
     await gnosisPage.goBack()
-    gnosisPage.screenshot({ path: `./screenshots/disclaimer-accepted.png` })
+
     console.log('Test apps sequentially')
     for (const safeApp of safeApps.splice(-2)) {
       console.log(`Testing ${safeApp.title}`)
       gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}-1.png` })
       await isTextPresent('body', 'Add custom app', gnosisPage)
-      await clickByText('h5', safeApp.title, gnosisPage)
       gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}-2.png` })
+      await clickByText('h5', safeApp.title, gnosisPage)
+      gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}-3.png` })
       const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, safeApp.title, gnosisPage)
+      gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}-4.png` })
 
       console.log(loadResult)
 
