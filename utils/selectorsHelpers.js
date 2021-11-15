@@ -95,12 +95,7 @@ export const clickByText = async (tag, text, page) =>
 
 export const isTextPresent = async (selector, text, page, timeout = 60000) =>
   page.waitForFunction(
-    (selector, text) => {
-      console.log()
-      const isTextFound = document.querySelector(selector)?.innerText.includes(text)
-      console.log(selector, text, isTextFound)
-      return isTextFound
-    },
+    (selector, text) => document.querySelector(selector).innerText.includes(text),
     { timeout },
     selector,
     text,

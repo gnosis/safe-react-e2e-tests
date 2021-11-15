@@ -24,7 +24,7 @@ const getFormattedText = (apps) => {
   return text
 }
 
-export async function sendSlackMessage(hookUrl, safeUrl, apps) {
+export const sendSlackMessage = async (hookUrl, safeUrl, apps) => {
   const formattedText = getFormattedText(groupByDescription(apps))
   const data = {
     text: apps.length ? `${WARNING_MESSAGE}\n${formattedText}\n${safeUrl}` : `${SUCCESS_MESSAGE}\n${safeUrl}`,
