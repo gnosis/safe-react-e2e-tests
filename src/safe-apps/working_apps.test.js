@@ -40,6 +40,9 @@ describe('Safe Apps List', () => {
     console.log('Get all apps')
     const safeApps = await getAllAppTitles(safeAppsList.allSafeAppsTitles.selector, gnosisPage)
 
+    console.log('Accept cookies')
+    await clickByText('a', 'Accept all', gnosisPage)
+
     console.log('Accept disclaimer')
     await clickByText('h5', safeApps[0].title, gnosisPage)
     await clickByText('button', 'Confirm', gnosisPage)

@@ -105,8 +105,6 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
   let appLoadResult
 
   try {
-    await gnosisPage.waitForTimeout(1000)
-    gnosisPage.screenshot({ path: `./screenshots/ready-to-scrap-${app}.png` })
     const jsHandle = await Promise.race([
       gnosisPage.waitForFunction(
         async (safeAddress) => {
@@ -124,7 +122,7 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
 
           return false
         },
-        { polling: 500, timeout: 35000 },
+        {},
         safeAddress,
       ),
       isTextPresent('body', 'Something went wrong, please try again', gnosisPage),

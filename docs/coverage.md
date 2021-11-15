@@ -1,9 +1,10 @@
 #### [Safe Apps liveness](./../src/safe-apps/working_apps.test.js)
 1. Open Safe Apps List
 2. Get all apps
-3. Accept disclaimer
-4. Test apps sequentially
-5. Send Slack message
+3. Accept cookies
+4. Accept disclaimer
+5. Test apps sequentially
+6. Send Slack message
 
 #### [Add/remove Owners](./../src/safe-web/add_remove_owner.test.js)
 1. Enter add owner form
