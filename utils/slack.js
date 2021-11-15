@@ -1,7 +1,7 @@
 import https from 'https'
 
 const SUCCESS_MESSAGE = 'All safe apps seems to be working fine'
-const WARNING_MESSAGE = 'Heads up! there are some safe apps not loading properly:'
+const WARNING_MESSAGE = 'Heads up!\nThere are some safe apps not loading properly:'
 
 const groupByDescription = (apps) =>
   apps.reduce((acc, { title, description }) => {

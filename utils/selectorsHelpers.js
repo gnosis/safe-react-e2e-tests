@@ -107,35 +107,39 @@ export const isTextPresent = async (selector, text, page, timeout = 60000) =>
   )
 
 export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
-  const jsHandle = await Promise.race([
-    gnosisPage.waitForFunction(
-      async (safeAddress) => {
-        const iframe = document.querySelector('iframe[id^="iframe-"]')
-        const iframeDocument = iframe?.contentDocument
+  let appLoadResult
 
-        // Check if root from create-react-app is present
-        if (iframeDocument?.body?.querySelector('#root,#app,.app,main,#__next')) {
-          return { status: 'loaded', description: 'Selector found' }
-        }
+  try {
+    gnosisPage.waitForTimeout(500)
 
-        // Wait for a bit and check for standard iframe error
-        const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-        await timeout(1000)
+    const jsHandle = await Promise.race([
+      gnosisPage.waitForFunction(
+        async (safeAddress) => {
+          const iframe = document.querySelector('iframe[id^="iframe-"]')
+          const iframeDocument = iframe?.contentDocument
 
-        if (iframeDocument?.body?.querySelector('#main-frame-error')) {
-          return { status: 'error', description: 'Unable to load iframe' }
-        }
+          // Check if root from create-react-app is present
+          if (iframeDocument?.body?.querySelector('#root,#app,.app,main,#__next')) {
+            return { status: 'loaded', description: 'Selector found' }
+          }
 
-        return false
-      },
-      { polling: 500 },
-      safeAddress,
-    ),
-    isTextPresent('body', 'Something went wrong, please try again', gnosisPage),
-  ])
+          if (iframeDocument?.body?.querySelector('#main-frame-error')) {
+            return { status: 'error', description: 'Unable to load iframe' }
+          }
 
-  // Unwrap JSHandle
-  const appLoadResult = await jsHandle.evaluate((value) => value)
+          return false
+        },
+        { polling: 500, timeout: 35000 },
+        safeAddress,
+      ),
+      isTextPresent('body', 'Something went wrong, please try again', gnosisPage),
+    ])
+
+    // Unwrap JSHandle
+    appLoadResult = await jsHandle.evaluate((value) => value)
+  } catch (error) {
+    console.log(error)
+  }
 
   if (appLoadResult === true) {
     return { status: 'error', description: 'There might be a problem with the App provider' }
@@ -145,14 +149,12 @@ export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
 }
 
 export const getAllAppTitles = async function (selector, gnosisPage) {
-  return await gnosisPage.evaluate((selector) => {
-    const elements = Array.from(document.querySelectorAll(selector))
-    return elements.map((element, index) => {
-      console.log(element)
-      return {
+  return await gnosisPage.evaluate(
+    (selector) =>
+      Array.from(document.querySelectorAll(selector)).map((element, index) => ({
         title: element.innerText,
         index,
-      }
-    })
-  }, selector)
+      })),
+    selector,
+  )
 }
