@@ -48,9 +48,10 @@ describe('Safe Apps List', () => {
     console.log('Test apps sequentially')
     for (const safeApp of safeApps.splice(-2)) {
       console.log(`Testing ${safeApp.title}`)
+      gnosisPage.screenshot({ path: `./screenshots/${safeApp.title}.png` })
       await isTextPresent('body', 'Add custom app', gnosisPage)
       await clickByText('h5', safeApp.title, gnosisPage)
-      const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, safeApp, gnosisPage)
+      const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, safeApp.title, gnosisPage)
 
       console.log(loadResult)
 
