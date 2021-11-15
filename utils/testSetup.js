@@ -183,7 +183,7 @@ export const initNoWalletConnection = async () => {
       '--start-maximized',
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
-      '--user-data-dir=tmp',
+      '--user-data-dir="/var/tmp/Chrome dev session"',
       envUrl,
     ], // maximized browser, URL for the base page
   })
