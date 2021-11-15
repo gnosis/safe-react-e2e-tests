@@ -124,7 +124,7 @@ export const isSafeAppLoaded = async function (safeAddress, gnosisPage) {
 
           return false
         },
-        { polling: 500 },
+        { polling: 500, timeout: 35000 },
         safeAddress,
       ),
       isTextPresent('body', 'Something went wrong, please try again', gnosisPage),

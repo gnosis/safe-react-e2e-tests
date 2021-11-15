@@ -15,10 +15,8 @@ Working Apps
 
 let browser
 let gnosisPage
-let safeAppsListUrl
 
 const { NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL } = config
-const failingToLoadApps = []
 
 beforeAll(async () => {
   ;[browser, gnosisPage] = await initNoWalletConnection()
@@ -32,9 +30,10 @@ afterAll(async () => {
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     console.log('Safe Apps liveness')
+    const failingToLoadApps = []
+    const safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
 
-    safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
-    console.log('Open Safe Apps List ', safeAppsListUrl)
+    console.log('Open Safe Apps List')
     await gnosisPage.goto(safeAppsListUrl)
     await gnosisPage.waitForSelector(safeAppsList.allSafeAppsTitles.selector)
 
@@ -64,5 +63,5 @@ describe('Safe Apps List', () => {
 
     console.log('Send Slack message')
     await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
-  }, 1800000)
+  }, 1000000)
 })
