@@ -1,7 +1,7 @@
-import puppeteer from 'puppeteer'
+// import puppeteer from 'puppeteer'
 import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { getAllAppTitles, clickByText, isSafeAppLoaded, isTextPresent } from '../../utils/selectorsHelpers'
-import { getEnvUrl } from '../../utils/testSetup'
+import { getEnvUrl, initNoWalletConnection } from '../../utils/testSetup'
 import { sendSlackMessage } from '../../utils/slack'
 import config from '../../utils/config'
 import { safeAppsList } from '../../utils/selectors/safeAppsList'
@@ -21,18 +21,18 @@ let gnosisPage
 const { NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL } = config
 
 beforeAll(async () => {
-  browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--start-maximized',
-      '--disable-setuid-sandbox',
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins,site-per-process',
-    ],
-  })
-  gnosisPage = await browser.newPage()
-  // ;[browser, gnosisPage] = await initNoWalletConnection()
+  // browser = await puppeteer.launch({
+  //   headless: true,
+  //   args: [
+  //     '--no-sandbox',
+  //     '--start-maximized',
+  //     '--disable-setuid-sandbox',
+  //     '--disable-web-security',
+  //     '--disable-features=IsolateOrigins,site-per-process',
+  //   ],
+  // })
+  // gnosisPage = await browser.newPage()
+  ;[browser, gnosisPage] = await initNoWalletConnection()
 }, 60000)
 
 afterAll(async () => {

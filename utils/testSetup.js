@@ -181,9 +181,9 @@ export const initNoWalletConnection = async () => {
     args: [
       '--no-sandbox',
       '--start-maximized',
+      '--disable-setuid-sandbox',
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process',
-      '--user-data-dir="/var/tmp/Chrome dev session"',
       envUrl,
     ], // maximized browser, URL for the base page
   })
