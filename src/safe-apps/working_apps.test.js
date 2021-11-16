@@ -53,7 +53,7 @@ describe('Safe Apps List', () => {
     await gnosisPage.goBack()
 
     console.log('Test apps sequentially')
-    for (const safeApp of safeApps.splice(-4)) {
+    for (const safeApp of safeApps) {
       console.log(`Testing ${safeApp.title}`)
       await isTextPresent('body', 'Add custom app', gnosisPage)
       await clickByText('h5', safeApp.title, gnosisPage)
