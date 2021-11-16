@@ -23,7 +23,13 @@ const { NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL } = conf
 beforeAll(async () => {
   browser = await puppeteer.launch({
     headless: true,
-    args: ['--disable-web-security', '--disable-features=IsolateOrigins,site-per-process'],
+    args: [
+      '--no-sandbox',
+      '--start-maximized',
+      '--disable-setuid-sandbox',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process',
+    ],
   })
   gnosisPage = await browser.newPage()
   // ;[browser, gnosisPage] = await initNoWalletConnection()
