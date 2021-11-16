@@ -16,7 +16,7 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Create folder
-        run: mkdir -p screenshots
+        run: mkdir -p e2e-tests-assets
       - name: Test Code
         uses: mujo-code/puppeteer-headful@master
         env:
@@ -31,5 +31,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: screenshots
-          path: screenshots/*
+          name: e2e-tests-assets
+          path: e2e-tests-assets/*

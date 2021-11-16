@@ -112,7 +112,7 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
           const iframeDocument = iframe?.contentDocument
 
           // Check some common selectors
-          if (iframeDocument?.body?.querySelector('#root,#app,.app,main,#__next')) {
+          if (iframeDocument?.body?.querySelector('#root,#app,.app,main,#__next,app-root')) {
             return { status: 'loaded', description: 'Selector found' }
           }
 
@@ -131,7 +131,7 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
     // Unwrap JSHandle
     appLoadResult = await jsHandle.evaluate((value) => value)
   } catch (error) {
-    gnosisPage.screenshot({ path: `./screenshots/error-${app}.png` })
+    gnosisPage.screenshot({ path: `./e2e-tests-assets/error-${app}.png` })
     console.log(error)
   }
 

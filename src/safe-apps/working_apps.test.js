@@ -1,6 +1,7 @@
+import puppeteer from 'puppeteer'
 import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { getAllAppTitles, clickByText, isSafeAppLoaded, isTextPresent } from '../../utils/selectorsHelpers'
-import { getEnvUrl, initNoWalletConnection } from '../../utils/testSetup'
+import { getEnvUrl } from '../../utils/testSetup'
 import { sendSlackMessage } from '../../utils/slack'
 import config from '../../utils/config'
 import { safeAppsList } from '../../utils/selectors/safeAppsList'
@@ -20,7 +21,12 @@ let gnosisPage
 const { NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL } = config
 
 beforeAll(async () => {
-  ;[browser, gnosisPage] = await initNoWalletConnection()
+  browser = await puppeteer.launch({
+    headless: true,
+    args: ['--disable-web-security', '--disable-features=IsolateOrigins,site-per-process'],
+  })
+  gnosisPage = await browser.newPage()
+  // ;[browser, gnosisPage] = await initNoWalletConnection()
 }, 60000)
 
 afterAll(async () => {
@@ -31,7 +37,7 @@ afterAll(async () => {
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     const recorder = new PuppeteerScreenRecorder(gnosisPage)
-    await recorder.start('./screenshots/test-safe-apps.mp4')
+    await recorder.start('./e2e-tests-assets/test-safe-apps.mp4')
 
     console.log('Safe Apps liveness')
     const failingToLoadApps = []
