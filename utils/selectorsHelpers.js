@@ -116,10 +116,6 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
             return { status: 'loaded', description: 'Selector found' }
           }
 
-          if (iframeDocument?.body?.querySelector('#main-frame-error')) {
-            return { status: 'error', description: 'Unable to load iframe' }
-          }
-
           return false
         },
         { polling: 500, timeout: 35000 },
@@ -139,7 +135,7 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
     return { status: 'error', description: 'There might be a problem with the App provider' }
   }
 
-  return appLoadResult || { status: 'error', description: 'Unknown' }
+  return appLoadResult || { status: 'error', description: 'Unable to load iframe' }
 }
 
 export const getAllAppTitles = async function (selector, gnosisPage) {

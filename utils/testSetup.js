@@ -178,14 +178,7 @@ export const initNoWalletConnection = async () => {
     executablePath: PUPPETEER_EXEC_PATH,
     defaultViewport: null, // this extends the page to the size of the browser
     slowMo: SLOWMO, // Miliseconds it will wait for every action performed. It's 1 by default. change it in the .env file
-    args: [
-      '--no-sandbox',
-      '--start-maximized',
-      '--disable-setuid-sandbox',
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins,site-per-process,SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure',
-      envUrl,
-    ], // maximized browser, URL for the base page
+    args: ['--no-sandbox', '--start-maximized', envUrl], // maximized browser, URL for the base page
   })
 
   const [gnosisPage] = await browser.pages() // get a grip on the current tab
@@ -194,6 +187,23 @@ export const initNoWalletConnection = async () => {
   await gnosisPage.bringToFront()
 
   gnosisPage.setDefaultTimeout(60000)
+
+  return [browser, gnosisPage]
+}
+
+export const initHeadlessConnection = async () => {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--start-maximized',
+      '--disable-setuid-sandbox',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process',
+    ],
+  })
+
+  const gnosisPage = await browser.newPage()
 
   return [browser, gnosisPage]
 }
