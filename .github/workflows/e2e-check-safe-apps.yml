@@ -34,7 +34,7 @@ jobs:
         uses: mujo-code/puppeteer-headful@master
         env:
           CI: 'true'
-          TESTING_ENV: ${{ github.event.inputs.testingEnvironment || secrets.TESTING_ENV }}
+          TESTING_ENV: ${{ github.event.inputs.testingEnvironment || 'prod' }}
           NETWORK_NAME: ${{ github.event.inputs.networkName || 'mainnet' }}
           NETWORK_ADDRESS_PREFIX: ${{ github.event.inputs.networkAddressPrefix || 'eth' }}
           TESTING_SAFE_ADDRESS: ${{ secrets.TESTING_SAFE_ADDRESS }}
