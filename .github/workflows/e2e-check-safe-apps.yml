@@ -1,5 +1,19 @@
 name: Run e2e test for check safe apps liveness
 on:
+  workflow_dispatch:
+    inputs:
+      testingEnvironment:
+        description: 'Environment (prod,stg,dev)'
+        required: true
+        default: 'prod'
+      networkName:
+        description: 'Network (mainnet, Rinkeby)'
+        required: true
+        default: 'mainnet'
+      networkAddressPrefix:
+        description: 'Address prefix (eth,rin...)'
+        required: true
+        default: 'eth'
   schedule:
     # At 9:00 on every day-of-week from Monday through Friday
     - cron: '0 9 * * 1-5'
@@ -20,11 +34,11 @@ jobs:
         uses: mujo-code/puppeteer-headful@master
         env:
           CI: 'true'
-          TESTING_ENV: ${{ secrets.TESTING_ENV }}
-          NETWORK_NAME: 'mainnet'
-          NETWORK_ADDRESS_PREFIX: 'eth'
+          TESTING_ENV: ${{ github.event.inputs.testingEnvironment || secrets.TESTING_ENV }}
+          NETWORK_NAME: ${{ github.event.inputs.networkName || 'mainnet' }}
+          NETWORK_ADDRESS_PREFIX: ${{ github.event.inputs.networkAddressPrefix || 'eth' }}
           TESTING_SAFE_ADDRESS: ${{ secrets.TESTING_SAFE_ADDRESS }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{  secrets.SLACK_WEBHOOK_URL }}
         with:
           args: yarn test working_apps
       - name: Upload artifact
