@@ -43,7 +43,7 @@ afterAll(async () => {
 
 describe('Address book', () => {
   const editedName = 'Edited owner name'
-  const filePath = path.relative(process.cwd(), path.join(__dirname, '/../../utils/files/address_book_test.csv'))
+  const filePath = path.relative(process.cwd(), path.join(__dirname, '/../../../utils/files/address_book_test.csv'))
   const ENSName = 'francotest.eth'
 
   test('Address book', async () => {

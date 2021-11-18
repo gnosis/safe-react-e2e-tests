@@ -31,7 +31,10 @@ let browser
 let gnosisPage
 
 const { NETWORK_NAME, TESTING_SAFE_ADDRESS } = config
-const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../../utils/files/safe-address-QR.png'))
+const safeQRCodeFilePath = path.relative(
+  process.cwd(),
+  path.join(__dirname, '/../../../utils/files/safe-address-QR.png'),
+)
 
 beforeAll(async () => {
   const context = await initWithWalletConnected(true)

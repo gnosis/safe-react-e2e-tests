@@ -37,7 +37,7 @@ let gnosisPage
 
 const { FUNDS_RECEIVER_ADDRESS, QR_CODE_ADDRESS } = config
 
-const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../utils/files/safe-address-QR.png'))
+const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../../utils/files/safe-address-QR.png'))
 
 beforeAll(async () => {
   ;[browser, metamask, gnosisPage] = await initWithWalletConnected()
