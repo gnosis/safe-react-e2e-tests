@@ -95,8 +95,9 @@
 2. Types a receiver address
 3. Validates error for invalid amounts: 0, "abc", 99999
 4. Checks "Send max" button
-5. Checks receiver address and amount input in the review step
-6. Checks that advanced options are rendered
+5. Checks receiver address in the review step
+6. Checks the amount input
+7. Opens advanced options
 
 #### [Safe Apps List](./../src/read_only/safe_apps_list.test.js)
 1. Shows Bookmarked Apps Section

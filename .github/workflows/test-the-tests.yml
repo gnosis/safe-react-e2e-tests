@@ -30,6 +30,7 @@ jobs:
       id: format
       run: echo "TEST_RESULTS="$(cat output.txt) >> $GITHUB_ENV
     - name: Post results in the PR
+      if: ${{ always() }}
       uses: mshick/add-pr-comment@v1
       with:
         message: ${{ env.TEST_RESULTS }}
