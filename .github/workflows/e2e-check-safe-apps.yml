@@ -14,6 +14,10 @@ on:
         description: 'Address prefix (eth,rin...)'
         required: true
         default: 'eth'
+      safeAddress:
+        description: 'Safe address'
+        required: true
+        default: ''
   schedule:
     # At 9:00 on every day-of-week from Monday through Friday
     - cron: '0 9 * * 1-5'
@@ -37,7 +41,7 @@ jobs:
           TESTING_ENV: ${{ github.event.inputs.testingEnvironment || 'prod' }}
           NETWORK_NAME: ${{ github.event.inputs.networkName || 'mainnet' }}
           NETWORK_ADDRESS_PREFIX: ${{ github.event.inputs.networkAddressPrefix || 'eth' }}
-          TESTING_SAFE_ADDRESS: ${{ secrets.TESTING_SAFE_ADDRESS }}
+          TESTING_SAFE_ADDRESS: ${{ github.event.inputs.safeAddress || secrets.TESTING_SAFE_ADDRESS }}
           SLACK_WEBHOOK_URL: ${{  secrets.SLACK_WEBHOOK_URL }}
         with:
           args: yarn test working_apps
