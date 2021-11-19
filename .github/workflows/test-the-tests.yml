@@ -1,4 +1,6 @@
-name: Run e2e tests on each PR
+## Run e2e tests on each PR in this repo
+
+name: Run read-only tests on Rinkeby
 on:
   pull_request:
 env:
