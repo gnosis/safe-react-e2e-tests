@@ -1,12 +1,12 @@
 ## Run e2e tests on each PR in this repo
 
-name: Run read-only tests on Rinkeby
+name: Run read-only tests on dev
 on:
   pull_request:
 env:
   PUPPETEER_EXEC_PATH: 'google-chrome-stable'
 jobs:
-  runE2eTests:
+  runDevTests:
     name: Run e2e tests
     runs-on: ubuntu-latest
     steps:
@@ -22,17 +22,3 @@ jobs:
         TESTING_ENV: 'dev'
       with:
         args: yarn run test-ci read_only
-    - name: Format output
-      if: ${{ always() }}
-      run: yarn run format-tests-output
-    - name: Set env variable
-      if: ${{ always() }}
-      id: format
-      run: echo "TEST_RESULTS="$(cat output.txt) >> $GITHUB_ENV
-    - name: Post results in the PR
-      if: ${{ always() }}
-      uses: mshick/add-pr-comment@v1
-      with:
-        message: ${{ env.TEST_RESULTS }}
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        repo-token-user-login: 'github-actions[bot]'
