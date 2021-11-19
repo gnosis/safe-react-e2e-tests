@@ -1,0 +1,35 @@
+name: Run e2e tests on each PR
+on:
+  pull_request:
+env:
+  PUPPETEER_EXEC_PATH: 'google-chrome-stable'
+jobs:
+  runE2eTests:
+    name: Run e2e tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+    - name: Install Dependencies
+      run: yarn install --frozen-lockfile
+    - name: Read only tests
+      uses: mujo-code/puppeteer-headful@master
+      id: test-code
+      env:
+        CI: 'true'
+        TESTING_ENV: 'rinkeby'
+      with:
+        args: yarn run test-ci read_only
+    - name: Format output
+      if: ${{ always() }}
+      run: yarn run format-tests-output
+    - name: Set env variable
+      if: ${{ always() }}
+      id: format
+      run: echo "TEST_RESULTS="$(cat output.txt) >> $GITHUB_ENV
+    - name: Post results in the PR
+      uses: mshick/add-pr-comment@v1
+      with:
+        message: ${{ env.TEST_RESULTS }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token-user-login: 'github-actions[bot]'
