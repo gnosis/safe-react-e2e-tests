@@ -1,3 +1,5 @@
+## Run e2e tests on each PR in safe-react
+
 name: Repo dispatch on PR
 on:
   repository_dispatch:
