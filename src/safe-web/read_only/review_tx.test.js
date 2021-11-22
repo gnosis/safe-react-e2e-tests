@@ -7,13 +7,13 @@ import {
   getNumberInString,
   getInnerText,
   openDropdown,
-} from '../../utils/selectorsHelpers'
-import { assetsTab } from '../../utils/selectors/assetsTab'
-import { generalInterface } from '../../utils/selectors/generalInterface'
-import { sendFundsForm } from '../../utils/selectors/sendFundsForm'
-import { errorMsg } from '../../utils/selectors/errorMsg'
-import { initWithDefaultSafeDirectNavigation } from '../../utils/testSetup'
-import config from '../../utils/config'
+} from '../../../utils/selectorsHelpers'
+import { assetsTab } from '../../../utils/selectors/assetsTab'
+import { generalInterface } from '../../../utils/selectors/generalInterface'
+import { sendFundsForm } from '../../../utils/selectors/sendFundsForm'
+import { errorMsg } from '../../../utils/selectors/errorMsg'
+import { initWithDefaultSafeDirectNavigation } from '../../../utils/testSetup'
+import config from '../../../utils/config'
 
 /*
 Create and review a Send Funds transaction
