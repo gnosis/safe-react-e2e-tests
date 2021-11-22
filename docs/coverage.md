@@ -1,12 +1,3 @@
-#### [Create and review a Send Funds transaction](./../src/read_only/review_tx.test.js)
-1. Open the send funds form
-2. Types a receiver address
-3. Validates error for invalid amounts: 0, "abc", 99999
-4. Checks "Send max" button
-5. Checks receiver address in the review step
-6. Checks the amount input
-7. Opens advanced options
-
 #### [Safe Apps liveness](./../src/safe-apps/working_apps.test.js)
 1. Open Safe Apps List
 2. Get all apps
@@ -106,6 +97,15 @@
 14. Loads the safe
 15. Opens the QR code for the safe on the sidebar and checks the safe name again
 
+
+#### [Create and review a Send Funds transaction](./../src/safe-web/read_only/review_tx.test.js)
+1. Open the send funds form
+2. Types a receiver address
+3. Validates error for invalid amounts: 0, "abc", 99999
+4. Checks "Send max" button
+5. Checks receiver address in the review step
+6. Checks the amount input
+7. Opens advanced options
 
 #### [Safe Apps List](./../src/safe-web/read_only/safe_apps_list.test.js)
 1. Shows Bookmarked Apps Section
