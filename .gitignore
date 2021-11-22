@@ -115,5 +115,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+output.json
+
 # github artifacts
+e2e-tests-assets/
 e2e-tests-assets/
