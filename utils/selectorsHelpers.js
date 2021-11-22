@@ -95,8 +95,56 @@ export const clickByText = async (tag, text, page) =>
 
 export const isTextPresent = async (selector, text, page) =>
   page.waitForFunction(
-    (selector, text) => document.querySelector(selector).innerText.includes(text),
+    (selector, text) => document.querySelector(selector)?.innerText.includes(text),
     { timeout: 60000 },
     selector,
     text,
   )
+
+export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
+  let appLoadResult
+
+  try {
+    const jsHandle = await Promise.race([
+      gnosisPage.waitForFunction(
+        async (safeAddress) => {
+          const iframe = document.querySelector('iframe[id^="iframe-"]')
+          const iframeDocument = iframe?.contentDocument
+
+          // Check some common selectors
+          if (iframeDocument?.body?.querySelector('#root,#app,.app,main,#__next,app-root')) {
+            return { status: 'loaded', description: 'Selector found' }
+          }
+
+          return false
+        },
+        { polling: 500, timeout: 35000 },
+        safeAddress,
+      ),
+      isTextPresent('body', 'Something went wrong, please try again', gnosisPage),
+    ])
+
+    // Unwrap JSHandle
+    appLoadResult = await jsHandle.evaluate((value) => value)
+  } catch (error) {
+    gnosisPage.screenshot({ path: `./e2e-tests-assets/error-${app}.png` })
+    console.log(error)
+  }
+
+  if (appLoadResult === true) {
+    return { status: 'error', description: 'There might be a problem with the App provider' }
+  }
+
+  return appLoadResult || { status: 'error', description: 'Unable to load iframe' }
+}
+
+export const getAllAppTitles = async function (selector, gnosisPage) {
+  return await gnosisPage.evaluate(
+    (selector) =>
+      Array.from(document.querySelectorAll(selector)).map((element, index) => ({
+        title: element.innerText,
+        index,
+      })),
+    selector,
+  )
+}

@@ -16,6 +16,7 @@
     "test-ci": "jest --detectOpenHandles --json --outputFile=output.json",
     "test-local": "cross-env TESTING_ENV=local yarn test",
     "test-pr": "cross-env TESTING_ENV=PR yarn test",
+    "debug-local": "npx ndb yarn test-local",
     "format-tests-output": "node ./scripts/format-output.js > output.txt",
     "write-tests-description": "node ./scripts/describe-tests.js > docs/coverage.md",
     "prepare": "husky install"
@@ -38,12 +39,14 @@
     "jest-cli": "^27.2.0",
     "jest-puppeteer": "^5.0.4",
     "lint-staged": "^11.1.2",
+    "ndb": "^1.1.5",
     "pptr-testing-library": "^0.6.5",
     "prettier": "^2.4.0"
   },
   "dependencies": {
     "@dasanra/dappeteer": "^2.2.3",
-    "puppeteer": "^9.1.1"
+    "puppeteer": "^9.1.1",
+    "puppeteer-screen-recorder": "^2.0.2"
   },
   "jest": {
     "preset": "jest-puppeteer",

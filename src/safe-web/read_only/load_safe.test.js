@@ -9,13 +9,13 @@ import {
   clickElement,
   getInnerText,
   isTextPresent,
-} from '../../utils/selectorsHelpers'
-import { accountsSelectors } from '../../utils/selectors/accounts'
-import { generalInterface } from '../../utils/selectors/generalInterface'
-import { loadSafeForm } from '../../utils/selectors/loadSafeForm'
-import { initWithWalletConnected } from '../../utils/testSetup'
-import config from '../../utils/config'
-import { errorMsg } from '../../utils/selectors/errorMsg'
+} from '../../../utils/selectorsHelpers'
+import { accountsSelectors } from '../../../utils/selectors/accounts'
+import { generalInterface } from '../../../utils/selectors/generalInterface'
+import { loadSafeForm } from '../../../utils/selectors/loadSafeForm'
+import { initWithWalletConnected } from '../../../utils/testSetup'
+import config from '../../../utils/config'
+import { errorMsg } from '../../../utils/selectors/errorMsg'
 
 /*
 Load safe
@@ -31,7 +31,10 @@ let browser
 let gnosisPage
 
 const { NETWORK_NAME, TESTING_SAFE_ADDRESS } = config
-const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../../utils/files/safe-address-QR.png'))
+const safeQRCodeFilePath = path.relative(
+  process.cwd(),
+  path.join(__dirname, '/../../../utils/files/safe-address-QR.png'),
+)
 
 beforeAll(async () => {
   const context = await initWithWalletConnected(true)

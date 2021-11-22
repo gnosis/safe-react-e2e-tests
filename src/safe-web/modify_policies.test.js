@@ -1,5 +1,5 @@
-import { approveAndExecuteWithOwner } from '../utils/actions/approveAndExecuteWithOwner'
-import { verifySuccessfulExecution } from '../utils/actions/verifySuccesfulExecution'
+import { approveAndExecuteWithOwner } from '../../utils/actions/approveAndExecuteWithOwner'
+import { verifySuccessfulExecution } from '../../utils/actions/verifySuccesfulExecution'
 
 import {
   assertElementPresent,
@@ -10,14 +10,14 @@ import {
   isTextPresent,
   openDropdown,
   getInnerText,
-} from '../utils/selectorsHelpers'
-import { generalInterface } from '../utils/selectors/generalInterface'
-import { sendFundsForm } from '../utils/selectors/sendFundsForm'
-import { transactionsTab } from '../utils/selectors/transactionsTab'
-import { settingsTabs } from '../utils/selectors/settings'
-import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
+} from '../../utils/selectorsHelpers'
+import { generalInterface } from '../../utils/selectors/generalInterface'
+import { sendFundsForm } from '../../utils/selectors/sendFundsForm'
+import { transactionsTab } from '../../utils/selectors/transactionsTab'
+import { settingsTabs } from '../../utils/selectors/settings'
+import { rejectPendingTxs } from '../../utils/actions/rejectPendingTxs'
 
-import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
+import { initWithDefaultSafeDirectNavigation } from '../../utils/testSetup'
 
 /*
 Modify policies

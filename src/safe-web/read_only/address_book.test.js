@@ -6,12 +6,12 @@ import {
   clickElement,
   getInnerText,
   isTextPresent,
-} from '../../utils/selectorsHelpers'
-import { accountsSelectors } from '../../utils/selectors/accounts'
-import { addressBook } from '../../utils/selectors/addressBook'
-import { initWithDefaultSafe } from '../../utils/testSetup'
-import { generalInterface } from '../../utils/selectors/generalInterface'
-import config from '../../utils/config'
+} from '../../../utils/selectorsHelpers'
+import { accountsSelectors } from '../../../utils/selectors/accounts'
+import { addressBook } from '../../../utils/selectors/addressBook'
+import { initWithDefaultSafe } from '../../../utils/testSetup'
+import { generalInterface } from '../../../utils/selectors/generalInterface'
+import config from '../../../utils/config'
 import path from 'path'
 
 /*
@@ -43,7 +43,7 @@ afterAll(async () => {
 
 describe('Address book', () => {
   const editedName = 'Edited owner name'
-  const filePath = path.relative(process.cwd(), path.join(__dirname, '/../../utils/files/address_book_test.csv'))
+  const filePath = path.relative(process.cwd(), path.join(__dirname, '/../../../utils/files/address_book_test.csv'))
   const ENSName = 'francotest.eth'
 
   test('Address book', async () => {

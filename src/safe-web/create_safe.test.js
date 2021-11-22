@@ -10,13 +10,13 @@ import {
   getInnerText,
   clickSomething,
   clearInput,
-} from '../utils/selectorsHelpers'
-import { accountsSelectors } from '../utils/selectors/accounts'
-import { createSafePage } from '../utils/selectors/createSafePage'
-import { generalInterface } from '../utils/selectors/generalInterface'
-import { initWithWalletConnected } from '../utils/testSetup'
-import { errorMsg } from '../utils/selectors/errorMsg'
-import config from '../utils/config'
+} from '../../utils/selectorsHelpers'
+import { accountsSelectors } from '../../utils/selectors/accounts'
+import { createSafePage } from '../../utils/selectors/createSafePage'
+import { generalInterface } from '../../utils/selectors/generalInterface'
+import { initWithWalletConnected } from '../../utils/testSetup'
+import { errorMsg } from '../../utils/selectors/errorMsg'
+import config from '../../utils/config'
 
 /*
 Create safe
@@ -37,7 +37,7 @@ let gnosisPage
 
 const { FUNDS_RECEIVER_ADDRESS, QR_CODE_ADDRESS } = config
 
-const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../utils/files/safe-address-QR.png'))
+const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../../utils/files/safe-address-QR.png'))
 
 beforeAll(async () => {
   ;[browser, metamask, gnosisPage] = await initWithWalletConnected()

@@ -1,7 +1,7 @@
 export const safeAppsList = {
   bookmarkedSafeAppsSection: { selector: 'div[role="button"]:nth-of-type(1)', type: 'css' },
   allSafeAppsSection: { selector: 'div[data-testid="safe_apps__all-apps-container"]', type: 'css' },
-
+  allSafeAppsTitles: { selector: 'div[data-testid="safe_apps__all-apps-container"] > div h5', type: 'css' },
   getSafeAppByTitle: (safeAppTitle) => ({
     selector: `div[data-testid="safe_apps__all-apps-container"] img[alt="${safeAppTitle} Logo"]`,
     type: 'css',

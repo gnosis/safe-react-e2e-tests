@@ -20,6 +20,8 @@ jobs:
       uses: mujo-code/puppeteer-headful@master
       env:
         CI: 'true'
-        TESTING_ENV: 'rinkeby'
+        TESTING_ENV: 'prod'
+        NETWORK_NAME: 'Rinkeby'
+        NETWORK_ADDRESS_PREFIX: 'rin'
       with:
-        args: yarn test read_only
+        args: yarn test safe-web/read_only

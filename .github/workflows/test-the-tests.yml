@@ -21,4 +21,4 @@ jobs:
         CI: 'true'
         TESTING_ENV: 'dev'
       with:
-        args: yarn run test-ci read_only
+        args: yarn run test-ci safe-web/read_only

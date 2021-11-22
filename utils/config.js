@@ -5,10 +5,10 @@ dotenv.config()
 const config = {
   SLOWMO: 3,
   ENVIRONMENT: {
-    rinkeby: 'https://gnosis-safe.io/app/',
     dev: 'https://safe-team.dev.gnosisdev.com/app/',
     PR: (id) => `https://pr${id}--safereact.review-safe.gnosisdev.com/app/`,
     stg: 'https://safe-team.staging.gnosisdev.com/app/',
+    prod: 'https://gnosis-safe.io/app/',
     local: 'http://localhost:3000/',
   },
   MNEMONIC: process.env.MNEMONIC || 'range smoke crisp install cross shine hold grief ripple cabin sudden special', // it imports the wallet with "acc1" as owner
@@ -30,6 +30,7 @@ const config = {
   // network
   NETWORK_NAME: process.env.NETWORK_NAME || 'Rinkeby',
   NETWORK_ADDRESS_PREFIX: process.env.NETWORK_ADDRESS_PREFIX || 'rin',
+  SLACK_WEBHOOK_URL: process.env.SLACK_WEBHOOK_URL,
 }
 
 export default config

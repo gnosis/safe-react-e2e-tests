@@ -5,14 +5,14 @@ import {
   clickElement,
   openDropdown,
   getNumberInString,
-} from '../utils/selectorsHelpers'
-import { generalInterface } from '../utils/selectors/generalInterface'
-import { sendFundsForm } from '../utils/selectors/sendFundsForm'
-import { assetsTab } from '../utils/selectors/assetsTab'
-import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
-import config from '../utils/config'
-import { rejectNextTx } from '../utils/actions/rejectNextTx'
-import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
+} from '../../utils/selectorsHelpers'
+import { generalInterface } from '../../utils/selectors/generalInterface'
+import { sendFundsForm } from '../../utils/selectors/sendFundsForm'
+import { assetsTab } from '../../utils/selectors/assetsTab'
+import { initWithDefaultSafeDirectNavigation } from '../../utils/testSetup'
+import config from '../../utils/config'
+import { rejectNextTx } from '../../utils/actions/rejectNextTx'
+import { rejectPendingTxs } from '../../utils/actions/rejectPendingTxs'
 
 /*
 Reject tx

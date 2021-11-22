@@ -1,0 +1,52 @@
+name: Run e2e test for check safe apps liveness
+on:
+  workflow_dispatch:
+    inputs:
+      testingEnvironment:
+        description: 'Environment (prod,stg,dev)'
+        required: true
+        default: 'prod'
+      networkName:
+        description: 'Network (mainnet, Rinkeby)'
+        required: true
+        default: 'mainnet'
+      networkAddressPrefix:
+        description: 'Address prefix (eth,rin...)'
+        required: true
+        default: 'eth'
+      safeAddress:
+        description: 'Safe address'
+        required: true
+        default: ''
+  schedule:
+    # At 9:00 on every day-of-week from Monday through Friday
+    - cron: '0 9 * * 1-5'
+env:
+  PUPPETEER_EXEC_PATH: 'google-chrome-stable'
+jobs:
+  runE2eTests:
+    name: Run e2e testing safe apps liveness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Create folder
+        run: mkdir -p e2e-tests-assets
+      - name: Test Code
+        uses: mujo-code/puppeteer-headful@master
+        env:
+          CI: 'true'
+          TESTING_ENV: ${{ github.event.inputs.testingEnvironment || 'prod' }}
+          NETWORK_NAME: ${{ github.event.inputs.networkName || 'mainnet' }}
+          NETWORK_ADDRESS_PREFIX: ${{ github.event.inputs.networkAddressPrefix || 'eth' }}
+          TESTING_SAFE_ADDRESS: ${{ github.event.inputs.safeAddress || secrets.TESTING_SAFE_ADDRESS }}
+          SLACK_WEBHOOK_URL: ${{  secrets.SLACK_WEBHOOK_URL }}
+        with:
+          args: yarn test working_apps
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: e2e-tests-assets
+          path: e2e-tests-assets/*

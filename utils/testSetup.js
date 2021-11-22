@@ -190,3 +190,20 @@ export const initNoWalletConnection = async () => {
 
   return [browser, gnosisPage]
 }
+
+export const initHeadlessConnection = async () => {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--start-maximized',
+      '--disable-setuid-sandbox',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process',
+    ],
+  })
+
+  const gnosisPage = await browser.newPage()
+
+  return [browser, gnosisPage]
+}

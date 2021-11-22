@@ -1,5 +1,5 @@
-import { approveAndExecuteWithOwner } from '../utils/actions/approveAndExecuteWithOwner'
-import { verifySuccessfulExecution } from '../utils/actions/verifySuccesfulExecution'
+import { approveAndExecuteWithOwner } from '../../utils/actions/approveAndExecuteWithOwner'
+import { verifySuccessfulExecution } from '../../utils/actions/verifySuccesfulExecution'
 import {
   assertElementPresent,
   clearInput,
@@ -11,15 +11,15 @@ import {
   assertTextPresent,
   openDropdown,
   isTextPresent,
-} from '../utils/selectorsHelpers'
-import { accountsSelectors } from '../utils/selectors/accounts'
-import { settingsPage } from '../utils/selectors/settings'
-import { transactionsTab } from '../utils/selectors/transactionsTab'
-import { initWithDefaultSafeDirectNavigation } from '../utils/testSetup'
-import config from '../utils/config'
-import { generalInterface } from '../utils/selectors/generalInterface'
-import { rejectPendingTxs } from '../utils/actions/rejectPendingTxs'
-import { errorMsg } from '../utils/selectors/errorMsg'
+} from '../../utils/selectorsHelpers'
+import { accountsSelectors } from '../../utils/selectors/accounts'
+import { settingsPage } from '../../utils/selectors/settings'
+import { transactionsTab } from '../../utils/selectors/transactionsTab'
+import { initWithDefaultSafeDirectNavigation } from '../../utils/testSetup'
+import config from '../../utils/config'
+import { generalInterface } from '../../utils/selectors/generalInterface'
+import { rejectPendingTxs } from '../../utils/actions/rejectPendingTxs'
+import { errorMsg } from '../../utils/selectors/errorMsg'
 
 /*
 Add/remove Owners

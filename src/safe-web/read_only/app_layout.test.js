@@ -1,7 +1,7 @@
-import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
-import { appLayout } from '../../utils/selectors/appLayout'
-import { assertElementPresent, assertElementNotPresent } from '../../utils/selectorsHelpers'
-import config from '../../utils/config'
+import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
+import { appLayout } from '../../../utils/selectors/appLayout'
+import { assertElementPresent, assertElementNotPresent } from '../../../utils/selectorsHelpers'
+import config from '../../../utils/config'
 
 let browser
 let gnosisPage
