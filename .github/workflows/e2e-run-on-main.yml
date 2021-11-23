@@ -1,5 +1,6 @@
 name: Run safe-react e2e tests
 on:
+  pull_request:
   push:
     branches:
       - main

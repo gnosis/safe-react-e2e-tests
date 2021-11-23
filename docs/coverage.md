@@ -106,6 +106,9 @@
 5. Checks receiver address in the review step
 6. Checks the amount input
 7. Opens advanced options
+8. Click the Edit button
+9. Edit the Safe Nonce Value
+10. Confirm Advanced Options
 
 #### [Safe Apps List](./../src/safe-web/read_only/safe_apps_list.test.js)
 1. Shows Bookmarked Apps Section
