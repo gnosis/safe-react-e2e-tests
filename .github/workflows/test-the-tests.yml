@@ -19,7 +19,6 @@ jobs:
       id: test-code
       env:
         CI: 'true'
-        TESTING_ENV: PR
-        PR: 3015
+        TESTING_ENV: 'dev'
       with:
         args: yarn run test-ci safe-web/read_only
