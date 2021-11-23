@@ -11,6 +11,7 @@ import { accountsSelectors } from '../../../utils/selectors/accounts'
 import { addressBook } from '../../../utils/selectors/addressBook'
 import { initWithDefaultSafe } from '../../../utils/testSetup'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
+import { getShortNameAddress } from '../../../utils'
 import config from '../../../utils/config'
 import path from 'path'
 
@@ -69,7 +70,7 @@ describe('Address book', () => {
       accountsSelectors.testAccountsHash.acc1.toUpperCase(),
     )
     const addressUppercaseFixed = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
-    expect(addressUppercaseFixed).toEqual(accountsSelectors.testAccountsHash.acc1)
+    expect(addressUppercaseFixed).toBe(getShortNameAddress(accountsSelectors.testAccountsHash.acc1))
     await clickElement(addressBook.createSubmitBtn, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.otherAccountNames.owner5_name, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.testAccountsHash.acc1, gnosisPage)

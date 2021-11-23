@@ -15,6 +15,7 @@ import { accountsSelectors } from '../../utils/selectors/accounts'
 import { createSafePage } from '../../utils/selectors/createSafePage'
 import { generalInterface } from '../../utils/selectors/generalInterface'
 import { initWithWalletConnected } from '../../utils/testSetup'
+import { getShortNameAddress } from '../../utils'
 import { errorMsg } from '../../utils/selectors/errorMsg'
 import config from '../../utils/config'
 
@@ -111,7 +112,7 @@ describe('Create New Safe', () => {
     // current user address as default owner
     console.log('Adds the current user address as default owner')
     const firstOwnerAddress = await getInnerText(createSafePage.get_owner_address_field(firstOwnerIndex), gnosisPage)
-    expect(firstOwnerAddress).toBe(FUNDS_RECEIVER_ADDRESS)
+    expect(firstOwnerAddress).toBe(getShortNameAddress(FUNDS_RECEIVER_ADDRESS))
     const firstOwnerDefaultName = await getInnerText(createSafePage.get_owner_name_field(firstOwnerIndex), gnosisPage)
     expect(firstOwnerDefaultName).toBe('My Wallet')
 
@@ -133,7 +134,7 @@ describe('Create New Safe', () => {
     // expects a valid second owner values
     expect(await getInnerText(createSafePage.get_owner_name_field(secondOwnerIndex), gnosisPage)).toBe(secondOwnerName)
     expect(await getInnerText(createSafePage.get_owner_address_field(secondOwnerIndex), gnosisPage)).toBe(
-      secondOwnerAddress,
+      getShortNameAddress(secondOwnerAddress),
     )
     await assertElementPresent(createSafePage.get_valid_address_check_icon(secondOwnerIndex), gnosisPage)
 
@@ -164,7 +165,7 @@ describe('Create New Safe', () => {
     await gnosisPage.waitForTimeout(2000)
     await gnosisPage.keyboard.press('Escape')
     expect(await getInnerText(createSafePage.get_owner_address_field(thirdOwnerIndex), gnosisPage)).toBe(
-      QR_CODE_ADDRESS,
+      getShortNameAddress(QR_CODE_ADDRESS),
     )
     await assertElementPresent(createSafePage.get_valid_address_check_icon(thirdOwnerIndex), gnosisPage)
 
@@ -189,7 +190,9 @@ describe('Create New Safe', () => {
     await clearInput(createSafePage.get_owner_address_field(thirdOwnerIndex), gnosisPage)
     await clickAndType(createSafePage.get_owner_address_field(thirdOwnerIndex), gnosisPage, validENSAddress)
     await assertElementPresent(createSafePage.get_valid_address_check_icon(thirdOwnerIndex), gnosisPage)
-    expect(await getInnerText(createSafePage.get_owner_address_field(thirdOwnerIndex), gnosisPage)).toBe(addressFromENS)
+    expect(await getInnerText(createSafePage.get_owner_address_field(thirdOwnerIndex), gnosisPage)).toBe(
+      getShortNameAddress(addressFromENS),
+    )
 
     // Selects a custom Threshold for the new Safe
     console.log('Selects a custom Threshold for the new Safe')
