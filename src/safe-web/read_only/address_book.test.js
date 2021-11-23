@@ -89,7 +89,7 @@ describe('Address book', () => {
     await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes acc1 address
     await gnosisPage.waitForTimeout(1000)
     const convertedValue = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
-    expect(convertedValue).toBe(accountsSelectors.testAccountsHash.acc1)
+    expect(convertedValue).toBe(getShortNameAddress(accountsSelectors.testAccountsHash.acc1))
     await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
     await clickByText('.paper.modal span', 'cancel', gnosisPage)
