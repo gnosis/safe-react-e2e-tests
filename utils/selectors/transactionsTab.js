@@ -7,13 +7,13 @@ export const transactionsTab = {
   reject_tx_btn: "button[data-testid='reject-btn']:enabled",
   tx_description_send: "div[data-testid='tx-description-send']",
   transaction_row: (index = 0) => `[data-testid='transaction-row-${index}']`,
-  no_tx_in_queue: '[alt=\'No Transactions yet\']',
+  no_tx_in_queue: '[alt="No Transactions yet"]',
   tx_nonce: 'div.tx-nonce',
   tx_type: { selector: 'div.tx-type', type: 'css' },
   tx_info: 'div.tx-info',
   tx_votes: 'div.tx-votes',
   tx_status: 'div.tx-status',
-  on_chain_rejection_type: { selector: 'div.tx-type.on-chain-rejection', type: 'css' }
+  on_chain_rejection_type: { selector: 'div.tx-type.on-chain-rejection', type: 'css' },
 }
 
 export const statusLabel = {

@@ -112,6 +112,7 @@ describe('Send funds and sign with two owners', () => {
     await clickAndType(sendFundsForm.amount_input, gnosisPage, TOKEN_AMOUNT.toString())
     await assertElementPresent(sendFundsForm.valid_amount_msg, gnosisPage)
     await clickElement(sendFundsForm.review_btn, gnosisPage)
+
     console.log('Checks receiver address and amount input in the review step')
     // Review information is correct and submit transaction with signature
     await assertElementPresent(sendFundsForm.send_funds_review, gnosisPage)
@@ -121,6 +122,7 @@ describe('Send funds and sign with two owners', () => {
     const tokenAmount = await getInnerText(sendFundsForm.amount_eth_review, gnosisPage)
     expect(tokenAmount).toMatch(TOKEN_AMOUNT.toString())
     await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
+
     console.log('Signs with current account, executes with the 2nd owner account')
     await clickElement(sendFundsForm.submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(4000)
@@ -137,6 +139,7 @@ describe('Send funds and sign with two owners', () => {
     await assertTextPresent({ selector: transactionsTab.tx_status, type: 'css' }, 'Pending', gnosisPage)
     // waiting for the queue list to be empty and the executed tx to be on the history tab
     await assertElementPresent({ selector: transactionsTab.no_tx_in_queue, type: 'css' }, gnosisPage)
+
     console.log('Goes to history tx tab, checks tx amount sent and receiver address')
     // Wating for the new tx to show in the history, looking for the nonce
     await verifySuccessfulExecution(gnosisPage, sendFundsTxNonce)
@@ -146,6 +149,7 @@ describe('Send funds and sign with two owners', () => {
     const recipientAddress = await getInnerText({ selector: 'div.tx-details > div p', type: 'css' }, gnosisPage)
     // regex to match an address hash
     expect(recipientAddress.match(/(0x[a-fA-F0-9]+)/)[0]).toMatch(FUNDS_RECEIVER_ADDRESS)
+
     console.log('Goes to Assets, checks the amount of tokens was reduced by the sent amount')
     await clickByText('span', 'ASSETS', gnosisPage)
     await assertElementPresent({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
