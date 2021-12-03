@@ -14,7 +14,6 @@ import { accountsSelectors } from '../../../utils/selectors/accounts'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
 import { loadSafeForm } from '../../../utils/selectors/loadSafeForm'
 import { initWithWalletConnected } from '../../../utils/testSetup'
-import { getShortNameAddress } from '../../../utils'
 import config from '../../../utils/config'
 import { errorMsg } from '../../../utils/selectors/errorMsg'
 
@@ -64,20 +63,21 @@ describe('Add an existing safe', () => {
     // opens the network dialog
     await clickByText('button', 'Switch Network', gnosisPage)
     await assertElementPresent(loadSafeForm.select_network_dialog, gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'Mainnet', gnosisPage)
+    await assertTextPresent(loadSafeForm.select_network_dialog, 'Ethereum', gnosisPage)
     await assertTextPresent(loadSafeForm.select_network_dialog, 'Rinkeby', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'XDai', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'EWC', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'Volta', gnosisPage)
     await assertTextPresent(loadSafeForm.select_network_dialog, 'Polygon', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'BSC', gnosisPage)
+    // These networks are not available in dev right now. They should be back at some point
+    // await assertTextPresent(loadSafeForm.select_network_dialog, 'XDai', gnosisPage)
+    // await assertTextPresent(loadSafeForm.select_network_dialog, 'EWC', gnosisPage)
+    // await assertTextPresent(loadSafeForm.select_network_dialog, 'Volta', gnosisPage)
+    // await assertTextPresent(loadSafeForm.select_network_dialog, 'BSC', gnosisPage)
 
-    // selects the Volta network
-    await clickByText("div[role='button'] > span", 'Volta', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_step, 'Volta', gnosisPage)
+    // selects the Ethereum network
+    await clickByText("div[role='button'] > span", 'Ethereum', gnosisPage)
+    await assertTextPresent(loadSafeForm.select_network_step, 'Ethereum', gnosisPage)
 
     // selects the Rinkeby network again (this time clicking in the network label)
-    await clickByText('p > span', 'Volta', gnosisPage)
+    await clickByText('p > span', 'Ethereum', gnosisPage)
     await assertElementPresent(loadSafeForm.select_network_dialog, gnosisPage)
     await clickByText("div[role='button'] > span", NETWORK_NAME, gnosisPage)
 
@@ -101,7 +101,7 @@ describe('Add an existing safe', () => {
     await gnosisPage.waitForTimeout(2000)
     await gnosisPage.keyboard.press('Escape')
     const safeAddress = await getInnerText(loadSafeForm.safe_address_field, gnosisPage)
-    expect(safeAddress).toBe(getShortNameAddress('0x57CB13cbef735FbDD65f5f2866638c546464E45F'))
+    expect(safeAddress).toBe('0x57CB13cbef735FbDD65f5f2866638c546464E45F')
     await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
 
     // Invalid Address validation
@@ -120,9 +120,7 @@ describe('Add an existing safe', () => {
     const invalidSafeAddress = '0x726fD6f875951c10cEc96Dba52F0AA987168Fa97'
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, invalidSafeAddress)
-    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(
-      getShortNameAddress(invalidSafeAddress),
-    )
+    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(invalidSafeAddress)
     await isTextPresent(loadSafeForm.name_and_address_safe_step.selector, errorMsg.invalid_Safe_Address, gnosisPage)
     await clickElement(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
@@ -146,9 +144,7 @@ describe('Add an existing safe', () => {
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, validENSAddress)
     await isTextPresent(loadSafeForm.name_and_address_safe_step.selector, errorMsg.invalid_Safe_Address, gnosisPage)
-    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(
-      getShortNameAddress(inValidSafeAddressFromENS),
-    )
+    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(inValidSafeAddressFromENS)
     await clickElement(generalInterface.submit_btn, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     await assertElementPresent(loadSafeForm.name_and_address_safe_step, gnosisPage)
@@ -160,9 +156,7 @@ describe('Add an existing safe', () => {
     await clearInput(loadSafeForm.safe_address_field, gnosisPage)
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, validENSSafe)
     await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
-    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(
-      getShortNameAddress(safeAddressFromENS),
-    )
+    expect(await getInnerText(loadSafeForm.safe_address_field, gnosisPage)).toBe(safeAddressFromENS)
 
     // Types name and address for the safe
     console.log('Types name and address for the safe')
@@ -172,7 +166,7 @@ describe('Add an existing safe', () => {
     await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS.toUpperCase())
     // validating checksum
     const safeAddressChecksummed = await getInnerText(loadSafeForm.safe_address_field, gnosisPage)
-    expect(safeAddressChecksummed).toEqual(getShortNameAddress(TESTING_SAFE_ADDRESS))
+    expect(safeAddressChecksummed).toEqual(TESTING_SAFE_ADDRESS)
     await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
     await clickElement(generalInterface.submit_btn, gnosisPage)
 
