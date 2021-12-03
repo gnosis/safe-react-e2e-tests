@@ -7,6 +7,7 @@ import {
   getNumberInString,
   getInnerText,
   openDropdown,
+  isTextPresent,
 } from '../../../utils/selectorsHelpers'
 import { assetsTab } from '../../../utils/selectors/assetsTab'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
@@ -123,5 +124,21 @@ describe('Read-only transaction creation and review', () => {
     console.log('Opens advanced options')
     await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
     await clickElement(sendFundsForm.advanced_options, gnosisPage)
+
+    console.log('Click the Edit button')
+    await assertElementPresent(sendFundsForm.edit_advanced_options_btn, gnosisPage)
+    await clickElement(sendFundsForm.edit_advanced_options_btn, gnosisPage)
+
+    console.log('Edit the Safe Nonce Value')
+    // const recipientHash = await getInnerText(sendFundsForm.recipient_address_review, gnosisPage)
+    await clickAndType(sendFundsForm.safe_nonce_input, gnosisPage, 200)
+
+    console.log('Confirm Advanced Options')
+    await assertElementPresent(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
+    await clickElement(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
+
+    await isTextPresent(sendFundsForm.modal_title_send_funds, 'are you sure', gnosisPage)
+    // const reviewTextInfoHashText = await getInnerText(sendFundsForm.recipient_address_review, gnosisPage)
+    // expect(recipientHash).toMatch(FUNDS_RECEIVER_ADDRESS)
   }, 290000)
 })
