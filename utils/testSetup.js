@@ -8,6 +8,7 @@ import { homePage } from './selectors/welcomePage'
 import { generalInterface } from './selectors/generalInterface'
 import { loadSafeForm } from './selectors/loadSafeForm'
 import { assertElementPresent, clearInput, clickAndType, clickByText, clickElement } from './selectorsHelpers'
+import { getShortNameAddress } from '../../utils/addresses'
 
 const importAccounts = async (metamask, privateKeys) => {
   console.log('<<Importing accounts>>')
@@ -21,7 +22,6 @@ const {
   SLOWMO,
   ENVIRONMENT,
   MNEMONIC,
-  NETWORK_ADDRESS_PREFIX,
   NETWORK_NAME,
   PRIVATE_KEY_GROUP,
   PASSWORD,
@@ -162,7 +162,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
  */
 export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts = false) => {
   const [browser, metamask, gnosisPage] = await initWithWalletConnected(importMultipleAccounts)
-  await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`, {
+  await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
   })
   await gnosisPage.waitForTimeout(2000)
@@ -183,7 +183,7 @@ export const initNoWalletConnection = async () => {
 
   const [gnosisPage] = await browser.pages() // get a grip on the current tab
   await gnosisPage.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
-  await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`)
+  await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`)
   await gnosisPage.bringToFront()
 
   gnosisPage.setDefaultTimeout(60000)

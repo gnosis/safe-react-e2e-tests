@@ -2,6 +2,7 @@ import { assertTextPresent, clickElement, clickSomething, getInnerText } from '.
 import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
 import config from '../../../utils/config'
 import { safeBalancesPage } from '../../../utils/selectors/safeBalancesPage'
+import { getShortNameAddress } from '../../utils/addresses'
 
 /*
 Safe Balances
@@ -12,7 +13,7 @@ Safe Balances
 let browser
 let gnosisPage
 
-const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX } = config
+const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
   const context = await initWithWalletConnected(true)
@@ -35,7 +36,7 @@ describe('Safe Balances', () => {
     console.log('Safe Balances')
 
     console.log('Enters the Safe Balances page')
-    const safeBalancesUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances`
+    const safeBalancesUrl = `${getEnvUrl()}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`
     await gnosisPage.goto(safeBalancesUrl)
 
     console.log('USD currency by default')

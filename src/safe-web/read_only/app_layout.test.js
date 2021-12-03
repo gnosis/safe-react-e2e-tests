@@ -1,13 +1,14 @@
 import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
 import { appLayout } from '../../../utils/selectors/appLayout'
 import { assertElementPresent, assertElementNotPresent } from '../../../utils/selectorsHelpers'
+import { getShortNameAddress } from '../../utils/addresses'
 import config from '../../../utils/config'
 
 let browser
 let gnosisPage
 let envUrl
 
-const { NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS } = config
+const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
   ;[browser, , gnosisPage] = await initWithWalletConnected()
@@ -29,15 +30,15 @@ describe('Application Layout', () => {
     await assertElementPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
     console.log('Footer is not present in the Balances page')
-    await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/balances/collectibles`)
+    await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances/collectibles`)
     await assertElementNotPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
     console.log('Footer is not present in the Address Book page')
-    await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/address-book`)
+    await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/address-book`)
     await assertElementNotPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
     console.log('Footer is present in the Settings pages')
-    await gnosisPage.goto(`${envUrl}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/settings/policies`)
+    await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/settings/policies`)
     await assertElementPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
   })
 })
