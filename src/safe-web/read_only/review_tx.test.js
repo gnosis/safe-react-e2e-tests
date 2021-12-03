@@ -13,7 +13,7 @@ import { generalInterface } from '../../../utils/selectors/generalInterface'
 import { sendFundsForm } from '../../../utils/selectors/sendFundsForm'
 import { errorMsg } from '../../../utils/selectors/errorMsg'
 import { initWithDefaultSafeDirectNavigation } from '../../../utils/testSetup'
-import { getShortNameAddress } from '../../../utils'
+import { getShortNameAddress } from '../../../utils/addresses'
 import config from '../../../utils/config'
 
 /*

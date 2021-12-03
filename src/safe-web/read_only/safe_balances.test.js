@@ -2,7 +2,7 @@ import { assertTextPresent, clickElement, clickSomething, getInnerText } from '.
 import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
 import config from '../../../utils/config'
 import { safeBalancesPage } from '../../../utils/selectors/safeBalancesPage'
-import { getShortNameAddress } from '../../utils/addresses'
+import { getShortNameAddress } from '../../../utils/addresses'
 
 /*
 Safe Balances
