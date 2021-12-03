@@ -11,7 +11,7 @@ import {
 import { getEnvUrl, initNoWalletConnection } from '../../../utils/testSetup'
 import config from '../../../utils/config'
 import { safeAppsList } from '../../../utils/selectors/safeAppsList'
-import { getShortNameAddress } from '../../utils/addresses'
+import { getShortNameAddress } from '../../../utils/addresses'
 
 /*
 Safe Apps List

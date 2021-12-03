@@ -11,7 +11,6 @@ import { accountsSelectors } from '../../../utils/selectors/accounts'
 import { addressBook } from '../../../utils/selectors/addressBook'
 import { initWithDefaultSafe } from '../../../utils/testSetup'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
-import { getShortNameAddress } from '../../../utils'
 import config from '../../../utils/config'
 import path from 'path'
 
@@ -70,7 +69,7 @@ describe('Address book', () => {
       accountsSelectors.testAccountsHash.acc1.toUpperCase(),
     )
     const addressUppercaseFixed = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
-    expect(addressUppercaseFixed).toBe(getShortNameAddress(accountsSelectors.testAccountsHash.acc1))
+    expect(addressUppercaseFixed).toBe(accountsSelectors.testAccountsHash.acc1)
     await clickElement(addressBook.createSubmitBtn, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.otherAccountNames.owner5_name, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.testAccountsHash.acc1, gnosisPage)
@@ -89,7 +88,7 @@ describe('Address book', () => {
     await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes acc1 address
     await gnosisPage.waitForTimeout(1000)
     const convertedValue = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
-    expect(convertedValue).toBe(getShortNameAddress(accountsSelectors.testAccountsHash.acc1))
+    expect(convertedValue).toBe(accountsSelectors.testAccountsHash.acc1)
     await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
     await clickByText('.paper.modal span', 'cancel', gnosisPage)

@@ -8,7 +8,7 @@ import { homePage } from './selectors/welcomePage'
 import { generalInterface } from './selectors/generalInterface'
 import { loadSafeForm } from './selectors/loadSafeForm'
 import { assertElementPresent, clearInput, clickAndType, clickByText, clickElement } from './selectorsHelpers'
-import { getShortNameAddress } from '../../utils/addresses'
+import { getShortNameAddress } from './addresses'
 
 const importAccounts = async (metamask, privateKeys) => {
   console.log('<<Importing accounts>>')
