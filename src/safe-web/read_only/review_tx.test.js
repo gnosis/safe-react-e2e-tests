@@ -13,6 +13,7 @@ import { generalInterface } from '../../../utils/selectors/generalInterface'
 import { sendFundsForm } from '../../../utils/selectors/sendFundsForm'
 import { errorMsg } from '../../../utils/selectors/errorMsg'
 import { initWithDefaultSafeDirectNavigation } from '../../../utils/testSetup'
+import { getShortNameAddress } from '../../../utils/addresses'
 import config from '../../../utils/config'
 
 /*
@@ -65,7 +66,7 @@ describe('Read-only transaction creation and review', () => {
     // Input the receiver. Checks checksum validation
     await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS.toUpperCase())
     const receiverAddressChecksummed = await getInnerText(sendFundsForm.recipient_input_value_entered, gnosisPage)
-    expect(receiverAddressChecksummed).toEqual(FUNDS_RECEIVER_ADDRESS) // The input should checksum the uppercase text automatically.
+    expect(receiverAddressChecksummed).toBe(getShortNameAddress(FUNDS_RECEIVER_ADDRESS)) // The input should checksum the uppercase text automatically.)
 
     console.log(
       'Selects ETH token to send (is hardcoded to send only ETH, so it will fail for other networks currently)',
@@ -110,7 +111,7 @@ describe('Read-only transaction creation and review', () => {
     console.log('Checks receiver address in the review step')
     await assertElementPresent(sendFundsForm.recipient_address_review, gnosisPage)
     const recipientHash = await getInnerText(sendFundsForm.recipient_address_review, gnosisPage)
-    expect(recipientHash).toMatch(FUNDS_RECEIVER_ADDRESS)
+    expect(recipientHash).toMatch(getShortNameAddress(FUNDS_RECEIVER_ADDRESS))
 
     /* !! This step doesn't work. Wrong amount selector? !!
     console.log('Checks the amount input')

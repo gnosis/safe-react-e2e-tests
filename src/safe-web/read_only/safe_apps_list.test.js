@@ -11,6 +11,7 @@ import {
 import { getEnvUrl, initNoWalletConnection } from '../../../utils/testSetup'
 import config from '../../../utils/config'
 import { safeAppsList } from '../../../utils/selectors/safeAppsList'
+import { getShortNameAddress } from '../../../utils/addresses'
 
 /*
 Safe Apps List
@@ -24,7 +25,7 @@ Safe Apps List
 let browser
 let gnosisPage
 
-const { TESTING_SAFE_ADDRESS, NETWORK_ADDRESS_PREFIX } = config
+const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
   ;[browser, gnosisPage] = await initNoWalletConnection()
@@ -38,7 +39,7 @@ afterAll(async () => {
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
     console.log('Safe Apps List')
-    const safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
+    const safeAppsListUrl = `${getEnvUrl()}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/apps`
 
     await gnosisPage.goto(safeAppsListUrl)
 

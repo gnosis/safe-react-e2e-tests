@@ -9,6 +9,7 @@ import {
 import { accountsSelectors } from '../../utils/selectors/accounts'
 import { createSafePage } from '../../utils/selectors/createSafePage'
 import { generalInterface } from '../../utils/selectors/generalInterface'
+import { getShortNameAddress } from '../../utils'
 import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
 import config from '../../utils/config'
 
@@ -84,14 +85,14 @@ describe('Create New Safe Migration', () => {
     // assert first owner
     expect(await getInnerText(createSafePage.get_owner_name_field(firstOwnerIndex), gnosisPage)).toBe(firstOwnerName)
     expect(await getInnerText(createSafePage.get_owner_address_field(firstOwnerIndex), gnosisPage)).toBe(
-      firstOwnerAddress,
+      getShortNameAddress(firstOwnerAddress),
     )
     await assertElementPresent(createSafePage.get_valid_address_check_icon(firstOwnerIndex), gnosisPage)
 
     // assert second owner
     expect(await getInnerText(createSafePage.get_owner_name_field(secondOwnerIndex), gnosisPage)).toBe(secondOwnerName)
     expect(await getInnerText(createSafePage.get_owner_address_field(secondOwnerIndex), gnosisPage)).toBe(
-      secondOwnerAddress,
+      getShortNameAddress(secondOwnerAddress),
     )
     await assertElementPresent(createSafePage.get_valid_address_check_icon(secondOwnerIndex), gnosisPage)
 
@@ -117,11 +118,11 @@ describe('Create New Safe Migration', () => {
     console.log('Checks owners of the new Safe')
     expect(await getInnerText(createSafePage.review_owner_name(firstOwnerAddress), gnosisPage)).toBe(firstOwnerName)
     expect(await getInnerText(createSafePage.review_owner_address(firstOwnerAddress), gnosisPage)).toBe(
-      firstOwnerAddress,
+      getShortNameAddress(firstOwnerAddress),
     )
     expect(await getInnerText(createSafePage.review_owner_name(secondOwnerAddress), gnosisPage)).toBe(secondOwnerName)
     expect(await getInnerText(createSafePage.review_owner_address(secondOwnerAddress), gnosisPage)).toBe(
-      secondOwnerAddress,
+      getShortNameAddress(secondOwnerAddress),
     )
 
     console.log('Submits the Create Safe Form')

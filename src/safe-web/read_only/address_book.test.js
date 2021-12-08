@@ -69,7 +69,7 @@ describe('Address book', () => {
       accountsSelectors.testAccountsHash.acc1.toUpperCase(),
     )
     const addressUppercaseFixed = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
-    expect(addressUppercaseFixed).toEqual(accountsSelectors.testAccountsHash.acc1)
+    expect(addressUppercaseFixed).toBe(accountsSelectors.testAccountsHash.acc1)
     await clickElement(addressBook.createSubmitBtn, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.otherAccountNames.owner5_name, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.testAccountsHash.acc1, gnosisPage)
@@ -86,7 +86,7 @@ describe('Address book', () => {
     console.log('Validates ENS names translation (is a hardcoded ENS name for this test)')
     // Testing ENS name, it will create a duplicated name so is validating the "duplicated address error"
     await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes acc1 address
-    await gnosisPage.waitForTimeout(1000)
+    await gnosisPage.waitForTimeout(6000)
     const convertedValue = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
     expect(convertedValue).toBe(accountsSelectors.testAccountsHash.acc1)
     await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)

@@ -63,20 +63,21 @@ describe('Add an existing safe', () => {
     // opens the network dialog
     await clickByText('button', 'Switch Network', gnosisPage)
     await assertElementPresent(loadSafeForm.select_network_dialog, gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'Mainnet', gnosisPage)
+    await assertTextPresent(loadSafeForm.select_network_dialog, 'Ethereum', gnosisPage)
     await assertTextPresent(loadSafeForm.select_network_dialog, 'Rinkeby', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'XDai', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'EWC', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'Volta', gnosisPage)
     await assertTextPresent(loadSafeForm.select_network_dialog, 'Polygon', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_dialog, 'BSC', gnosisPage)
+    // These networks are not available in dev right now. They should be back at some point
+    // await assertTextPresent(loadSafeForm.select_network_dialog, 'XDai', gnosisPage)
+    // await assertTextPresent(loadSafeForm.select_network_dialog, 'EWC', gnosisPage)
+    // await assertTextPresent(loadSafeForm.select_network_dialog, 'Volta', gnosisPage)
+    // await assertTextPresent(loadSafeForm.select_network_dialog, 'BSC', gnosisPage)
 
-    // selects the Volta network
-    await clickByText("div[role='button'] > span", 'Volta', gnosisPage)
-    await assertTextPresent(loadSafeForm.select_network_step, 'Volta', gnosisPage)
+    // selects the Ethereum network
+    await clickByText("div[role='button'] > span", 'Ethereum', gnosisPage)
+    await assertTextPresent(loadSafeForm.select_network_step, 'Ethereum', gnosisPage)
 
     // selects the Rinkeby network again (this time clicking in the network label)
-    await clickByText('p > span', 'Volta', gnosisPage)
+    await clickByText('p > span', 'Ethereum', gnosisPage)
     await assertElementPresent(loadSafeForm.select_network_dialog, gnosisPage)
     await clickByText("div[role='button'] > span", NETWORK_NAME, gnosisPage)
 

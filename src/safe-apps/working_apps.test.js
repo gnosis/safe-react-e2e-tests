@@ -1,6 +1,7 @@
 import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { getAllAppTitles, clickByText, isSafeAppLoaded, isTextPresent } from '../../utils/selectorsHelpers'
 import { getEnvUrl, initHeadlessConnection } from '../../utils/testSetup'
+import { getShortNameAddress } from '../../utils/addresses'
 import { sendSlackMessage } from '../../utils/slack'
 import config from '../../utils/config'
 import { safeAppsList } from '../../utils/selectors/safeAppsList'
@@ -17,7 +18,7 @@ Working Apps
 let browser
 let gnosisPage
 
-const { NETWORK_ADDRESS_PREFIX, TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL } = config
+const { TESTING_SAFE_ADDRESS, SLACK_WEBHOOK_URL } = config
 
 beforeAll(async () => {
   ;[browser, gnosisPage] = await initHeadlessConnection()
@@ -35,7 +36,7 @@ describe('Safe Apps List', () => {
 
     console.log('Safe Apps liveness')
     const failingToLoadApps = []
-    const safeAppsListUrl = `${getEnvUrl()}${NETWORK_ADDRESS_PREFIX}:${TESTING_SAFE_ADDRESS}/apps`
+    const safeAppsListUrl = `${getEnvUrl()}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/apps`
 
     console.log('Open Safe Apps List')
     await gnosisPage.goto(safeAppsListUrl)
