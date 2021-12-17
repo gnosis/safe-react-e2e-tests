@@ -129,9 +129,9 @@ describe('Read-only transaction creation and review', () => {
     await clickAndType(sendFundsForm.safe_nonce_input, gnosisPage, `${advancedOptionsNonce + offset}`)
 
     console.log('Confirm Advanced Options')
-    const warningMessage = `${offset} transactions will need to be created and executed before this transaction, are you sure you want to do this?`
+    const warningMessage = `${offset} transactions will need to`
     await assertElementPresent(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await clickElement(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await isTextPresent('.paper.smaller-modal-window', warningMessage, gnosisPage) // isTextPresent only takes pure selectors with no type, we have to fix this
-  }, 150000)
+  }, 200000)
 })
