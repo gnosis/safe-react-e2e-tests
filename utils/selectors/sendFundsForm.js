@@ -26,4 +26,7 @@ export const sendFundsForm = {
 export const advancedOptions = {
   gasLimitInput: { selector: '[placeholder="Gas limit"]', type: 'css' },
   gasPriceInput: { selector: '[placeholder="Gas price (GWEI)"]', type: 'css' },
+  nonce: { selector: '//div[2]//div/div/div/div[1]/p[2]', type: 'Xpath' },
+  gasLimit: { selector: '//div[4]/p[2]', type: 'Xpath' },
+  gasPrice: { selector: '//div[5]/p[2]', type: 'Xpath' },
 }

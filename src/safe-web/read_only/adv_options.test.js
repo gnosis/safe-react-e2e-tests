@@ -51,7 +51,7 @@ describe('Read-only transaction creation and review', () => {
     await clickByText('span', 'Settings', gnosisPage)
     await clickByText('span', 'Advanced', gnosisPage)
     await assertElementPresent(settingsPage.current_nonce, gnosisPage)
-    const settingsCurrentNonce = await getNumberInString(settingsPage.current_nonce, gnosisPage)
+    const safeCurrentNonce = await getNumberInString(settingsPage.current_nonce, gnosisPage)
 
     console.log('Open the send funds form')
     await clickByText('button', 'New Transaction', gnosisPage)
@@ -85,17 +85,14 @@ describe('Read-only transaction creation and review', () => {
     await clickElement(sendFundsForm.advanced_options, gnosisPage)
 
     console.log('Verify current nonce is the same as the one in advanced options')
-    await assertElementPresent({ selector: '//div[2]//div/div/div/div[1]/p[2]', type: 'Xpath' }, gnosisPage)
-    const advancedOptionsNonce = await getNumberInString(
-      { selector: '//div[2]//div/div/div/div[1]/p[2]', type: 'Xpath' },
-      gnosisPage,
-    )
-    expect(advancedOptionsNonce).toBe(settingsCurrentNonce)
+    await assertElementPresent(advancedOptions.nonce, gnosisPage)
+    const advancedOptionsNonce = await getNumberInString(advancedOptions.nonce, gnosisPage)
+    expect(advancedOptionsNonce).toBe(safeCurrentNonce)
 
     console.log('Gas limit & Gas Price != than 0')
     await gnosisPage.waitForTimeout(2000) // Wait for gas estimations, if not all values are 0
-    const advancedOptionsGasLimit = await getNumberInString({ selector: '//div[4]/p[2]', type: 'Xpath' }, gnosisPage)
-    const advancedOptionsGasPrice = await getNumberInString({ selector: '//div[5]/p[2]', type: 'Xpath' }, gnosisPage)
+    const advancedOptionsGasLimit = await getNumberInString(advancedOptions.gasLimit, gnosisPage)
+    const advancedOptionsGasPrice = await getNumberInString(advancedOptions.gasPrice, gnosisPage)
     expect(advancedOptionsGasLimit).not.toBe(0) // If these are 0 gas estimation failed
     expect(advancedOptionsGasPrice).not.toBe(0)
 
@@ -127,14 +124,14 @@ describe('Read-only transaction creation and review', () => {
     await clickElement(sendFundsForm.edit_advanced_options_btn, gnosisPage)
 
     console.log('Edit the Safe Nonce Value')
-    const offSet = 2 // editing nonce to be 2 more than the nonce expected
+    const offset = 2 // editing nonce to be 2 more than the nonce expected
     await clearInput(sendFundsForm.safe_nonce_input, gnosisPage)
-    await clickAndType(sendFundsForm.safe_nonce_input, gnosisPage, `${advancedOptionsNonce + offSet}`)
+    await clickAndType(sendFundsForm.safe_nonce_input, gnosisPage, `${advancedOptionsNonce + offset}`)
 
     console.log('Confirm Advanced Options')
+    const warningMessage = `${offset} transactions will need to be created and executed before this transaction, are you sure you want to do this?`
     await assertElementPresent(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await clickElement(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
-    // await isTextPresent(sendFundsForm.modal_title_send_funds, 'are you sure', gnosisPage) //modal title send funds doesn't exist anymore
-    await isTextPresent('.paper.smaller-modal-window', `${offSet} transactions will need`, gnosisPage) // isTextPresent only takes pure selectors with no type, we have to fix this
+    await isTextPresent('.paper.smaller-modal-window', warningMessage, gnosisPage) // isTextPresent only takes pure selectors with no type, we have to fix this
   }, 150000)
 })
