@@ -23,6 +23,7 @@ export const settingsPage = {
   replace_owner_address_input: { selector: "[data-testid='replace-owner-address-testid']", type: 'css' },
   replace_owner_next_btn: { selector: "[data-testid='replace-owner-next-btn']", type: 'css' },
   replace_owner_submit_btn: { selector: "[data-testid='replace-owner-submit-btn']", type: 'css' },
+  current_nonce: { selector: "[data-testid='current-nonce']", type: 'css' },
 }
 
 export const settingsTabs = {

@@ -20,4 +20,10 @@ export const sendFundsForm = {
   edit_advanced_options_btn: { selector: "//button/p[contains(text(), 'Edit')]", type: 'Xpath' },
   safe_nonce_input: { selector: "input[name='safeNonce']", type: 'css' },
   confirm_advanced_options_btn: { selector: "//button/span[contains(text(), 'Confirm')]", type: 'Xpath' },
+  sendModal: { selector: '.paper.smaller-modal-window', type: 'css' },
+}
+
+export const advancedOptions = {
+  gasLimitInput: { selector: '[placeholder="Gas limit"]', type: 'css' },
+  gasPriceInput: { selector: '[placeholder="Gas price (GWEI)"]', type: 'css' },
 }

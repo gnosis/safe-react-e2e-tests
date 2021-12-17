@@ -1,4 +1,4 @@
-#### [Safe Apps liveness](./../src/safe-apps/working_apps.test.js)
+#### [Safe Apps liveness](./../src\safe-apps/working_apps.test.js)
 1. Open Safe Apps List
 2. Get all apps
 3. Accept cookies
@@ -6,7 +6,7 @@
 5. Test apps sequentially
 6. Send Slack message
 
-#### [Add/remove Owners](./../src/safe-web/add_remove_owner.test.js)
+#### [Add/remove Owners](./../src\safe-web/add_remove_owner.test.js)
 1. Enter add owner form
 2. Validate Owner name and address required, invalid address, duplicated address
 3. Input valid owner name and address
@@ -16,7 +16,7 @@
 7. Verifies owner to be removed name an address
 8. Signs and executes. Verifies tx success status
 
-#### [Create safe](./../src/safe-web/create_safe.test.js)
+#### [Create safe](./../src\safe-web/create_safe.test.js)
 1. Enters into the create safe form with the Create button
 2. Shows Connect wallet & select network step
 3. Switches the network and connect your wallet
@@ -43,7 +43,7 @@
 24. Checks if the Safe Created popup is showed
 25. Checks safe name on the sidebar once the safe is loaded
 
-#### [Create Safe with a Old MultiSig migration](./../src/safe-web/create_safe_migration.test.js)
+#### [Create Safe with a Old MultiSig migration](./../src\safe-web/create_safe_migration.test.js)
 1. Shows Connect wallet & select network step
 2. Shows naming the Safe step
 3. Check the name of the safe
@@ -59,12 +59,12 @@
 13. Checks if the Safe Created popup is showed
 14. Checks safe name on the sidebar once the safe is loaded
 
-#### [Modify policies](./../src/safe-web/modify_policies.test.js)
+#### [Modify policies](./../src\safe-web/modify_policies.test.js)
 1. Opens modify policies
 2. Opens selector, selects "1" value
 3. Signs transaction with current owner, confirm and executes with the 2nd owner
 
-#### [Address book](./../src/safe-web/read_only/address_book.test.js)
+#### [Address book](./../src\safe-web\read_only/address_book.test.js)
 1. Enter the address book. Validates 3 entries present by name (the load safe process created them)
 2. Creates an entry with valid name and address. Validates it in the entries list
 3. Validate error messages in entry creation: "RandomString", duplicated entry.
@@ -74,13 +74,29 @@
 7. Exports a file (no validations)
 8. Imports a file. checks new expected name to be in the entries list
 
-#### [Footer exists in the Welcome page and Settings](./../src/safe-web/read_only/app_layout.test.js)
+#### [Read-only transaction creation and review](./../src\safe-web\read_only/advOptions.test.js)
+1. Open the send funds form
+2. Types a receiver address
+3. Input the receiver, token, and amount with valid values
+4. Checks receiver address in the review step
+5. Open advanced options
+6. Verify current nonce is the same as the one in advanced options
+7. Gas limit & Gas Price != than 0
+8. Click the Edit button
+9. Editing Gas Limit & Gas Price
+10. Confirm Advanced Options. Checking new estimation message
+11. Open advanced options. Reopening to edit to invalid nonce value
+12. Click the Edit button
+13. Edit the Safe Nonce Value
+14. Confirm Advanced Options
+
+#### [Footer exists in the Welcome page and Settings](./../src\safe-web\read_only/app_layout.test.js)
 1. Footer is present in the Welcome page
 2. Footer is not present in the Balances page
 3. Footer is not present in the Address Book page
 4. Footer is present in the Settings pages
 
-#### [Load safe](./../src/safe-web/read_only/load_safe.test.js)
+#### [Load safe](./../src\safe-web\read_only/load_safe.test.js)
 1. Enters into the load form with the Load button component
 2. Shows the select network step
 3. Switches the network
@@ -98,19 +114,7 @@
 15. Opens the QR code for the safe on the sidebar and checks the safe name again
 
 
-#### [Create and review a Send Funds transaction](./../src/safe-web/read_only/review_tx.test.js)
-1. Open the send funds form
-2. Types a receiver address
-3. Validates error for invalid amounts: 0, "abc", 99999
-4. Checks "Send max" button
-5. Checks receiver address in the review step
-6. Checks the amount input
-7. Opens advanced options
-8. Click the Edit button
-9. Edit the Safe Nonce Value
-10. Confirm Advanced Options
-
-#### [Safe Apps List](./../src/safe-web/read_only/safe_apps_list.test.js)
+#### [Safe Apps List](./../src\safe-web\read_only/safe_apps_list.test.js)
 1. Shows Bookmarked Apps Section
 2. Shows All Apps Section
 3. Opens a Safe App
@@ -131,7 +135,7 @@
 18. Validates if the Custom Safe App was already added
 19. Removes a Custom Safe App
 
-#### [Safe Balances](./../src/safe-web/read_only/safe_balances.test.js)
+#### [Safe Balances](./../src\safe-web\read_only/safe_balances.test.js)
 1. Enters the Safe Balances page
 2. USD currency by default
 3. Safe Balances table shows the amounts in USD
@@ -140,7 +144,7 @@
 6. updates the new selected currency in the localStorage
 7. refresh the page should keep the selected value
 
-#### [Reject tx](./../src/safe-web/reject_tx.test.js)
+#### [Reject tx](./../src\safe-web/reject_tx.test.js)
 1. Checks current ETH funds in safe
 2. Open send funds form
 3. Fills address, eth amount and signs transaction
@@ -150,7 +154,7 @@
 7. Executes Rejection
 8. Opens history tab, checks last tx is a Rejection and checks the successful status
 
-#### [Replace owner](./../src/safe-web/replace_owners.test.js)
+#### [Replace owner](./../src\safe-web/replace_owners.test.js)
 1. Find added owner. click "Replace" button
 2. Add valid name and address for replacement owner
 3. Signs and execute
@@ -158,7 +162,7 @@
 5. Signs and executes
 6. Checks status success of executed tx
 
-#### [Send funds](./../src/safe-web/send_funds.test.js)
+#### [Send funds](./../src\safe-web/send_funds.test.js)
 1. Open the send funds form
 2. Types a receiver address
 3. Validates error for invalid amounts: 0, "abc", 99999
