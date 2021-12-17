@@ -74,7 +74,7 @@
 7. Exports a file (no validations)
 8. Imports a file. checks new expected name to be in the entries list
 
-#### [Read-only transaction creation and review](./../src\safe-web\read_only/advOptions.test.js)
+#### [Read-only transaction creation and review](./../src\safe-web\read_only/adv_options.test.js)
 1. Open the send funds form
 2. Types a receiver address
 3. Input the receiver, token, and amount with valid values
