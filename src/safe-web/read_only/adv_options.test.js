@@ -48,27 +48,33 @@ afterAll(async () => {
 describe('Read-only transaction creation and review', () => {
   test('Read-only transaction creation and review', async () => {
     console.log('Read-only transaction creation and review')
+    console.log('debug 1')
     await clickByText('span', 'Settings', gnosisPage)
     await clickByText('span', 'Advanced', gnosisPage)
     await assertElementPresent(settingsPage.current_nonce, gnosisPage)
     const safeCurrentNonce = await getNumberInString(settingsPage.current_nonce, gnosisPage)
 
     console.log('Open the send funds form')
+    console.log('debug 2')
     await clickByText('button', 'New Transaction', gnosisPage)
 
     console.log('Types a receiver address')
+    console.log('debug 3')
     await clickElement({ selector: generalInterface.modal_send_funds_btn }, gnosisPage)
     await assertElementPresent(sendFundsForm.review_btn_disabled, gnosisPage)
     await gnosisPage.waitForTimeout(1000)
 
     console.log('Input the receiver, token, and amount with valid values')
+    console.log('debug 4')
     await clickAndType(sendFundsForm.recipient_input, gnosisPage, FUNDS_RECEIVER_ADDRESS.toUpperCase())
     const receiverAddressChecksummed = await getInnerText(sendFundsForm.recipient_input_value_entered, gnosisPage)
     expect(receiverAddressChecksummed).toBe(getShortNameAddress(FUNDS_RECEIVER_ADDRESS)) // The input should checksum the uppercase text automatically.)
 
+    console.log('debug 5')
     await openDropdown(sendFundsForm.select_token, gnosisPage)
     await clickElement(sendFundsForm.select_token_ether, gnosisPage)
 
+    console.log('debug 6')
     await gnosisPage.waitForTimeout(1000)
     await clearInput(sendFundsForm.amount_input, gnosisPage)
     await clickAndType(sendFundsForm.amount_input, gnosisPage, TOKEN_AMOUNT.toString())
@@ -76,20 +82,24 @@ describe('Read-only transaction creation and review', () => {
     await clickElement(sendFundsForm.review_btn, gnosisPage)
 
     console.log('Checks receiver address in the review step')
+    console.log('debug 6')
     await assertElementPresent(sendFundsForm.recipient_address_review, gnosisPage)
     const recipientHash = await getInnerText(sendFundsForm.recipient_address_review, gnosisPage)
     expect(recipientHash).toMatch(getShortNameAddress(FUNDS_RECEIVER_ADDRESS))
 
     console.log('Open advanced options')
+    console.log('debug 7')
     await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
     await clickElement(sendFundsForm.advanced_options, gnosisPage)
 
     console.log('Verify current nonce is the same as the one in advanced options')
+    console.log('debug 8')
     await assertElementPresent(advancedOptions.nonce, gnosisPage)
     const advancedOptionsNonce = await getNumberInString(advancedOptions.nonce, gnosisPage)
     expect(advancedOptionsNonce).toBe(safeCurrentNonce)
 
     console.log('Gas limit & Gas Price != than 0')
+    console.log('debug 9')
     await gnosisPage.waitForTimeout(2000) // Wait for gas estimations, if not all values are 0
     const advancedOptionsGasLimit = await getNumberInString(advancedOptions.gasLimit, gnosisPage)
     const advancedOptionsGasPrice = await getNumberInString(advancedOptions.gasPrice, gnosisPage)
@@ -97,41 +107,49 @@ describe('Read-only transaction creation and review', () => {
     expect(advancedOptionsGasPrice).not.toBe(0)
 
     console.log('Click the Edit button')
+    console.log('debug 10')
     await assertElementPresent(sendFundsForm.edit_advanced_options_btn, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     await clickElement(sendFundsForm.edit_advanced_options_btn, gnosisPage)
 
     console.log('Editing Gas Limit & Gas Price')
+    console.log('debug 11')
     await clearInput(advancedOptions.gasLimitInput, gnosisPage)
     await clickAndType(advancedOptions.gasLimitInput, gnosisPage, '200000')
 
+    console.log('debug 12')
     await clearInput(advancedOptions.gasPriceInput, gnosisPage)
     await clickAndType(advancedOptions.gasPriceInput, gnosisPage, '60')
 
     console.log('Confirm Advanced Options. Checking new estimation message')
+    console.log('debug 13')
     await assertElementPresent(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await clickElement(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await gnosisPage.waitForTimeout(2000) // wait for the message to update
     await isTextPresent('.paper.smaller-modal-window', 'Make sure you have 0.012 ETH', gnosisPage) // 0.012 is GasPrice * GasLimit
 
     console.log('Open advanced options. Reopening to edit to invalid nonce value')
+    console.log('debug 14')
     await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
     await clickElement(sendFundsForm.advanced_options, gnosisPage)
 
     console.log('Click the Edit button')
+    console.log('debug 15')
     await assertElementPresent(sendFundsForm.edit_advanced_options_btn, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
     await clickElement(sendFundsForm.edit_advanced_options_btn, gnosisPage)
 
     console.log('Edit the Safe Nonce Value')
+    console.log('debug 16')
     const offset = 2 // editing nonce to be 2 more than the nonce expected
     await clearInput(sendFundsForm.safe_nonce_input, gnosisPage)
     await clickAndType(sendFundsForm.safe_nonce_input, gnosisPage, `${advancedOptionsNonce + offset}`)
 
     console.log('Confirm Advanced Options')
+    console.log('debug 17')
     const warningMessage = `${offset} transactions will need to`
     await assertElementPresent(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await clickElement(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await isTextPresent('.paper.smaller-modal-window', warningMessage, gnosisPage) // isTextPresent only takes pure selectors with no type, we have to fix this
-  }, 200000)
+  }, 150000)
 })
