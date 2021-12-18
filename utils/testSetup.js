@@ -28,7 +28,10 @@ const {
   PUPPETEER_EXEC_PATH,
   TESTING_ENV,
   TESTING_SAFE_ADDRESS,
+  TESTING_SAFE_ADDRESS_SINGLE_OWNER,
 } = config
+
+let loadTestSafe = ''
 
 export const getEnvUrl = () => {
   if (TESTING_ENV === 'PR') {
@@ -118,8 +121,10 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
  * @param {boolean} importMultipleAccounts by default is false so only 1 accounts is imported to Metamask
  * if more than one account is needed this parameter should be used with `true`
  */
-export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
+export const initWithDefaultSafe = async (importMultipleAccounts = false, SafeWithThreshold = 2) => {
   const [browser, metamask, gnosisPage] = await initWithWalletConnected(importMultipleAccounts)
+  if (SafeWithThreshold === 2) loadTestSafe = TESTING_SAFE_ADDRESS
+  else loadTestSafe = TESTING_SAFE_ADDRESS_SINGLE_OWNER
 
   // Open load safe form
   await clickByText('a', 'Add existing Safe', gnosisPage)
@@ -129,7 +134,7 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
   await clickElement(generalInterface.submit_btn, gnosisPage)
   // Second step, select safe address and name
   await clickAndType(loadSafeForm.safe_name_field, gnosisPage, accountsSelectors.safeNames.load_safe_name)
-  await clickAndType(loadSafeForm.safe_address_field, gnosisPage, TESTING_SAFE_ADDRESS)
+  await clickAndType(loadSafeForm.safe_address_field, gnosisPage, loadTestSafe)
   await assertElementPresent(loadSafeForm.valid_address, gnosisPage)
   await clickElement(generalInterface.submit_btn, gnosisPage)
 
@@ -160,9 +165,13 @@ export const initWithDefaultSafe = async (importMultipleAccounts = false) => {
  * @param {boolean} importMultipleAccounts by default is false so only 1 accounts is imported to Metamask
  * if more than one account is needed this parameter should be used with `true`
  */
-export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts = false) => {
+export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts = false, SafeWithThreshold = 2) => {
   const [browser, metamask, gnosisPage] = await initWithWalletConnected(importMultipleAccounts)
-  await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`, {
+  if (SafeWithThreshold === 2) loadTestSafe = TESTING_SAFE_ADDRESS
+  else loadTestSafe = TESTING_SAFE_ADDRESS_SINGLE_OWNER
+  console.log('loadTestSafe = ', loadTestSafe)
+
+  await gnosisPage.goto(`${envUrl}${getShortNameAddress(loadTestSafe)}/balances`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
   })
   await gnosisPage.waitForTimeout(2000)

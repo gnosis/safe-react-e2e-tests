@@ -52,12 +52,13 @@ describe('Safe Balances', () => {
     const newSelectedCurrency = 'EUR'
     await clickSomething(safeBalancesPage.currency_dropdown_btn.selector, gnosisPage, 'css')
     await clickElement(safeBalancesPage.currency_item_label(newSelectedCurrency), gnosisPage)
-    await gnosisPage.waitForTimeout(3000)
+    await gnosisPage.waitForTimeout(6000)
     await assertTextPresent(safeBalancesPage.selected_currency_label, newSelectedCurrency, gnosisPage)
 
     console.log('Safe Balances table shows the amounts in the new selected currency')
     const newAmountShowed = await getInnerText(safeBalancesPage.currency_showed_balances_table, gnosisPage)
     const newCurrencyShowed = getCurrencyChar(newAmountShowed)
+    await gnosisPage.waitForTimeout(2000)
     expect(newCurrencyShowed).toBe(newSelectedCurrency)
 
     console.log('updates the new selected currency in the localStorage')

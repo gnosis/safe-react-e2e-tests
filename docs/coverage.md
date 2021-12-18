@@ -74,6 +74,22 @@
 7. Exports a file (no validations)
 8. Imports a file. checks new expected name to be in the entries list
 
+#### [Read-only transaction creation and review](./../src/safe-web/read_only/adv_options.test.js)
+1. Open the send funds form
+2. Types a receiver address
+3. Input the receiver, token, and amount with valid values
+4. Checks receiver address in the review step
+5. Open advanced options
+6. Verify current nonce is the same as the one in advanced options
+7. Gas limit & Gas Price != than 0
+8. Click the Edit button
+9. Editing Gas Limit & Gas Price
+10. Confirm Advanced Options. Checking new estimation message
+11. Open advanced options. Reopening to edit to invalid nonce value
+12. Click the Edit button
+13. Edit the Safe Nonce Value
+14. Confirm Advanced Options
+
 #### [Footer exists in the Welcome page and Settings](./../src/safe-web/read_only/app_layout.test.js)
 1. Footer is present in the Welcome page
 2. Footer is not present in the Balances page
@@ -97,15 +113,6 @@
 14. Loads the safe
 15. Opens the QR code for the safe on the sidebar and checks the safe name again
 
-
-#### [Create and review a Send Funds transaction](./../src/safe-web/read_only/review_tx.test.js)
-1. Open the send funds form
-2. Types a receiver address
-3. Validates error for invalid amounts: 0, "abc", 99999
-4. Checks "Send max" button
-5. Checks receiver address in the review step
-6. Checks the amount input
-7. Opens advanced options
 
 #### [Safe Apps List](./../src/safe-web/read_only/safe_apps_list.test.js)
 1. Shows Bookmarked Apps Section
