@@ -52,7 +52,7 @@ describe('Safe Balances', () => {
     const newSelectedCurrency = 'EUR'
     await clickSomething(safeBalancesPage.currency_dropdown_btn.selector, gnosisPage, 'css')
     await clickElement(safeBalancesPage.currency_item_label(newSelectedCurrency), gnosisPage)
-    await gnosisPage.waitForTimeout(3000)
+    await gnosisPage.waitForTimeout(6000)
     await assertTextPresent(safeBalancesPage.selected_currency_label, newSelectedCurrency, gnosisPage)
 
     console.log('Safe Balances table shows the amounts in the new selected currency')
