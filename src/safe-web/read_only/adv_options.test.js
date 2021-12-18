@@ -53,6 +53,10 @@ describe('Read-only transaction creation and review', () => {
     await assertElementPresent(settingsPage.current_nonce, gnosisPage)
     const safeCurrentNonce = await getNumberInString(settingsPage.current_nonce, gnosisPage)
 
+    // Toggle to PROD CGW
+    await clickByText('span', 'Use prod CGW', gnosisPage)
+    await gnosisPage.waitForTimeout(5000)
+
     console.log('Open the send funds form')
     await clickByText('button', 'New Transaction', gnosisPage)
 
