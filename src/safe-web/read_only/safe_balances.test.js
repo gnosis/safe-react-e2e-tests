@@ -1,5 +1,5 @@
 import { assertTextPresent, clickElement, clickSomething, getInnerText } from '../../../utils/selectorsHelpers'
-import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
+import { getEnvUrl, initNoWalletConnection } from '../../../utils/testSetup'
 import config from '../../../utils/config'
 import { safeBalancesPage } from '../../../utils/selectors/safeBalancesPage'
 import { getShortNameAddress } from '../../../utils/addresses'
@@ -16,9 +16,9 @@ let gnosisPage
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
-  const context = await initWithWalletConnected(true)
+  const context = await initNoWalletConnection()
   browser = context[0]
-  gnosisPage = context[2]
+  gnosisPage = context[1]
 }, 60000)
 
 afterAll(async () => {
@@ -52,7 +52,7 @@ describe('Safe Balances', () => {
     const newSelectedCurrency = 'EUR'
     await clickSomething(safeBalancesPage.currency_dropdown_btn.selector, gnosisPage, 'css')
     await clickElement(safeBalancesPage.currency_item_label(newSelectedCurrency), gnosisPage)
-    await gnosisPage.waitForTimeout(6000)
+    await gnosisPage.waitForTimeout(4000)
     await assertTextPresent(safeBalancesPage.selected_currency_label, newSelectedCurrency, gnosisPage)
 
     console.log('Safe Balances table shows the amounts in the new selected currency')
