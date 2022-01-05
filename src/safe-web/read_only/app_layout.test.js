@@ -1,4 +1,4 @@
-import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
+import { getEnvUrl, initNoWalletConnection } from '../../../utils/testSetup'
 import { appLayout } from '../../../utils/selectors/appLayout'
 import { assertElementPresent, assertElementNotPresent } from '../../../utils/selectorsHelpers'
 import { getShortNameAddress } from '../../../utils/addresses'
@@ -11,7 +11,7 @@ let envUrl
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
-  ;[browser, , gnosisPage] = await initWithWalletConnected()
+  ;[browser, gnosisPage] = await initNoWalletConnection(false)
   envUrl = getEnvUrl()
 }, 60000)
 
@@ -26,7 +26,7 @@ describe('Application Layout', () => {
 
     const footerSelector = appLayout.footer.selector
 
-    console.log('Footer is present in the Welcome page')
+    console.log('Footer is present in the Welcome page envURL = ', envUrl)
     await assertElementPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
     console.log('Footer is not present in the Balances page')

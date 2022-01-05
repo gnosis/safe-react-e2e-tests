@@ -91,27 +91,28 @@
 14. Confirm Advanced Options
 
 #### [Footer exists in the Welcome page and Settings](./../src\safe-web\read_only/app_layout.test.js)
-1. Footer is present in the Welcome page
-2. Footer is not present in the Balances page
-3. Footer is not present in the Address Book page
-4. Footer is present in the Settings pages
+1. Footer is present in the Welcome page envURL = ', envUrl)
+    await assertElementPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
-#### [Load safe](./../src\safe-web\read_only/load_safe.test.js)
-1. Enters into the load form with the Load button component
-2. Shows the select network step
-3. Switches the network
-4. Types name and address for the safe
-5. Loads a Safe address with a QR code
-6. Shows an error if it is an invalid address
-7. Shows an error if it is an invalid Safe address
-8. Shows an error if the ENS Name Domain is not registered
-9. Shows an error if it is an invalid Safe address From a valid ENS Name Domain
-10. Gets the Safe address From a valid ENS Name Domain
-11. Types name and address for the safe
-12. Enters the name of the 1st owner in the list
-13. Checks in the 3rd step that the safe name and owner name are the ones set before
-14. Loads the safe
-15. Opens the QR code for the safe on the sidebar and checks the safe name again
+    console.log('Footer is not present in the Balances page
+2. Footer is not present in the Address Book page
+3. Footer is present in the Settings pages
+
+#### [Enters into the load form with the Load button component](./../src\safe-web\read_only/load_safe.test.js)
+1. Shows the select network step
+2. Switches the network
+3. Types name and address for the safe
+4. Loads a Safe address with a QR code
+5. Shows an error if it is an invalid address
+6. Shows an error if it is an invalid Safe address
+7. Shows an error if the ENS Name Domain is not registered
+8. Shows an error if it is an invalid Safe address From a valid ENS Name Domain
+9. Gets the Safe address From a valid ENS Name Domain
+10. Types name and address for the safe
+11. Enters the name of the 1st owner in the list
+12. Checks in the 3rd step that the safe name and owner name are the ones set before
+13. Loads the safe
+14. Opens the QR code for the safe on the sidebar and checks the safe name again
 
 
 #### [Safe Apps List](./../src\safe-web\read_only/safe_apps_list.test.js)

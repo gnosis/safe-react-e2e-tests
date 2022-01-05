@@ -16,9 +16,7 @@ let gnosisPage
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
-  const context = await initNoWalletConnection()
-  browser = context[0]
-  gnosisPage = context[1]
+  ;[browser, gnosisPage] = await initNoWalletConnection()
 }, 60000)
 
 afterAll(async () => {

@@ -181,8 +181,9 @@ export const initWithDefaultSafeDirectNavigation = async (importMultipleAccounts
 
 /**
  * This method is for read only tests, were no wallet connection is necessary.
+ * Params: "true" to start in the /balances page of the test safe. "false" to start in the welcome page
  */
-export const initNoWalletConnection = async () => {
+export const initNoWalletConnection = async (balancesPage = true) => {
   const browser = await dappeteer.launch(puppeteer, {
     executablePath: PUPPETEER_EXEC_PATH,
     defaultViewport: null, // this extends the page to the size of the browser
@@ -192,7 +193,8 @@ export const initNoWalletConnection = async () => {
 
   const [gnosisPage] = await browser.pages() // get a grip on the current tab
   await gnosisPage.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
-  await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`)
+  if (balancesPage) await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`)
+  else await gnosisPage.goto(`${envUrl}welcome`)
   await gnosisPage.bringToFront()
 
   gnosisPage.setDefaultTimeout(60000)
