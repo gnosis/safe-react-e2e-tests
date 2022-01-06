@@ -91,12 +91,10 @@
 14. Confirm Advanced Options
 
 #### [Footer exists in the Welcome page and Settings](./../src\safe-web\read_only/app_layout.test.js)
-1. Footer is present in the Welcome page envURL = ', envUrl)
-    await assertElementPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
-
-    console.log('Footer is not present in the Balances page
-2. Footer is not present in the Address Book page
-3. Footer is present in the Settings pages
+1. Footer is present in the Welcome page
+2. Footer is not present in the Balances page
+3. Footer is not present in the Address Book page
+4. Footer is present in the Settings pages
 
 #### [Enters into the load form with the Load button component](./../src\safe-web\read_only/load_safe.test.js)
 1. Shows the select network step

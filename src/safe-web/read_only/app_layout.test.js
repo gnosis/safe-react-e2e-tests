@@ -26,7 +26,7 @@ describe('Application Layout', () => {
 
     const footerSelector = appLayout.footer.selector
 
-    console.log('Footer is present in the Welcome page envURL = ', envUrl)
+    console.log('Footer is present in the Welcome page')
     await assertElementPresent({ selector: footerSelector, type: 'css' }, gnosisPage)
 
     console.log('Footer is not present in the Balances page')
