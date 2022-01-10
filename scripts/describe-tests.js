@@ -22,7 +22,7 @@ const getCommentsFromFile = (filePath, fileName) => {
     if(lineCount > 0){
       console.log(`${lineCount}. ${comment}`)
     } else {
-      console.log(`#### [${comment}](./../${path.relative('.', filePath)}/${fileName})`)
+      console.log(`#### [${comment}](./../${path.relative('.', filePath).split("\\").join("/")}/${fileName})`)
     }
     lineCount ++
   }
