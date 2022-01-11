@@ -1,5 +1,5 @@
 import { assertTextPresent, clickElement, clickSomething, getInnerText } from '../../../utils/selectorsHelpers'
-import { getEnvUrl, initWithWalletConnected } from '../../../utils/testSetup'
+import { getEnvUrl, initNoWalletConnection } from '../../../utils/testSetup'
 import config from '../../../utils/config'
 import { safeBalancesPage } from '../../../utils/selectors/safeBalancesPage'
 import { getShortNameAddress } from '../../../utils/addresses'
@@ -16,9 +16,7 @@ let gnosisPage
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
-  const context = await initWithWalletConnected(true)
-  browser = context[0]
-  gnosisPage = context[2]
+  ;[browser, gnosisPage] = await initNoWalletConnection()
 }, 60000)
 
 afterAll(async () => {

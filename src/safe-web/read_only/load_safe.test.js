@@ -13,7 +13,7 @@ import {
 import { accountsSelectors } from '../../../utils/selectors/accounts'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
 import { loadSafeForm } from '../../../utils/selectors/loadSafeForm'
-import { initWithWalletConnected } from '../../../utils/testSetup'
+import { initNoWalletConnection } from '../../../utils/testSetup'
 import config from '../../../utils/config'
 import { errorMsg } from '../../../utils/selectors/errorMsg'
 
@@ -37,9 +37,7 @@ const safeQRCodeFilePath = path.relative(
 )
 
 beforeAll(async () => {
-  const context = await initWithWalletConnected(true)
-  browser = context[0]
-  gnosisPage = context[2]
+  ;[browser, gnosisPage] = await initNoWalletConnection(false)
 }, 60000)
 
 afterAll(async () => {
@@ -49,10 +47,20 @@ afterAll(async () => {
 
 describe('Add an existing safe', () => {
   test('Add an existing safe', async () => {
-    console.log('Load safe')
     console.log('Enters into the load form with the Load button component')
+    // Ask every 100ms for the text to be present in the page before continuing
+    await gnosisPage.waitForFunction(
+      () => {
+        return document.querySelector('body').innerText.includes('Add existing Safe')
+      },
+      { polling: 100 },
+    )
+
     await clickByText('a', 'Add existing Safe', gnosisPage)
     await assertElementPresent(loadSafeForm.form, gnosisPage)
+
+    // if the preferences modal is open it breaks the test
+    await clickByText('span', 'Accept selection', gnosisPage)
 
     // [Step 1] Select Network
     console.log('Shows the select network step')

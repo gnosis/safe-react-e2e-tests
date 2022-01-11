@@ -90,6 +90,7 @@ describe('Read-only transaction creation and review', () => {
 
     console.log('Verify current nonce is the same as the one in advanced options')
     await assertElementPresent(advancedOptions.nonce, gnosisPage)
+    await gnosisPage.waitForTimeout(2000)
     const advancedOptionsNonce = await getNumberInString(advancedOptions.nonce, gnosisPage)
     expect(advancedOptionsNonce).toBe(safeCurrentNonce)
 
