@@ -139,7 +139,7 @@ describe('Safe Apps List', () => {
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
     await gnosisPage.waitForTimeout(1000)
     await assertTextPresent(safeAppsList.addCustomAppUrlErrorLabel, alreadyAddedSafeAppError, gnosisPage)
-    await clickElement(safeAppsList.closePopupIcon, gnosisPage)
+    await clickElement({ selector: '//div[2]/div[3]/div/button', type: 'Xpath' }, gnosisPage)
     await assertElementNotPresent(safeAppsList.addCustomAppForm, gnosisPage)
 
     console.log('Removes a Custom Safe App')
