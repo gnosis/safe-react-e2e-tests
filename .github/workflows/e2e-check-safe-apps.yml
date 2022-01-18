@@ -9,7 +9,7 @@ on:
       networkName:
         description: 'Network (mainnet, Rinkeby)'
         required: true
-        default: 'mainnet'
+        default: 'Ethereum'
       networkAddressPrefix:
         description: 'Address prefix (eth,rin...)'
         required: true
