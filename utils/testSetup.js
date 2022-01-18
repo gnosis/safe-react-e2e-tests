@@ -205,6 +205,7 @@ export const initNoWalletConnection = async (balancesPage = true) => {
 export const initHeadlessConnection = async () => {
   const browser = await puppeteer.launch({
     headless: true,
+    slowMo: 100,
     args: [
       '--no-sandbox',
       '--start-maximized',
@@ -213,8 +214,8 @@ export const initHeadlessConnection = async () => {
       '--disable-features=IsolateOrigins,site-per-process',
     ],
   })
-
   const gnosisPage = await browser.newPage()
+  await gnosisPage.setViewport({ width: 1600, height: 900 })
 
   return [browser, gnosisPage]
 }

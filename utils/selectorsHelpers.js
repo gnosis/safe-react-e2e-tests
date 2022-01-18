@@ -148,3 +148,20 @@ export const getAllAppTitles = async function (selector, gnosisPage) {
     selector,
   )
 }
+
+export const scrollIntoApp = async function (gnosisPage, app) {
+  await gnosisPage.evaluate((app) => {
+    const xpath = `//h5[contains(text(),'${app}')]`
+    const matchingElement = document.evaluate(
+      xpath,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null,
+    ).singleNodeValue
+
+    if (matchingElement) {
+      matchingElement.scrollIntoView()
+    }
+  }, app)
+}
