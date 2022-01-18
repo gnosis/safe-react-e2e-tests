@@ -1,5 +1,11 @@
 import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
-import { getAllAppTitles, clickByText, isSafeAppLoaded, isTextPresent } from '../../utils/selectorsHelpers'
+import {
+  getAllAppTitles,
+  clickByText,
+  isSafeAppLoaded,
+  isTextPresent,
+  scrollIntoApp,
+} from '../../utils/selectorsHelpers'
 import { getEnvUrl, initHeadlessConnection } from '../../utils/testSetup'
 import { getShortNameAddress } from '../../utils/addresses'
 import { sendSlackMessage } from '../../utils/slack'
@@ -54,9 +60,14 @@ describe('Safe Apps List', () => {
     await gnosisPage.goBack()
 
     console.log('Test apps sequentially')
+
+    let safeAppIndex = 1
+
     for (const safeApp of safeApps) {
-      console.log(`Testing ${safeApp.title}`)
+      console.log(`${safeAppIndex}. Testing ${safeApp.title}`)
+      safeAppIndex++
       await isTextPresent('body', 'Add custom app', gnosisPage)
+      await scrollIntoApp(gnosisPage, safeApp.title)
       await clickByText('h5', safeApp.title, gnosisPage)
       const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, safeApp.title, gnosisPage)
 
