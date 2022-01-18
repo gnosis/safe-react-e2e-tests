@@ -1,6 +1,5 @@
 name: Run e2e test for check safe apps liveness
 on:
-  push:
   workflow_dispatch:
     inputs:
       testingEnvironment:
