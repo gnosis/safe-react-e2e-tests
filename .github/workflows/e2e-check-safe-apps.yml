@@ -1,5 +1,6 @@
 name: Run e2e test for check safe apps liveness
 on:
+  push:
   workflow_dispatch:
     inputs:
       testingEnvironment:
@@ -39,7 +40,7 @@ jobs:
         env:
           CI: 'true'
           TESTING_ENV: ${{ github.event.inputs.testingEnvironment || 'prod' }}
-          NETWORK_NAME: ${{ github.event.inputs.networkName || 'mainnet' }}
+          NETWORK_NAME: ${{ github.event.inputs.networkName || 'Ethereum' }}
           NETWORK_ADDRESS_PREFIX: ${{ github.event.inputs.networkAddressPrefix || 'eth' }}
           TESTING_SAFE_ADDRESS: ${{ github.event.inputs.safeAddress || secrets.TESTING_SAFE_ADDRESS }}
           SLACK_WEBHOOK_URL: ${{  secrets.SLACK_WEBHOOK_URL }}
