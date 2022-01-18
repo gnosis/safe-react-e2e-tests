@@ -60,8 +60,12 @@ describe('Safe Apps List', () => {
     await gnosisPage.goBack()
 
     console.log('Test apps sequentially')
+
+    let safeAppIndex = 1
+
     for (const safeApp of safeApps) {
-      console.log(`Testing ${safeApp.title}`)
+      console.log(`${safeAppIndex}. Testing ${safeApp.title}`)
+      safeAppIndex++
       await isTextPresent('body', 'Add custom app', gnosisPage)
       await scrollIntoApp(gnosisPage, safeApp.title)
       await clickByText('h5', safeApp.title, gnosisPage)
