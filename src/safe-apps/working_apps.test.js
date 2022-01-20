@@ -66,15 +66,23 @@ describe('Safe Apps List', () => {
     for (const safeApp of safeApps) {
       console.log(`${safeAppIndex}. Testing ${safeApp.title}`)
       safeAppIndex++
-      await isTextPresent('body', 'Add custom app', gnosisPage)
-      await scrollIntoApp(gnosisPage, safeApp.title)
-      await clickByText('h5', safeApp.title, gnosisPage)
-      const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, safeApp.title, gnosisPage)
+      try {
+        await isTextPresent('body', safeApp.title, gnosisPage)
+        await scrollIntoApp(gnosisPage, safeApp.title)
+        await clickByText('h5', safeApp.title, gnosisPage)
+        const loadResult = await isSafeAppLoaded(TESTING_SAFE_ADDRESS, safeApp.title, gnosisPage)
 
-      console.log(loadResult)
+        console.log(loadResult)
 
-      if (loadResult?.status === 'error') {
-        failingToLoadApps.push({ title: safeApp.title, ...loadResult })
+        if (loadResult?.status === 'error') {
+          failingToLoadApps.push({ title: safeApp.title, ...loadResult })
+        }
+      } catch {
+        failingToLoadApps.push({
+          title: safeApp.title,
+          status: 'error',
+          description: 'Unable to reach and click app card',
+        })
       }
 
       await gnosisPage.goto(safeAppsListUrl)
@@ -83,6 +91,7 @@ describe('Safe Apps List', () => {
     await recorder.stop()
 
     console.log('Send Slack message')
+    console.log(failingToLoadApps)
     await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
   }, 1800000)
 })
