@@ -132,7 +132,7 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
   }
 
   if (appLoadResult === true) {
-    return { status: 'error', description: 'There might be a problem with the App provider' }
+    return { status: 'error', description: 'App take too long to load' }
   }
 
   return appLoadResult || { status: 'error', description: 'Unable to load iframe' }
