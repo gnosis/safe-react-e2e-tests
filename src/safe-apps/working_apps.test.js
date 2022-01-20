@@ -91,6 +91,7 @@ describe('Safe Apps List', () => {
     await recorder.stop()
 
     console.log('Send Slack message')
+    console.log(failingToLoadApps)
     await sendSlackMessage(SLACK_WEBHOOK_URL, safeAppsListUrl, failingToLoadApps)
   }, 1800000)
 })
