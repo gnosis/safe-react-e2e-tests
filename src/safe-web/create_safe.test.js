@@ -15,7 +15,7 @@ import { accountsSelectors } from '../../utils/selectors/accounts'
 import { createSafePage } from '../../utils/selectors/createSafePage'
 import { generalInterface } from '../../utils/selectors/generalInterface'
 import { initWithWalletConnected } from '../../utils/testSetup'
-import { getShortNameAddress } from '../../utils'
+import { getShortNameAddress } from '../../utils/addresses'
 import { errorMsg } from '../../utils/selectors/errorMsg'
 import config from '../../utils/config'
 
