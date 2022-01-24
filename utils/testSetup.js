@@ -196,6 +196,8 @@ export const initNoWalletConnection = async (balancesPage = true) => {
   if (balancesPage) await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`)
   else await gnosisPage.goto(`${envUrl}welcome`)
   await gnosisPage.bringToFront()
+  // Close cookie banner
+  await clickElement(homePage.accept_cookies, gnosisPage)
 
   gnosisPage.setDefaultTimeout(60000)
 
