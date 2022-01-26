@@ -52,9 +52,8 @@ describe('Address book', () => {
     await isTextPresent(generalInterface.sidebar, 'ADDRESS BOOK', gnosisPage)
     await clickByText('span', 'ADDRESS BOOK', gnosisPage)
     await isTextPresent('body', 'Create entry', gnosisPage)
-    const tableRowsAmount = await gnosisPage.evaluate(() => document.querySelector('tbody').childElementCount)
-    expect(tableRowsAmount).toBe(3) // the safe and 2 owners is expected to be there.
 
+    // Verifying names set during the safe loading
     await isTextPresent('tbody', TESTING_SAFE_ADDRESS, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.accountNames.owner_name, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.accountNames.owner2_name, gnosisPage)
@@ -66,13 +65,13 @@ describe('Address book', () => {
     await clickAndType(
       addressBook.createEntryAddressInput,
       gnosisPage,
-      accountsSelectors.testAccountsHash.acc1.toUpperCase(),
+      accountsSelectors.testAccountsHash.acc3.toUpperCase(),
     )
     const addressUppercaseFixed = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
-    expect(addressUppercaseFixed).toBe(accountsSelectors.testAccountsHash.acc1)
+    expect(addressUppercaseFixed).toBe(accountsSelectors.testAccountsHash.acc3)
     await clickElement(addressBook.createSubmitBtn, gnosisPage)
     await isTextPresent('tbody', accountsSelectors.otherAccountNames.owner5_name, gnosisPage)
-    await isTextPresent('tbody', accountsSelectors.testAccountsHash.acc1, gnosisPage)
+    await isTextPresent('tbody', accountsSelectors.testAccountsHash.acc3, gnosisPage)
     // validating errors for add entry
     await clickByText('p', 'Create entry', gnosisPage)
     console.log('Validate error messages in entry creation: "RandomString", duplicated entry.')
@@ -84,11 +83,17 @@ describe('Address book', () => {
     )
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
     console.log('Validates ENS names translation (is a hardcoded ENS name for this test)')
-    // Testing ENS name, it will create a duplicated name so is validating the "duplicated address error"
-    await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes acc1 address
-    await gnosisPage.waitForTimeout(6000)
+    // Testing ENS name, Then testing a duplicated address to validate "duplicated address" error message
+    await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes address1
+    await gnosisPage.waitForTimeout(5000)
     const convertedValue = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
     expect(convertedValue).toBe(accountsSelectors.testAccountsHash.acc1)
+    await clearInput(addressBook.createEntryAddressInput, gnosisPage)
+    await clickAndType(
+      addressBook.createEntryAddressInput,
+      gnosisPage,
+      accountsSelectors.testAccountsHash.acc3.toUpperCase(),
+    )
     await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
     await clickByText('.paper.modal span', 'cancel', gnosisPage)
