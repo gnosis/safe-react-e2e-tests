@@ -83,11 +83,17 @@ describe('Address book', () => {
     )
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
     console.log('Validates ENS names translation (is a hardcoded ENS name for this test)')
-    // Testing ENS name, it will create a duplicated name so is validating the "duplicated address error"
-    await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes 3address
-    await gnosisPage.waitForTimeout(6000)
+    // Testing ENS name, Then testing a duplicated address to validate "duplicated address" error message
+    await clickAndType(addressBook.createEntryAddressInput, gnosisPage, ENSName) // This name becomes address1
+    await gnosisPage.waitForTimeout(5000)
     const convertedValue = await getInnerText(addressBook.createEntryAddressInput, gnosisPage)
     expect(convertedValue).toBe(accountsSelectors.testAccountsHash.acc1)
+    await clearInput(addressBook.createEntryAddressInput, gnosisPage)
+    await clickAndType(
+      addressBook.createEntryAddressInput,
+      gnosisPage,
+      accountsSelectors.testAccountsHash.acc3.toUpperCase(),
+    )
     await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
     await clickByText('.paper.modal span', 'cancel', gnosisPage)
