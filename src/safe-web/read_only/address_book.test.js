@@ -7,6 +7,7 @@ import {
   getInnerText,
   isTextPresent,
 } from '../../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { accountsSelectors } from '../../../utils/selectors/accounts'
 import { addressBook } from '../../../utils/selectors/addressBook'
 import { initWithDefaultSafe } from '../../../utils/testSetup'
@@ -29,6 +30,7 @@ Address Book
 
 let browser
 let gnosisPage
+let recorder
 
 const { TESTING_SAFE_ADDRESS } = config
 
@@ -37,6 +39,7 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -47,6 +50,9 @@ describe('Address book', () => {
   const ENSName = 'francotest.eth'
 
   test('Address book', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/addres_book.mp4')
+
     console.log('Address book')
     console.log('Enter the address book. Validates 3 entries present by name (the load safe process created them)')
     await isTextPresent(generalInterface.sidebar, 'ADDRESS BOOK', gnosisPage)

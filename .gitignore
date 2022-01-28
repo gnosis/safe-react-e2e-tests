@@ -119,7 +119,6 @@ output.json
 
 # github artifacts
 e2e-tests-assets/
-e2e-tests-assets/
 
 .DS_Store
 .idea

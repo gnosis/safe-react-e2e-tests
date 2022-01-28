@@ -11,6 +11,7 @@ import {
   getInnerText,
   openDropdown,
 } from '../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { assetsTab } from '../../utils/selectors/assetsTab'
 import { generalInterface } from '../../utils/selectors/generalInterface'
 import { sendFundsForm } from '../../utils/selectors/sendFundsForm'
@@ -37,6 +38,8 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
+
 const { FUNDS_RECEIVER_ADDRESS } = config
 const TOKEN_AMOUNT = 0.01
 
@@ -46,6 +49,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await rejectPendingTxs(gnosisPage, metamask)
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -55,6 +59,9 @@ describe('Send funds and sign with two owners', () => {
   let currentEthFundsOnText = ''
 
   test('Send funds and return the funds', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/send_funds.mp4')
+
     console.log('Send funds')
     currentEthFundsOnText = await getInnerText({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
     currentEthFunds = parseFloat(

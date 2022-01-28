@@ -1,3 +1,4 @@
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { getEnvUrl, initNoWalletConnection } from '../../../utils/testSetup'
 import { appLayout } from '../../../utils/selectors/appLayout'
 import { assertElementPresent, assertElementNotPresent } from '../../../utils/selectorsHelpers'
@@ -8,6 +9,7 @@ let browser
 let gnosisPage
 let envUrl
 
+let recorder
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
@@ -16,12 +18,16 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
 
 describe('Application Layout', () => {
   test('Footer exists in the Welcome page and Settings', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/app_layout.mp4')
+
     console.log('Footer exists in the Welcome page and Settings')
 
     const footerSelector = appLayout.footer.selector

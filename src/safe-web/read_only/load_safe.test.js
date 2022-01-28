@@ -10,6 +10,7 @@ import {
   getInnerText,
   isTextPresent,
 } from '../../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { accountsSelectors } from '../../../utils/selectors/accounts'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
 import { loadSafeForm } from '../../../utils/selectors/loadSafeForm'
@@ -30,6 +31,8 @@ Load safe
 let browser
 let gnosisPage
 
+let recorder
+
 const { NETWORK_NAME, TESTING_SAFE_ADDRESS } = config
 const safeQRCodeFilePath = path.relative(
   process.cwd(),
@@ -41,12 +44,16 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
 
 describe('Add an existing safe', () => {
   test('Add an existing safe', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/load_safe.mp4')
+
     console.log('Enters into the load form with the Load button component')
     // Ask every 100ms for the text to be present in the page before continuing
     await gnosisPage.waitForFunction(

@@ -11,6 +11,7 @@ import {
   clickSomething,
   clearInput,
 } from '../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { accountsSelectors } from '../../utils/selectors/accounts'
 import { createSafePage } from '../../utils/selectors/createSafePage'
 import { generalInterface } from '../../utils/selectors/generalInterface'
@@ -36,6 +37,8 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
+
 const { FUNDS_RECEIVER_ADDRESS, QR_CODE_ADDRESS } = config
 
 const safeQRCodeFilePath = path.relative(process.cwd(), path.join(__dirname, '/../../utils/files/safe-address-QR.png'))
@@ -45,6 +48,7 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -54,7 +58,9 @@ describe('Create New Safe', () => {
   const firstOwnerIndex = 0
 
   test('Create Safe', async () => {
-    console.log('Create safe')
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/create_safe.mp4')
+
     console.log('Enters into the create safe form with the Create button')
     await clickByText('p', '+ Create New Safe', gnosisPage)
     await assertElementPresent({ selector: createSafePage.form, type: 'css' }, gnosisPage)

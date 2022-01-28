@@ -11,6 +11,7 @@ import {
   getInnerText,
   openDropdown,
 } from '../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { generalInterface } from '../../utils/selectors/generalInterface'
 import { accountsSelectors } from '../../utils/selectors/accounts'
 import { transactionsTab } from '../../utils/selectors/transactionsTab'
@@ -38,6 +39,8 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
+
 beforeAll(async () => {
   ;[browser, metamask, gnosisPage] = await initWithDefaultSafeDirectNavigation(true)
 }, 60000)
@@ -45,6 +48,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
+  await recorder.stop()
   await browser.close()
 })
 
@@ -58,6 +62,10 @@ describe('Owner Replacement', () => {
   const newOwnerAddress = NON_OWNER_ADDRESS
 
   test('Replacement test. Adding, Replacing and Removing owner.', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/replace_owners.mp4')
+
+    await gnosisPage.waitForTimeout(2000)
     console.log('Replace owner')
     // Owner adding
     await isTextPresent(generalInterface.sidebar, 'SETTINGS', gnosisPage)

@@ -11,6 +11,7 @@ import {
   openDropdown,
   getInnerText,
 } from '../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { generalInterface } from '../../utils/selectors/generalInterface'
 import { sendFundsForm } from '../../utils/selectors/sendFundsForm'
 import { transactionsTab } from '../../utils/selectors/transactionsTab'
@@ -33,12 +34,15 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
+
 beforeAll(async () => {
   ;[browser, metamask, gnosisPage] = await initWithDefaultSafeDirectNavigation(true)
 }, 60000)
 
 afterAll(async () => {
   await rejectPendingTxs(gnosisPage, metamask)
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -48,6 +52,9 @@ describe('Change Policies', () => {
   let firsTransactionNonce = ''
 
   test('Change Policies', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/modify_policies.mp4')
+
     console.log('Opens modify policies')
     // Open Modify form
     await gnosisPage.waitForTimeout(2000)

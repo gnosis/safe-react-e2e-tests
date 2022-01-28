@@ -6,6 +6,7 @@ import {
   getInnerText,
   clickSomething,
 } from '../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { accountsSelectors } from '../../utils/selectors/accounts'
 import { createSafePage } from '../../utils/selectors/createSafePage'
 import { generalInterface } from '../../utils/selectors/generalInterface'
@@ -30,6 +31,8 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
+
 const { FUNDS_RECEIVER_ADDRESS } = config
 
 beforeAll(async () => {
@@ -37,12 +40,16 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
 
 describe('Create New Safe Migration', () => {
   test('Create Safe with a Old MultiSig migration url', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/create_safe_migration.mp4')
+
     console.log('Create Safe with a Old MultiSig migration')
 
     const newSafeName = accountsSelectors.safeNames.create_safe_name

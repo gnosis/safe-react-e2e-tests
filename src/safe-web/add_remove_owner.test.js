@@ -12,6 +12,7 @@ import {
   openDropdown,
   isTextPresent,
 } from '../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { accountsSelectors } from '../../utils/selectors/accounts'
 import { settingsPage } from '../../utils/selectors/settings'
 import { transactionsTab } from '../../utils/selectors/transactionsTab'
@@ -37,6 +38,8 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
+
 const { FUNDS_RECEIVER_ADDRESS, NON_OWNER_ADDRESS } = config
 
 beforeAll(async () => {
@@ -45,6 +48,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await rejectPendingTxs(gnosisPage, metamask)
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -54,6 +58,9 @@ describe('Adding and removing owners', () => {
   const newOwnerAddress = NON_OWNER_ADDRESS
 
   test('Add and remove an owner', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/add_remove_owners.mp4')
+
     console.log('Add/remove Owners')
     const existingOwnerHash = FUNDS_RECEIVER_ADDRESS
     // Filling Form and submitting tx

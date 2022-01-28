@@ -10,6 +10,7 @@ import {
   isTextPresent,
   getSiblingText,
 } from '../../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
 import { sendFundsForm, advancedOptions } from '../../../utils/selectors/sendFundsForm'
 import { initWithDefaultSafeDirectNavigation } from '../../../utils/testSetup'
@@ -32,6 +33,7 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
 const { FUNDS_RECEIVER_ADDRESS } = config
 const TOKEN_AMOUNT = 0.01
 
@@ -41,6 +43,7 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   if (!browser) return
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
@@ -48,6 +51,9 @@ afterAll(async () => {
 
 describe('Read-only transaction creation and review', () => {
   test('Read-only transaction creation and review', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/adv_options.mp4')
+
     console.log('Read-only transaction creation and review')
     await clickByText('span', 'Settings', gnosisPage)
     await clickByText('span', 'Advanced', gnosisPage)

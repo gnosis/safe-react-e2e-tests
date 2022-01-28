@@ -16,32 +16,31 @@
 7. Verifies owner to be removed name an address
 8. Signs and executes. Verifies tx success status
 
-#### [Create safe](./../src/safe-web/create_safe.test.js)
-1. Enters into the create safe form with the Create button
-2. Shows Connect wallet & select network step
-3. Switches the network and connect your wallet
-4. Shows naming the Safe step
-5. Type a name for the safe
-6. Shows Owners and Confirmations step
-7. Adds the current user address as default owner
-8. Adds a new owner row with a valid address
-9. Shows a "required" error if a owner address is empty
-10. Shows a "Address already introduced" error if a owner address is duplicated
-11. Loads a owner address with a QR code
-12. Shows an error if it is an invalid address
-13. Shows an error if the ENS Name Domain is not registered
-14. Loads a owner address with a valid ENS address
-15. Selects a custom Threshold for the new Safe
-16. Removes a owner
-17. sets less confirmations than owners, see [#2733](https://github.com/gnosis/safe-react/issues/2733)
-18. Shows Review Safe step
-19. Checks the name of the new Safe
-20. Checks the threshold of the new Safe
-21. Checks owners of the new Safe
-22. Submits the Create Safe Form
-23. Checks "block explorer" and "back" button during the safe creation
-24. Checks if the Safe Created popup is showed
-25. Checks safe name on the sidebar once the safe is loaded
+#### [Enters into the create safe form with the Create button](./../src/safe-web/create_safe.test.js)
+1. Shows Connect wallet & select network step
+2. Switches the network and connect your wallet
+3. Shows naming the Safe step
+4. Type a name for the safe
+5. Shows Owners and Confirmations step
+6. Adds the current user address as default owner
+7. Adds a new owner row with a valid address
+8. Shows a "required" error if a owner address is empty
+9. Shows a "Address already introduced" error if a owner address is duplicated
+10. Loads a owner address with a QR code
+11. Shows an error if it is an invalid address
+12. Shows an error if the ENS Name Domain is not registered
+13. Loads a owner address with a valid ENS address
+14. Selects a custom Threshold for the new Safe
+15. Removes a owner
+16. sets less confirmations than owners, see [#2733](https://github.com/gnosis/safe-react/issues/2733)
+17. Shows Review Safe step
+18. Checks the name of the new Safe
+19. Checks the threshold of the new Safe
+20. Checks owners of the new Safe
+21. Submits the Create Safe Form
+22. Checks "block explorer" and "back" button during the safe creation
+23. Checks if the Safe Created popup is showed
+24. Checks safe name on the sidebar once the safe is loaded
 
 #### [Create Safe with a Old MultiSig migration](./../src/safe-web/create_safe_migration.test.js)
 1. Shows Connect wallet & select network step

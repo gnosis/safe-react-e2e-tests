@@ -6,6 +6,7 @@ import {
   openDropdown,
   getNumberInString,
 } from '../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { generalInterface } from '../../utils/selectors/generalInterface'
 import { sendFundsForm } from '../../utils/selectors/sendFundsForm'
 import { assetsTab } from '../../utils/selectors/assetsTab'
@@ -30,6 +31,8 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
+
 const { FUNDS_RECEIVER_ADDRESS } = config
 
 beforeAll(async () => {
@@ -39,6 +42,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await rejectPendingTxs(gnosisPage, metamask)
   await gnosisPage.waitForTimeout(2000)
+  await recorder.stop()
   await browser.close()
 })
 
@@ -46,6 +50,10 @@ describe('Reject transaction flow', () => {
   let startBalance = 0.0
 
   test('Reject transaction flow', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/reject_tx.mp4')
+
+    await gnosisPage.waitForTimeout(2000)
     console.log('Reject tx')
     console.log('Checks current ETH funds in safe')
     await assertElementPresent({ selector: assetsTab.balance_value('eth'), type: 'css' }, gnosisPage)
