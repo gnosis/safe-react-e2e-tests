@@ -193,9 +193,16 @@ export const initNoWalletConnection = async (balancesPage = true) => {
 
   const [gnosisPage] = await browser.pages() // get a grip on the current tab
   await gnosisPage.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
-  if (balancesPage) await gnosisPage.goto(`${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`)
-  else await gnosisPage.goto(`${envUrl}welcome`)
+  let startPage = `${envUrl}welcome`
+  if (balancesPage) {
+    startPage = `${envUrl}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/balances`
+  }
+  await gnosisPage.goto(startPage, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  })
   await gnosisPage.bringToFront()
+  // Close cookie banner
+  await clickElement(homePage.accept_cookies, gnosisPage)
 
   gnosisPage.setDefaultTimeout(60000)
 

@@ -32,7 +32,10 @@ export const safeAppsList = {
       'form[data-testid="add-apps-form"] img[src="https://ipfs.io/ipfs/QmfMq8NgxdDfai1qKv7bGbT8DegYX4mNzmpi9AkY1VJZBS/logo.svg"]',
     type: 'css',
   },
-  addCustomAppNameInput: { selector: 'form[data-testid="add-apps-form"] input[readonly]', type: 'css' },
+  addCustomAppNameInput: (appName) => ({
+    selector: `form[data-testid="add-apps-form"] input[value="${appName}"]`,
+    type: 'css',
+  }),
   addCustomAppFromButton: { selector: 'form[data-testid="add-apps-form"] button[type="submit"]', type: 'css' },
   addCustomAppCheckbox: { selector: 'form[data-testid="add-apps-form"] input[type="checkbox"]', type: 'css' },
   closePopupIcon: { selector: 'button.close-button', type: 'css' },

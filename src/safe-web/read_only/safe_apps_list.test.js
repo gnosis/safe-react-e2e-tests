@@ -108,7 +108,7 @@ describe('Safe Apps List', () => {
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
     await assertElementPresent(safeAppsList.addCustomAppLogo, gnosisPage)
     await gnosisPage.waitForTimeout(2000) // We have some lag issues in this step for CI
-    expect(await getInnerText(safeAppsList.addCustomAppNameInput, gnosisPage)).toBe(customAppName)
+    expect(await getInnerText(safeAppsList.addCustomAppNameInput(customAppName), gnosisPage)).toBe(customAppName)
 
     console.log('"Add Custom Safe App" button should be disabled if the checkbox is unchecked')
     const addCustomAppFromButton = await gnosisPage.waitForSelector(safeAppsList.addCustomAppFromButton.selector)
@@ -139,7 +139,9 @@ describe('Safe Apps List', () => {
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
     await gnosisPage.waitForTimeout(1000)
     await assertTextPresent(safeAppsList.addCustomAppUrlErrorLabel, alreadyAddedSafeAppError, gnosisPage)
-    await clickElement(safeAppsList.closePopupIcon, gnosisPage)
+    // Restore closePopup label in safe-react and delete Xpath selector
+    // await clickElement(safeAppsList.closePopupIcon, gnosisPage)
+    await clickElement({ selector: '//div[2]/div[3]/div/button', type: 'Xpath' }, gnosisPage)
     await assertElementNotPresent(safeAppsList.addCustomAppForm, gnosisPage)
 
     console.log('Removes a Custom Safe App')
