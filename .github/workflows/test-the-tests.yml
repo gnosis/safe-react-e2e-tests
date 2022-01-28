@@ -27,6 +27,7 @@ jobs:
       with:
         args: yarn run test-ci safe-web/read_only
     - name: Upload artifact
+      if: ${{ always() }}
       uses: actions/upload-artifact@v2
       with:
         name: e2e-tests-assets
