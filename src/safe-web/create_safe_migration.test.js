@@ -9,7 +9,7 @@ import {
 import { accountsSelectors } from '../../utils/selectors/accounts'
 import { createSafePage } from '../../utils/selectors/createSafePage'
 import { generalInterface } from '../../utils/selectors/generalInterface'
-import { getShortNameAddress } from '../../utils'
+import { getShortNameAddress } from '../../utils/addresses'
 import { getEnvUrl, initWithWalletConnected } from '../../utils/testSetup'
 import config from '../../utils/config'
 
