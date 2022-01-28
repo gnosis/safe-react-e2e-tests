@@ -1,6 +1,6 @@
 ## Run e2e tests on each PR in this repo
 
-name: Run read-only tests on dev
+name: Run read-only tests on safe-react dev environment
 on:
   pull_request:
 env:
@@ -10,6 +10,10 @@ jobs:
     name: Run e2e tests
     runs-on: ubuntu-latest
     steps:
+    - name: Cancel Previous Runs
+      uses: styfle/cancel-workflow-action@0.8.0
+      with:
+        access_token: ${{ github.token }}
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
     - name: Install Dependencies
