@@ -62,7 +62,7 @@ describe('Read-only transaction creation and review', () => {
 
     // Toggle to PROD CGW
     await clickByText('span', 'Use prod CGW', gnosisPage)
-    await gnosisPage.waitForTimeout(5000)
+    await gnosisPage.waitForTimeout(8000)
 
     console.log('Open the send funds form')
     await clickByText('button', 'New Transaction', gnosisPage)
