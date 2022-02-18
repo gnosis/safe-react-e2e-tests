@@ -8,6 +8,7 @@ import {
   getInnerText,
   openDropdown,
   isTextPresent,
+  getSiblingText,
 } from '../../../utils/selectorsHelpers'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
 import { sendFundsForm, advancedOptions } from '../../../utils/selectors/sendFundsForm'
@@ -85,21 +86,26 @@ describe('Read-only transaction creation and review', () => {
     expect(recipientHash).toMatch(getShortNameAddress(FUNDS_RECEIVER_ADDRESS))
 
     console.log('Open advanced options')
-    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
-    await clickElement(sendFundsForm.advanced_options, gnosisPage)
+    await assertElementPresent(sendFundsForm.advanced_parameters, gnosisPage)
+    await clickElement(sendFundsForm.advanced_parameters, gnosisPage)
 
     console.log('Verify current nonce is the same as the one in advanced options')
-    await assertElementPresent(advancedOptions.nonce, gnosisPage)
     await gnosisPage.waitForTimeout(2000)
-    const advancedOptionsNonce = await getNumberInString(advancedOptions.nonce, gnosisPage)
+    await isTextPresent('.smaller-modal-window', 'Safe nonce', gnosisPage)
+    await gnosisPage.waitForTimeout(2000)
+    const advancedOptionsNonce = parseInt(await getSiblingText('p', 'Safe nonce', gnosisPage), 10)
     expect(advancedOptionsNonce).toBe(safeCurrentNonce)
 
     console.log('Gas limit & Gas Price != than 0')
+    await assertElementPresent(sendFundsForm.estimated_fee_price, gnosisPage)
+    await clickElement(sendFundsForm.estimated_fee_price, gnosisPage)
     await gnosisPage.waitForTimeout(3000) // Wait for gas estimations, if not all values are 0
-    const advancedOptionsGasLimit = await getNumberInString(advancedOptions.gasLimit, gnosisPage)
-    const advancedOptionsGasPrice = await getNumberInString(advancedOptions.gasPrice, gnosisPage)
+    const advancedOptionsGasLimit = parseFloat(await getSiblingText('p', 'Gas limit', gnosisPage), 10)
     expect(advancedOptionsGasLimit).not.toBe(0) // If these are 0 gas estimation failed
+    const advancedOptionsGasPrice = parseFloat(await getSiblingText('p', 'Max fee per gas', gnosisPage), 10)
     expect(advancedOptionsGasPrice).not.toBe(0)
+    const advancedOptionsGasPrioFee = parseFloat(await getSiblingText('p', 'Max priority fee', gnosisPage), 10)
+    expect(advancedOptionsGasPrioFee).not.toBe(0)
 
     console.log('Click the Edit button')
     await assertElementPresent(sendFundsForm.edit_advanced_options_btn, gnosisPage)
@@ -113,15 +119,21 @@ describe('Read-only transaction creation and review', () => {
     await clearInput(advancedOptions.gasPriceInput, gnosisPage)
     await clickAndType(advancedOptions.gasPriceInput, gnosisPage, '60')
 
+    await clearInput(advancedOptions.gasPrioFee, gnosisPage)
+    await clickAndType(advancedOptions.gasPrioFee, gnosisPage, '2')
+
     console.log('Confirm Advanced Options. Checking new estimation message')
     await assertElementPresent(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await clickElement(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await gnosisPage.waitForTimeout(2000) // wait for the message to update
-    await isTextPresent('.paper.smaller-modal-window', 'Make sure you have 0.012 ETH', gnosisPage) // 0.012 is GasPrice * GasLimit
+    // 0.0124 is (GasPrice + GasPrioFee) * GasLimit
+    const estimatedFee = await getSiblingText('p', 'Estimated fee price', gnosisPage)
+    expect(estimatedFee).toBe('0.0124 ETH')
 
     console.log('Open advanced options. Reopening to edit to invalid nonce value')
-    await assertElementPresent(sendFundsForm.advanced_options, gnosisPage)
-    await clickElement(sendFundsForm.advanced_options, gnosisPage)
+    await gnosisPage.waitForTimeout(2000)
+    await assertElementPresent(sendFundsForm.estimated_fee_price, gnosisPage)
+    await clickElement(sendFundsForm.estimated_fee_price, gnosisPage)
 
     console.log('Click the Edit button')
     await assertElementPresent(sendFundsForm.edit_advanced_options_btn, gnosisPage)
@@ -137,6 +149,6 @@ describe('Read-only transaction creation and review', () => {
     const warningMessage = `${offset} transactions will need to`
     await assertElementPresent(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await clickElement(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
-    await isTextPresent('.paper.smaller-modal-window', warningMessage, gnosisPage) // isTextPresent only takes pure selectors with no type, we have to fix this
+    await isTextPresent('.smaller-modal-window', warningMessage, gnosisPage) // isTextPresent only takes pure selectors with no type, we have to fix this
   }, 150000)
 })

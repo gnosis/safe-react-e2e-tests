@@ -79,7 +79,6 @@ export const clickByText = async (tag, text, page) =>
   page.$$eval(
     tag,
     (nodes, text) => {
-      console.log('Found nodes: ', nodes)
       if (nodes.length > 0) {
         nodes.forEach((singleNode) => {
           if (singleNode.innerText.toLocaleLowerCase() === text.toLocaleLowerCase()) {
@@ -97,6 +96,15 @@ export const isTextPresent = async (selector, text, page) =>
   page.waitForFunction(
     (selector, text) => document.querySelector(selector)?.innerText.includes(text),
     { timeout: 60000 },
+    selector,
+    text,
+  )
+
+export const getSiblingText = async (selector, text, page) =>
+  page.evaluate(
+    (selector, text) =>
+      Array.from(document.querySelectorAll(selector)).filter((e) => e.textContent.includes(text))[0].nextSibling
+        .innerText,
     selector,
     text,
   )

@@ -94,7 +94,7 @@ describe('Address book', () => {
       gnosisPage,
       accountsSelectors.testAccountsHash.acc3.toUpperCase(),
     )
-    await isTextPresent(addressBook.entryModal.selector, 'Address already introduced', gnosisPage)
+    await isTextPresent(addressBook.entryModal.selector, 'Address already added', gnosisPage)
     await clearInput(addressBook.createEntryAddressInput, gnosisPage)
     await clickByText('.paper.modal span', 'cancel', gnosisPage)
     console.log('Edits entry. First validates name to be required, then enters a valid new name and saves')

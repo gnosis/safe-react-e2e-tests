@@ -3,7 +3,7 @@ export const sendFundsForm = {
   current_eth_balance: { selector: "b[data-testid='current-eth-balance']", type: 'css' },
   recipient_input: { selector: "input[id='address-book-input']", type: 'css' },
   recipient_input_value_entered: { selector: '.smaller-modal-window div div div div div p', type: 'css' }, // needs data-testid
-  select_token: { selector: "div[id='mui-component-select-token']", type: 'css' },
+  select_token: { selector: "[data-testid='token-input']", type: 'css' },
   review_btn_disabled: { selector: "button[data-testid='review-tx-btn']:disabled", type: 'css' }, // send funds review button initially disabled
   review_btn: { selector: "button[data-testid='review-tx-btn']", type: 'css' },
   select_token_ether: { selector: "div[data-testid='select-token-Ether']", type: 'css' },
@@ -15,7 +15,8 @@ export const sendFundsForm = {
   fee_msg_review: { selector: "p[data-testid='fee-meg-review-step']", type: 'css' },
   submit_btn: { selector: "button[data-testid='submit-tx-btn']:enabled", type: 'css' },
   submit_btn_disabled: { selector: "button[data-testid='submit-tx-btn']:disabled", type: 'css' },
-  advanced_options: { selector: "//p[contains(text(),'Advanced options')]", type: 'Xpath' },
+  advanced_parameters: { selector: "//p[contains(text(),'Advanced parameters')]", type: 'Xpath' },
+  estimated_fee_price: { selector: "//p[contains(text(),'Estimated fee price')]", type: 'Xpath' },
   valid_amount_msg: { selector: "//div/p[contains(text(), 'Amount*')]", type: 'Xpath' },
   edit_advanced_options_btn: { selector: "//button/p[contains(text(), 'Edit')]", type: 'Xpath' },
   safe_nonce_input: { selector: "input[name='safeNonce']", type: 'css' },
@@ -25,7 +26,8 @@ export const sendFundsForm = {
 
 export const advancedOptions = {
   gasLimitInput: { selector: '[placeholder="Gas limit"]', type: 'css' },
-  gasPriceInput: { selector: '[placeholder="Gas price (GWEI)"]', type: 'css' },
+  gasPriceInput: { selector: '[placeholder="Max fee per gas (GWEI)"]', type: 'css' },
+  gasPrioFee: { selector: '[placeholder="Max priority fee"]', type: 'css' },
   nonce: { selector: '//div[2]//div/div/div/div[1]/p[2]', type: 'Xpath' },
   gasLimit: { selector: '//div[4]/p[2]', type: 'Xpath' },
   gasPrice: { selector: '//div[5]/p[2]', type: 'Xpath' },
