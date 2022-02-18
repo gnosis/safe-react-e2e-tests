@@ -3,7 +3,7 @@ export const sendFundsForm = {
   current_eth_balance: { selector: "b[data-testid='current-eth-balance']", type: 'css' },
   recipient_input: { selector: "input[id='address-book-input']", type: 'css' },
   recipient_input_value_entered: { selector: '.smaller-modal-window div div div div div p', type: 'css' }, // needs data-testid
-  select_token: { selector: "div[id='mui-component-select-token']", type: 'css' },
+  select_token: { selector: "[data-testid='token-input']", type: 'css' },
   review_btn_disabled: { selector: "button[data-testid='review-tx-btn']:disabled", type: 'css' }, // send funds review button initially disabled
   review_btn: { selector: "button[data-testid='review-tx-btn']", type: 'css' },
   select_token_ether: { selector: "div[data-testid='select-token-Ether']", type: 'css' },
