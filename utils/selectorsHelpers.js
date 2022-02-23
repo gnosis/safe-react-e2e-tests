@@ -1,3 +1,5 @@
+import { safeAppsList } from './selectors/safeAppsList.js'
+
 const elementSelector = async (selector, page, type, timeout, hidden = false) => {
   // Handling Xpath and css selectors is different. Since many functions require
   // to make this distinction this function was created to do it
@@ -120,7 +122,7 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
           const iframeDocument = iframe?.contentDocument
 
           // Check some common selectors
-          if (iframeDocument?.body?.querySelector('#root,#app,.app,main,#__next,app-root')) {
+          if (iframeDocument?.body?.querySelector(safeAppsList.rootSelectors.selector)) {
             return { status: 'loaded', description: 'Selector found' }
           }
 

@@ -49,4 +49,5 @@ export const safeAppsList = {
 
   disclaimerTitleSafeAppPopUp: { selector: 'h5', type: 'css' },
   acceptDisclaimerButton: { selector: 'button[type="button"].contained', type: 'css' },
+  rootSelectors: { selector: '#root,#app,.app,main,#__next,app-root,#___gatsby', type: 'css' },
 }
