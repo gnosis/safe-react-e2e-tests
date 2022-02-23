@@ -117,12 +117,12 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
   try {
     const jsHandle = await Promise.race([
       gnosisPage.waitForFunction(
-        async (safeAddress) => {
+        async (safeAddress, selector) => {
           const iframe = document.querySelector('iframe[id^="iframe-"]')
           const iframeDocument = iframe?.contentDocument
 
           // Check some common selectors
-          if (iframeDocument?.body?.querySelector(safeAppsList.rootSelectors.selector)) {
+          if (iframeDocument?.body?.querySelector(selector)) {
             return { status: 'loaded', description: 'Selector found' }
           }
 
@@ -130,6 +130,7 @@ export const isSafeAppLoaded = async function (safeAddress, app, gnosisPage) {
         },
         { polling: 500, timeout: 35000 },
         safeAddress,
+        safeAppsList.rootSelectors.selector,
       ),
       isTextPresent('body', 'Something went wrong, please try again', gnosisPage),
     ])
