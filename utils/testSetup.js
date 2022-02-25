@@ -93,6 +93,7 @@ export const initWithWalletConnected = async (importMultipleAccounts = false) =>
     await gnosisPage.bringToFront()
     await clickElement(homePage.accept_cookies, gnosisPage)
     await clickElement(topBar.not_connected_network, gnosisPage)
+    await gnosisPage.waitForTimeout(2000)
     await clickElement(topBar.connect_btn, gnosisPage)
     await clickElement(homePage.metamask_option, gnosisPage) // Clicking the MM icon in the onboardjs
 

@@ -26,3 +26,9 @@ jobs:
         TESTING_ENV: 'dev'
       with:
         args: yarn run test-ci safe-web/read_only
+    - name: Upload artifact
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: e2e-tests-assets
+        path: e2e-tests-assets/*

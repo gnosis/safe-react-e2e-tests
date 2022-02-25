@@ -1,3 +1,4 @@
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { assertTextPresent, clickElement, clickSomething, getInnerText } from '../../../utils/selectorsHelpers'
 import { getEnvUrl, initNoWalletConnection } from '../../../utils/testSetup'
 import config from '../../../utils/config'
@@ -13,6 +14,8 @@ Safe Balances
 let browser
 let gnosisPage
 
+let recorder
+
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
@@ -20,6 +23,7 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
@@ -31,6 +35,9 @@ function getCurrencyChar(amountShowed) {
 
 describe('Safe Balances', () => {
   test('Safe Balances', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/safe_balances.mp4')
+
     console.log('Safe Balances')
 
     console.log('Enters the Safe Balances page')
@@ -50,7 +57,7 @@ describe('Safe Balances', () => {
     const newSelectedCurrency = 'EUR'
     await clickSomething(safeBalancesPage.currency_dropdown_btn.selector, gnosisPage, 'css')
     await clickElement(safeBalancesPage.currency_item_label(newSelectedCurrency), gnosisPage)
-    await gnosisPage.waitForTimeout(6000)
+    await gnosisPage.waitForTimeout(15000)
     await assertTextPresent(safeBalancesPage.selected_currency_label, newSelectedCurrency, gnosisPage)
 
     console.log('Safe Balances table shows the amounts in the new selected currency')

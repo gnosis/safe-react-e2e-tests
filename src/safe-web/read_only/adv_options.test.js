@@ -10,6 +10,7 @@ import {
   isTextPresent,
   getSiblingText,
 } from '../../../utils/selectorsHelpers'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { generalInterface } from '../../../utils/selectors/generalInterface'
 import { sendFundsForm, advancedOptions } from '../../../utils/selectors/sendFundsForm'
 import { initWithDefaultSafeDirectNavigation } from '../../../utils/testSetup'
@@ -32,6 +33,7 @@ let browser
 let metamask
 let gnosisPage
 
+let recorder
 const { FUNDS_RECEIVER_ADDRESS } = config
 const TOKEN_AMOUNT = 0.01
 
@@ -41,6 +43,7 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   if (!browser) return
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
@@ -48,6 +51,9 @@ afterAll(async () => {
 
 describe('Read-only transaction creation and review', () => {
   test('Read-only transaction creation and review', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/adv_options.mp4')
+
     console.log('Read-only transaction creation and review')
     await clickByText('span', 'Settings', gnosisPage)
     await clickByText('span', 'Advanced', gnosisPage)
@@ -56,7 +62,7 @@ describe('Read-only transaction creation and review', () => {
 
     // Toggle to PROD CGW
     await clickByText('span', 'Use prod CGW', gnosisPage)
-    await gnosisPage.waitForTimeout(5000)
+    await gnosisPage.waitForTimeout(8000)
 
     console.log('Open the send funds form')
     await clickByText('button', 'New Transaction', gnosisPage)
@@ -146,9 +152,13 @@ describe('Read-only transaction creation and review', () => {
     await clickAndType(sendFundsForm.safe_nonce_input, gnosisPage, `${advancedOptionsNonce + offset}`)
 
     console.log('Confirm Advanced Options')
-    const warningMessage = `${offset} transactions will need to`
     await assertElementPresent(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
     await clickElement(sendFundsForm.confirm_advanced_options_btn, gnosisPage)
-    await isTextPresent('.smaller-modal-window', warningMessage, gnosisPage) // isTextPresent only takes pure selectors with no type, we have to fix this
+    // checking if the warning message is present in the modal
+    const nonceWarningMessage = await gnosisPage.evaluate((offset) => {
+      const reviewInfoText = Array.from(document.querySelectorAll('.smaller-modal-window > div'))[4]
+      return reviewInfoText.innerText.includes(offset.toString()) && reviewInfoText.innerText.includes('will need to')
+    }, offset)
+    expect(nonceWarningMessage).toBeTruthy()
   }, 150000)
 })

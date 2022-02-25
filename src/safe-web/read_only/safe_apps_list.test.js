@@ -1,3 +1,4 @@
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import {
   assertElementNotPresent,
   assertElementPresent,
@@ -25,6 +26,8 @@ Safe Apps List
 let browser
 let gnosisPage
 
+let recorder
+
 const { TESTING_SAFE_ADDRESS } = config
 
 beforeAll(async () => {
@@ -32,12 +35,16 @@ beforeAll(async () => {
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
 
 describe('Safe Apps List', () => {
   test('Safe Apps List', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/safe_apps_list.mp4')
+
     console.log('Safe Apps List')
     const safeAppsListUrl = `${getEnvUrl()}${getShortNameAddress(TESTING_SAFE_ADDRESS)}/apps`
 
@@ -103,8 +110,8 @@ describe('Safe Apps List', () => {
     await assertElementPresent(safeAppsList.addCustomAppForm, gnosisPage)
 
     console.log('Populates the custom the Safe App url and name')
-    const customAppUrl = 'https://ipfs.io/ipfs/QmfMq8NgxdDfai1qKv7bGbT8DegYX4mNzmpi9AkY1VJZBS/'
-    const customAppName = 'Safe Test App'
+    const customAppUrl = 'https://rimeissner.dev/sapp-recorder/'
+    const customAppName = 'Gnosis Safe App Recorder'
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
     await assertElementPresent(safeAppsList.addCustomAppLogo, gnosisPage)
     await gnosisPage.waitForTimeout(2000) // We have some lag issues in this step for CI

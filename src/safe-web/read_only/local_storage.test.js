@@ -1,3 +1,4 @@
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
 import { assertElementPresent, isTextPresent, clickByText, clickElement } from '../../../utils/selectorsHelpers'
 import { initNoWalletConnection } from '../../../utils/testSetup'
 import {
@@ -20,17 +21,23 @@ Local Storage
 let browser
 let gnosisPage
 
+let recorder
+
 beforeAll(async () => {
   ;[browser, gnosisPage] = await initNoWalletConnection()
 }, 60000)
 
 afterAll(async () => {
+  await recorder.stop()
   await gnosisPage.waitForTimeout(2000)
   await browser.close()
 })
 
 describe.skip('LocalStorage Populate and validate', () => {
   test('LocalStorage Populate and validate', async () => {
+    recorder = new PuppeteerScreenRecorder(gnosisPage)
+    await recorder.start('./e2e-tests-assets/local_storage.mp4')
+
     await assertElementPresent({ selector: '[data-testid = "sidebar"]', type: 'css' }, gnosisPage)
     // Fill the local storage with Safes in the sidebar, Entries in the AB and 2 custom apps
     await gnosisPage.evaluate(
