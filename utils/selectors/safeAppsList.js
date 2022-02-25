@@ -28,8 +28,7 @@ export const safeAppsList = {
   addCustomAppUrlInput: { selector: 'input[placeholder="App URL"]', type: 'css' },
   addCustomAppUrlErrorLabel: { selector: 'label.Mui-error', type: 'css' },
   addCustomAppLogo: {
-    selector:
-      'form[data-testid="add-apps-form"] img[src="https://ipfs.io/ipfs/QmfMq8NgxdDfai1qKv7bGbT8DegYX4mNzmpi9AkY1VJZBS/logo.svg"]',
+    selector: 'form[data-testid="add-apps-form"] img[src="https://rimeissner.dev/sapp-recorder/logo.svg"]',
     type: 'css',
   },
   addCustomAppNameInput: (appName) => ({
@@ -39,7 +38,7 @@ export const safeAppsList = {
   addCustomAppFromButton: { selector: 'form[data-testid="add-apps-form"] button[type="submit"]', type: 'css' },
   addCustomAppCheckbox: { selector: 'form[data-testid="add-apps-form"] input[type="checkbox"]', type: 'css' },
   closePopupIcon: { selector: 'button.close-button', type: 'css' },
-  customSafeAppLogo: { selector: 'img[alt="Safe Test App Logo"]', type: 'css' },
+  customSafeAppLogo: { selector: 'img[alt="Gnosis Safe App Recorder Logo"]', type: 'css' },
   removeCustomSafeAppButton: { selector: 'button[aria-label="Remove an app"]', type: 'css' },
   removeCustomSafeAppPopup: { selector: 'div[aria-describedby="Confirm for the app removal"]', type: 'css' },
   confirmRemoveCustomSafeAppButton: {

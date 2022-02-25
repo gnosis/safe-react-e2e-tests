@@ -110,8 +110,8 @@ describe('Safe Apps List', () => {
     await assertElementPresent(safeAppsList.addCustomAppForm, gnosisPage)
 
     console.log('Populates the custom the Safe App url and name')
-    const customAppUrl = 'https://ipfs.io/ipfs/QmfMq8NgxdDfai1qKv7bGbT8DegYX4mNzmpi9AkY1VJZBS/'
-    const customAppName = 'Safe Test App'
+    const customAppUrl = 'https://rimeissner.dev/sapp-recorder/'
+    const customAppName = 'Gnosis Safe App Recorder'
     await clickAndType(safeAppsList.addCustomAppUrlInput, gnosisPage, customAppUrl)
     await assertElementPresent(safeAppsList.addCustomAppLogo, gnosisPage)
     await gnosisPage.waitForTimeout(2000) // We have some lag issues in this step for CI
